@@ -18,7 +18,7 @@ bot.on("ready",() => {
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
-		msg.react('OwO')
+		//msg.react('OwO')
 		//msg.channel.send("UwU");
 	}
 	
@@ -28,6 +28,9 @@ bot.on("message",msg => {
 			msg.channel.send("UwU what's this? "+msg.author);
 			//if(counter == 0){ counter = randint(10)+5;}
 		}
+		else if(msg.content.includes("UwU Bot") || msg.content.includes(" UwU Bot ")){
+                        msg.channel.send("*Is nervous* H-Hewwo UwU");
+                }
 		else if(msg.content.includes(" anime ") || msg.content.includes(" anime's ")){
 		//	msg.react('UwU')
 			msg.channel.send("OwO what's this? "+msg.author);
@@ -42,9 +45,23 @@ bot.on("message",msg => {
 			msg.channel.send("Oopsie woopsie, looks like we made a little fuckey wuckey, a little fucko boingo UwU");
 			//if(counter == 0){counter = randint(10)+5;}
 		}
-        	else if(msg.content.includes(" woops ") || msg.content.includes("Woops")){
-            		msg.channel.send("Woops UwU! It UwU looks like UwU I've dropped UwU some UwUs all over the UwU place UwU")
+        	else if(msg.content.includes(" woops ") || msg.content.includes("Woops") || msg.content.includes("woops")){
+            		msg.channel.send("Oopsie woopsie UwU! It UwU looks like UwU I've dropped UwU some UwUs all over the UwU place UwU");
        		}
+		else if(msg.content.includes("Hey")|| msg.content.includes("hey")){
+			msg.channel.send("Pwease give me huggie wuggies "+msg.author);
+			msg.channel.send("UwU");
+		}
+		else if(msg.content.includes("Cute") || msg.content.includes("cute") || msg.content.includes(" cute ")){
+			msg.channel.send("*Pounces on you* OwO What's this? *Notices your bulge*");
+		}
+		//else if(msg.author.id == "Isabelle#6393"){
+		//	msg.channel.send("UwU "+msg.author);
+		//}
+		//else if(member.id == "BoneKing#8158"){
+		//	msg.channel.send("Hewwo Daddy.");
+		//	msg.channel.send("UwU");
+		//}
 	} 
 	//else {
 	//	counter--;
