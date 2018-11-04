@@ -10,7 +10,8 @@ logger.add(new logger.transports.Console, {
 logger.level = "debug";
 //Robot time
 var bot = new Discord.Client();
-var quotes = ["*Blows Whistle* Rape!", "Slap it on with the might of Zeus", "Paula Dean is the reason all of my friends are dead!", "WHAT!? WHAT THE FUCK!?", "Man, 1910 times were scaaaaary!", "Cars...? Cars?! CAAAAAAARS!!!!! AND IIIIIIIII—HOLY SHIT!—WILL ALWAYS LOVE YOUICAN'TBELIEVEYOUDIDTHISTOMEGODDAMMITHOWCOULDYOUDOTHISTOME?!", "Good one, Bubsy! Hey, wanna be a cast member on Sat-purr-day Night Live? I know you'll make the MEOWST OF IT! [Suddenly distant] I'm leavin' ya, Bubsy!", "Good God, China! All about symbols! Couldn't even make the alphabet!", "Oh, you got me Monopoly this year? For the Nintendo 64? Well, this would have been great back in 1864. Y'know, when it was impressive just to not die from being 35.", "Of course, don't forget everyone's favourite crime-fighting alliance, Sense of Right! Everyone's here: Batman, Superman, Shhhrek, a caarrr…ooohh nooo…", "9 is the maximum life you can get.", "I DON'T EVEN CARE.....I care immenseley"];
+//WARNING: SOME CONTENT IS OFFENSIVE, NO CONTRIBUTOR SUPPORTS TERRY DAVIS' POLITICAL VIEWS (we do find it funny and iconic to his character though)
+var quotes = ["What color should I choose? Let's see my floors are brown...God's favorite color is cyan.", "Proffesonals write their own Compilers", "Go download my 2MB Distro at http://www.templeos.org/", "Why can you do it? Cause fuck yeah that's why!", "It's those fuckin' C.I.A N*****s"];
 var len = quotes.length;
 //var counter = 0;
 
@@ -23,7 +24,7 @@ bot.on("message",msg => {
 	}
 	
 	else{
-		if (msg.content.includes(" JonTron ") || msg.content.includes("JonTron") || msg.content.includes("jontron") || msg.content.includes("Jontron") || msg.content.includes(" jontron ") || msg.content.includes(" Jontron ")){
+		if (msg.content.includes(" Terry Davis ") || msg.content.includes("Terry Davis") || msg.content.includes("terry davis") || msg.content.includes(" terry davis ")){
 			msg.channel.send(quotes[getRandomInt(len)]);
 		}
 	} 
