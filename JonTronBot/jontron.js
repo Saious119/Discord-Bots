@@ -22,8 +22,8 @@ bot.on("message",msg => {
 	}
 	
 	else{
-		if (msg.content.includes(" JonTron ") || msg.content.includes("JonTron") || msg.content.includes("jontron")msg.content.includes("Jontron")msg.content.includes(" jontron ") || msg.content.includes(" Jontron ")){
-			msg.channel.send(quotes[getRandomInt(3)]);
+		if (msg.content.includes(" JonTron ") || msg.content.includes("JonTron") || msg.content.includes("jontron") || msg.content.includes("Jontron") || msg.content.includes(" jontron ") || msg.content.includes(" Jontron ")){
+			msg.channel.send(quotes[getRandomInt(4)]);
 		}
 	} 
 });
