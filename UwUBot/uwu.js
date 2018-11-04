@@ -55,6 +55,9 @@ bot.on("message",msg => {
 		else if(msg.content.includes("Cute") || msg.content.includes("cute") || msg.content.includes(" cute ")){
 			msg.channel.send("*Pounces on you* OwO What's this? *Notices your bulge*");
 		}
+		else if(msg.author.username === "Isabelle"){
+			msg.channel.send("H-Hewwo IsaBewwe UwU");
+		}
 		
 	} 
 	//else {
