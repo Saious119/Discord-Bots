@@ -45,7 +45,7 @@ bot.on("message",msg => {
 			msg.channel.send("Oopsie woopsie, looks like we made a little fuckey wuckey, a little fucko boingo UwU");
 			//if(counter == 0){counter = randint(10)+5;}
 		}
-        	else if(msg.content.includes(" woops ") || msg.content.includes("Woops") || msg.content.includes("woops")){
+        	else if(msg.content.includes(" woops ") || msg.content.includes("Woops") || msg.content.includes("woops") || msg.content.includes("whoops") || msg.content.includes("Whoops")){
             		msg.channel.send("Oopsie woopsie UwU! It UwU looks like UwU I've dropped UwU some UwUs all over the UwU place UwU");
        		}
 		else if(msg.content.includes("Hey")|| msg.content.includes("hey")){
