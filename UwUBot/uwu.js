@@ -55,13 +55,7 @@ bot.on("message",msg => {
 		else if(msg.content.includes("Cute") || msg.content.includes("cute") || msg.content.includes(" cute ")){
 			msg.channel.send("*Pounces on you* OwO What's this? *Notices your bulge*");
 		}
-		//else if(msg.author.id == "Isabelle#6393"){
-		//	msg.channel.send("UwU "+msg.author);
-		//}
-		//else if(member.id == "BoneKing#8158"){
-		//	msg.channel.send("Hewwo Daddy.");
-		//	msg.channel.send("UwU");
-		//}
+		
 	} 
 	//else {
 	//	counter--;
