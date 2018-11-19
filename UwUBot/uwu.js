@@ -11,7 +11,7 @@ logger.level = "debug";
 //Robot time
 var bot = new Discord.Client();
 
-//var counter = 0;
+var counter = 0;
 
 bot.on("ready",() => {
   logger.info("Connected");
