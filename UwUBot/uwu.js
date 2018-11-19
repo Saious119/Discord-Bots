@@ -27,7 +27,7 @@ bot.on("message",msg => {
 		//	msg.react('UwU')
 			msg.channel.send("UwU what's this? "+msg.author);
 			//sleep(5000);
-			//if(counter == 0){ counter = randint(10)+5;}
+			if(counter == 0){ counter = randint(10)+5;}
 		}
 		else if(msg.content.includes("UwU Bot") || msg.content.includes(" UwU Bot ")){
                         msg.channel.send("*Is nervous* H-Hewwo UwU");
@@ -37,18 +37,18 @@ bot.on("message",msg => {
 		//	msg.react('UwU')
 			msg.channel.send("OwO what's this? "+msg.author);
 			//sleep(5000);
-			//if(counter == 0){ counter = randint(10)+5;}
+			if(counter == 0){ counter = randint(10)+5;}
 		}
 		else if(msg.content.includes(" UwU ") || msg.content.includes("UwU")){
 	//		msg.react('UwU')
 			msg.channel.send("Uwufu desu "+msg.author);
 			//sleep(5000);
-			//if(counter == 0){ counter = randint(10)+5;}	
+			if(counter == 0){ counter = randint(10)+5;}	
 		}
 		else if(msg.content.includes("Fuck") || msg.content.includes(" fuck ") || msg.content.includes(" fucking ") || msg.content.includes("Fucking") || msg.content.includes("fuck")){
 			msg.channel.send("Oopsie woopsie, looks like we made a little fuckey wuckey, a little fucko boingo UwU");
 			//sleep(5000);
-			//if(counter == 0){counter = randint(10)+5;}
+			if(counter == 0){counter = randint(10)+5;}
 		}
         	else if(msg.content.includes(" woops ") || msg.content.includes("Woops") || msg.content.includes("woops") || msg.content.includes("whoops") || msg.content.includes("Whoops")){
             		msg.channel.send("Oopsie woopsie UwU! It UwU looks like UwU I've dropped UwU some UwUs all over the UwU place UwU");
@@ -69,9 +69,9 @@ bot.on("message",msg => {
 		}
 		
 	} 
-	//else {
-	//	counter--;
-	//}
+	else {
+		counter--;
+	}
 });
 
 function randint(bound) {
