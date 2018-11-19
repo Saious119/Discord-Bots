@@ -67,11 +67,11 @@ bot.on("message",msg => {
 			msg.channel.send("H-Hewwo IsaBewwe UwU");
 			//sleep(5000);
 		}
+		else {
+			counter--;
+		}
 		
 	} 
-	else {
-		counter--;
-	}
 });
 
 function randint(bound) {
