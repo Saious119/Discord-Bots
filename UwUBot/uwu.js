@@ -23,6 +23,28 @@ bot.on("message",msg => {
 	}
 	
 	else{
+		if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")||msg.content.includes(" ")){
+			var cont = msg.content;
+			var uwu1 = cont.replace("l","w");
+			//var uwu2 = uwu1.replace("L","W");
+			//msg.channel.send(uwu2);
+			for(var i=0;i<cont.length;i++){
+				uwu1=uwu1.replace("l","w");
+				uwu1=uwu1.replace("L","W");
+				uwu1=uwu1.replace("er","a");
+				uwu1=uwu1.replace("er","a");
+				uwu1=uwu1.replace("r","w");
+				uwu1=uwu1.replace("R","W");
+			}
+			msg.channel.send(uwu1+" UwU");
+		}
+		if (randint(3) == 2){
+			msg.channel.send("*Pounces on you, notices your buldge* OwO What's this? UwU");
+		}
+		if(randint(25) == 2){
+			msg.channel.send("*REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*");
+			msg.channel.send("UwU");
+		}
 		if (msg.content.includes(" is ") || msg.content.includes("'s ")){
 		//	msg.react('UwU')
 			msg.channel.send("UwU what's this? "+msg.author);
