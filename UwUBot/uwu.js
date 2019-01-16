@@ -1,6 +1,7 @@
 var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
+var opus = require('opusscript');
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -12,6 +13,7 @@ logger.level = "debug";
 var bot = new Discord.Client();
 
 var counter = 0;
+var isReady = true;
 
 bot.on("ready",() => {
   logger.info("Connected");
@@ -23,7 +25,10 @@ bot.on("message",msg => {
 	}
 	
 	else{
-		if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")||msg.content.includes(" ")){
+		if(msg.content.includes("sugma") || msg.content.includes("chokonma")|| msg.content.includes("boffa")){
+			msg.channel.send("no UwU");
+		}
+		else if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")){//||msg.content.includes(" ")){
 			var cont = msg.content;
 			var uwu1 = cont.replace("l","w");
 			//var uwu2 = uwu1.replace("L","W");
@@ -38,14 +43,38 @@ bot.on("message",msg => {
 			}
 			msg.channel.send(uwu1+" UwU");
 		}
-		if (randint(3) == 2){
+		else if(msg.content.includes("ASMR")){
+			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+			var voiceChannel = msg.member.voiceChannel;
+			voiceChannel.join().then(connection =>
+			{
+				const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/ASMR.mp3');
+				dispatcher.on("end", end => {
+					voiceChannel.leave();
+				});
+			}).catch(err => console.log(err));
+			isReady = true;
+		}
+		else if(msg.content.includes("UwU Bot are you drunk?")){
+			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+			var voiceChannel = msg.member.voiceChannel;
+			voiceChannel.join().then(connection =>
+			{
+				const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/drunk.mp3');
+				dispatcher.on("end", end => {
+					voiceChannel.leave();
+				});
+			}).catch(err => console.log(err));
+			isReady = true;
+		}
+		else if (randint(3) == 2){
 			msg.channel.send("*Pounces on you, notices your buldge* OwO What's this? UwU");
 		}
-		if(randint(25) == 2){
+		else if(randint(25) == 2){
 			msg.channel.send("*REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*");
 			msg.channel.send("UwU");
 		}
-		if (msg.content.includes(" is ") || msg.content.includes("'s ")){
+		else if (msg.content.includes(" is ") || msg.content.includes("'s ")){
 		//	msg.react('UwU')
 			msg.channel.send("UwU what's this? "+msg.author);
 			//sleep(5000);
