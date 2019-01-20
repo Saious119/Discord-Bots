@@ -11,12 +11,13 @@ logger.add(new logger.transports.Console, {
 logger.level = "debug";
 //Robot time
 var bot = new Discord.Client();
-
+var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
 bot.on("ready",() => {
   logger.info("Connected");
+  voiceC = client.channels.find('name', 'General');
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
@@ -66,6 +67,46 @@ bot.on("message",msg => {
 				});
 			}).catch(err => console.log(err));
 			isReady = true;
+		}
+		else if(msg.content.includes("nuggets") || msg.content.includes("nuggs")){
+			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+			var voiceChannel = msg.member.voiceChannel;
+			voiceChannel.join().then(connection =>
+			{
+				const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/theMcnugRap.mp3');
+				dispatcher.on("end", end => {
+					voiceChannel.leave();
+				});
+			}).catch(err => console.log(err));
+			isReady = true;
+		}
+		else if(msg.content.includes("UwU Bot sing me some country music")){
+			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+			var voiceChannel = msg.member.voiceChannel;
+			voiceChannel.join().then(connection => 
+			{
+				const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/countryroads.mp3');
+				dispatcher.on("end", end => {
+					voiceChannel.leave();
+				});
+			}).catch(err => console.log(err));
+			isReady = true;
+		}
+		else if(msg.content.includes("UwU Bot Rap")){
+			msg.channel.send("Pwease go to that Genewaw woice chat. UwU");
+			var voiceChannel = msg.member.voiceChannel;
+			voiceChannel.join().then(connection =>
+			{
+				const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/rap.mp3')
+				dispatcher.on("end",end => {
+					voiceChannel.leave();
+				});
+			}).catch(err => console.log(err));
+			isReady = true;
+		}
+		else if(msg.content.includes("UwU Bot what are your voice options?")){
+			msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap");
+			msg.channel.send("UwU");
 		}
 		else if (randint(3) == 2){
 			msg.channel.send("*Pounces on you, notices your buldge* OwO What's this? UwU");
