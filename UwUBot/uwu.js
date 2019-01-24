@@ -105,7 +105,7 @@ bot.on("message",msg => {
 			isReady = true;
 		}
 		else if(msg.content.includes("UwU Bot what are your voice options?")){
-			msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap");
+			msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
 			msg.channel.send("UwU");
 		}
 		else if (randint(3) == 2){
