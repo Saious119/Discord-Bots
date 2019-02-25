@@ -1,1 +1,1 @@
-colorscheme elflord
+:colorscheme elflord

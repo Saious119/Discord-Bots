@@ -108,7 +108,7 @@ bot.on("message",msg => {
 			msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
 			msg.channel.send("UwU");
 		}
-		else if (randint(3) == 2){
+		else if (randint(13) == 2){
 			msg.channel.send("*Pounces on you, notices your buldge* OwO What's this? UwU");
 		}
 		else if(randint(25) == 2){
@@ -117,8 +117,13 @@ bot.on("message",msg => {
 		}
 		else if (msg.content.includes(" is ") || msg.content.includes("'s ")){
 		//	msg.react('UwU')
-			msg.channel.send("UwU what's this? "+msg.author);
-			//sleep(5000);
+			if(randint(16) == 2){
+				msg.channel.send("UwU What's this? A MAnthony Foot?");
+			}
+			else{
+				msg.channel.send("UwU what's this? "+msg.author);
+				//sleep(5000);
+			}
 			if(counter == 0){ counter = randint(10)+5;}
 		}
 		else if(msg.content.includes("UwU Bot") || msg.content.includes(" UwU Bot ")){
