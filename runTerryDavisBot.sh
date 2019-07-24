@@ -1,2 +1,5 @@
 #!/bin/bash
-node TerryDavisBot/terrydavisbot.js
+while true
+do
+	node TerryDavisBot/terrydavisbot.js
+done

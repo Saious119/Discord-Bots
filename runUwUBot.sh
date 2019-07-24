@@ -1,2 +1,5 @@
 #!/bin/bash
-node UwUBot/uwu.js
+while true 
+do
+	node UwUBot/uwu.js
+done
