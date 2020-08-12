@@ -18,7 +18,7 @@ var counter = 0;
 var isReady = true;
 
 //dir for images
-const dirs = fs.readdirSync(downloads);
+const dirs = fs.readdirSync('downloads');
 
 bot.on("ready",() => {
   logger.info("Connected");
