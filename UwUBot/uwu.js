@@ -18,7 +18,7 @@ var counter = 0;
 var isReady = true;
 
 //dir for images
-const dirs = fs.readdirSync('downloads');
+//const dirs = fs.readdirSync('downloads');
 
 bot.on("ready",() => {
   logger.info("Connected");
@@ -202,6 +202,7 @@ function image(){
 	  
 		console.log(`Number of files ${stdout}`);
 	});
+	const dirs = fs.readdirSync('downloads');
 	var fileIndex = randint(dirs.length-1);
 	var imgFile = dirs[fileIndex];
 	nsfw.send(imgFile);
