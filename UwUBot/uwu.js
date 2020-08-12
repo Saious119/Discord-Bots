@@ -205,7 +205,7 @@ function image(){
 	const dirs = fs.readdirSync('downloads');
 	var fileIndex = randint(dirs.length-1);
 	var imgFile = dirs[fileIndex];
-	client.channels.get(486580756966277120).send("give me a couple minutes to search 4chan", {files: imgFile});
+	client.channels.get(486580756966277120).send("give me a couple minutes to search 4chan", {files: dirs[1]});
 
 	exec('rm -r downloads/', (err, stdout, stderr) => {
 		if (err) {
