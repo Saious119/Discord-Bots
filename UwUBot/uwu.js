@@ -2,6 +2,7 @@ var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
+var sleep = require('system-sleep');
 const fs = require('fs');
 const { exec } = require('child_process');
 
@@ -182,13 +183,17 @@ bot.on("message",msg => {
 			  
 				console.log(`Number of files ${stdout}`);
 			});
+			sleep(240*1000);
 			const dirs = fs.readdirSync('downloads');
 			var fileIndex = randint(dirs.length-1);
 			var imgFile = dirs[fileIndex];
-			msg.client.channels.get("486580756966277120").send("I found something", {files: imgFile});
+			var imgloc = './downloads/'+imgFile;
+			//msg.channel.send(imgloc);
+			msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
 			//let nsfw = client.channels.cache.find(c => c.name === 'nsfw');
 			msg.channel.send("give me a couple minutes to search 4chan");
 		
+			sleep(60*1000);	
 			exec('rm -r downloads/', (err, stdout, stderr) => {
 				if (err) {
 				  console.error(`exec error: ${err}`);
@@ -197,6 +202,8 @@ bot.on("message",msg => {
 			  
 				console.log(`Number of files ${stdout}`);
 			});
+			
+			msg.channel.send("I sent an image, probably");
 		}
 		else {
 			counter--;
