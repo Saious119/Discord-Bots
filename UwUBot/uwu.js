@@ -23,7 +23,7 @@ var isReady = true;
 bot.on("ready",() => {
   logger.info("Connected");
   voiceC = client.channels.find('name', 'General');
-  nsfw = clinet.channels.find('name', 'nsfw');
+  //nsfw = clinet.channels.find('name', 'nsfw');
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
@@ -205,7 +205,7 @@ function image(){
 	const dirs = fs.readdirSync('downloads');
 	var fileIndex = randint(dirs.length-1);
 	var imgFile = dirs[fileIndex];
-	nsfw.send(imgFile);
+	client.channels.get(486580756966277120).send("give me a couple minutes to search 4chan", {files: imgFile});
 
 	exec('rm -r downloads/', (err, stdout, stderr) => {
 		if (err) {
