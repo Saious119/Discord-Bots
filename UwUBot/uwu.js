@@ -172,7 +172,29 @@ bot.on("message",msg => {
 		}
 		else if(msg.content.includes("image") || msg.content.includes("picture")){
 			msg.channel.send("pwease wook in nsf-doub-UwU");
-			image();
+			//image();
+			exec('./getImage.sh', (err, stdout, stderr) => {
+				if (err) {
+				  console.error(`exec error: ${err}`);
+				  return;
+				}
+			  
+				console.log(`Number of files ${stdout}`);
+			});
+			const dirs = fs.readdirSync('downloads');
+			var fileIndex = randint(dirs.length-1);
+			var imgFile = dirs[fileIndex];
+			msg.channel.send("Hewwoooooo");
+			//client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
+		
+			exec('rm -r downloads/', (err, stdout, stderr) => {
+				if (err) {
+				  console.error(`exec error: ${err}`);
+				  return;
+				}
+			  
+				console.log(`Number of files ${stdout}`);
+			});
 		}
 		else {
 			counter--;
@@ -194,6 +216,7 @@ function sleep(milliseconds) {
   }
 }
 */
+/*
 function image(){
 	exec('./getImage.sh', (err, stdout, stderr) => {
 		if (err) {
@@ -217,6 +240,7 @@ function image(){
 	  
 		console.log(`Number of files ${stdout}`);
 	});
+	*/
 }
 
 bot.login(auth.token)
