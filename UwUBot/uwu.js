@@ -2,6 +2,7 @@ var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
+const { exec } = require('child_process');
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -15,9 +16,13 @@ var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
+//dir for images
+const dirs = fs.readdirSync(downloads);
+
 bot.on("ready",() => {
   logger.info("Connected");
   voiceC = client.channels.find('name', 'General');
+  nsfw = clinet.channels.find('name', 'nsfw');
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
@@ -164,6 +169,9 @@ bot.on("message",msg => {
 			msg.channel.send("H-Hewwo IsaBewwe UwU");
 			//sleep(5000);
 		}
+		else if(msg.content.includes("image") || msg.content.includes("picture")){
+			image();
+		}
 		else {
 			counter--;
 		}
@@ -184,6 +192,27 @@ function sleep(milliseconds) {
   }
 }
 */
+function image(){
+	exec('./getImage.sh', (err, stdout, stderr) => {
+		if (err) {
+		  console.error(`exec error: ${err}`);
+		  return;
+		}
+	  
+		console.log(`Number of files ${stdout}`);
+	});
+	var fileIndex = randint(dirs.length-1);
+	var imgFile = dirs[fileIndex];
+	nsfw.send(imgFile);
 
+	exec('rm -r downloads/', (err, stdout, stderr) => {
+		if (err) {
+		  console.error(`exec error: ${err}`);
+		  return;
+		}
+	  
+		console.log(`Number of files ${stdout}`);
+	});
+}
 
 bot.login(auth.token)
