@@ -2,6 +2,7 @@ var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
+const fs = require('fs');
 const { exec } = require('child_process');
 
 //Logger settings
