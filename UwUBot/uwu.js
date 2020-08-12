@@ -240,7 +240,7 @@ function image(){
 	  
 		console.log(`Number of files ${stdout}`);
 	});
-	*/
 }
+*/
 
 bot.login(auth.token)
