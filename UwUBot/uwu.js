@@ -172,6 +172,7 @@ bot.on("message",msg => {
 		}
 		else if(msg.content.includes("image") || msg.content.includes("picture")){
 			msg.channel.send("pwease wook in nsf-doub-UwU");
+			msg.client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
 			//image();
 			exec('./getImage.sh', (err, stdout, stderr) => {
 				if (err) {
@@ -184,8 +185,7 @@ bot.on("message",msg => {
 			const dirs = fs.readdirSync('downloads');
 			var fileIndex = randint(dirs.length-1);
 			var imgFile = dirs[fileIndex];
-			msg.channel.send("Hewwoooooo");
-			msg.client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
+			msg.client.channels.get("486580756966277120").send("I found something", {files: imgFile});
 			//let nsfw = client.channels.cache.find(c => c.name === 'nsfw');
 			msg.channel.send("give me a couple minutes to search 4chan");
 		
