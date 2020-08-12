@@ -185,7 +185,7 @@ bot.on("message",msg => {
 			var fileIndex = randint(dirs.length-1);
 			var imgFile = dirs[fileIndex];
 			msg.channel.send("Hewwoooooo");
-			let channel = message.guild.channels.cache.get(c => c.name === 'nsfw')
+			let channel = msg.guild.channels.cache.get(c => c.name === 'nsfw')
 			channel.send("give me a couple minutes to search 4chan");
 		
 			exec('rm -r downloads/', (err, stdout, stderr) => {
