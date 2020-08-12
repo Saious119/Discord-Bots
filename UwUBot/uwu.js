@@ -171,6 +171,7 @@ bot.on("message",msg => {
 			//sleep(5000);
 		}
 		else if(msg.content.includes("image") || msg.content.includes("picture")){
+			msg.channel.send("pwease wook in nsf-doub-UwU");
 			image();
 		}
 		else {
