@@ -36,6 +36,19 @@ bot.on("message",msg => {
 		if(msg.content.includes("sugma") || msg.content.includes("chokonma")|| msg.content.includes("boffa")){
 			msg.channel.send("no UwU");
 		}
+		else if(msg.content.toLowerCase.includes("UwUBot help") || msg.content.toLowerCase.includes("UwUBot what can you do")){
+			msg.channel.send("I can do wots of thingy wingys, wike:");
+			msg.channel.send("UwUify <statement> : make yoo woods kawaii UwU");
+			msg.channel.send("Woice chat : go to tha Genewaw woice chat and send me what you wanna hewe UwU");
+			msg.channel.send("		ASMR");
+			msg.channel.send("		UwUBot are you drunk?");
+			msg.channel.send("		nuggs");
+			msg.channel.send("		UwUBot sing me some country music");
+			msg.channel.send("		ASMR");
+			msg.channel.send("		UwUBot rap");
+			msg.channel.send("ask for an image or picture by saying image or picture OwO");
+			msg.channel.send("ok bye. UwU.");
+		}
 		else if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")){//||msg.content.includes(" ")){
 			var cont = msg.content;
 			var uwu1 = cont.replace("l","w");
@@ -63,7 +76,7 @@ bot.on("message",msg => {
 			}).catch(err => console.log(err));
 			isReady = true;
 		}
-		else if(msg.content.includes("UwU Bot are you drunk?")){
+		else if(msg.content.includes("UwUBot are you drunk?")){
 			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
 			var voiceChannel = msg.member.voiceChannel;
 			voiceChannel.join().then(connection =>
@@ -99,7 +112,7 @@ bot.on("message",msg => {
 			}).catch(err => console.log(err));
 			isReady = true;
 		}
-		else if(msg.content.includes("UwU Bot Rap")){
+		else if(msg.content.includes("UwUBot rap")){
 			msg.channel.send("Pwease go to that Genewaw woice chat. UwU");
 			var voiceChannel = msg.member.voiceChannel;
 			voiceChannel.join().then(connection =>
@@ -171,7 +184,7 @@ bot.on("message",msg => {
 			msg.channel.send("H-Hewwo IsaBewwe UwU");
 			//sleep(5000);
 		}
-		else if(msg.content.includes("image") || msg.content.includes("picture")){
+		else if(msg.content.toLowerCase.includes("image") || msg.content.toLowerCase.includes("picture") || msg.content.toLowerCase.imcludes(" image ") || msg.content.toLowerCase.imcludes(" picture ")){
 			msg.channel.send("pwease wook in nsf-doub-UwU");
 			msg.client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
 			//image();
