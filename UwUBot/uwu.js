@@ -87,7 +87,7 @@ bot.on("message",msg => {
 			}).catch(err => console.log(err));
 			isReady = true;
 		}
-		else if(msg.content.includes("UwU Bot sing me some country music")){
+		else if(msg.content.includes("UwUBot sing me some country music")){
 			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
 			var voiceChannel = msg.member.voiceChannel;
 			voiceChannel.join().then(connection => 
