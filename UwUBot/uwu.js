@@ -36,7 +36,7 @@ bot.on("message",msg => {
 		if(msg.content.includes("sugma") || msg.content.includes("chokonma")|| msg.content.includes("boffa")){
 			msg.channel.send("no UwU");
 		}
-		else if(msg.content.toLowerCase.includes("UwUBot help") || msg.content.toLowerCase.includes("UwUBot what can you do")){
+		else if(msg.content.includes("UwUBot help") || msg.content.includes("UwUBot what can you do")){
 			msg.channel.send("I can do wots of thingy wingys, wike:");
 			msg.channel.send("UwUify <statement> : make yoo woods kawaii UwU");
 			msg.channel.send("Woice chat : go to tha Genewaw woice chat and send me what you wanna hewe UwU");
@@ -184,7 +184,7 @@ bot.on("message",msg => {
 			msg.channel.send("H-Hewwo IsaBewwe UwU");
 			//sleep(5000);
 		}
-		else if(msg.content.toLowerCase.includes("image") || msg.content.toLowerCase.includes("picture") || msg.content.toLowerCase.imcludes(" image ") || msg.content.toLowerCase.imcludes(" picture ")){
+		else if(msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ")){
 			msg.channel.send("pwease wook in nsf-doub-UwU");
 			msg.client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
 			//image();
