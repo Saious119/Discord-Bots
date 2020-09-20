@@ -218,7 +218,7 @@ bot.on("message",msg => {
 				  }
 				
 				  console.log(`Number of files ${stdout}`);
-				  console.log(dirs.length `${stdout}`);
+				  console.log(dirs.length);
 			});
 			/*
 			exec('rm -r downloads/', (err, stdout, stderr) => {
