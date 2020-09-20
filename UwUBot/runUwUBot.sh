@@ -1,5 +1,5 @@
 #!/bin/bash
 while true 
 do
-	node JonTronBot/jontron.js
+	node uwu.js
 done
