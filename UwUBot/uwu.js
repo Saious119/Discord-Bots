@@ -210,7 +210,7 @@ bot.on("message",msg => {
 			//let nsfw = client.channels.cache.find(c => c.name === 'nsfw');
 			//msg.channel.send("give me a couple minutes to search 4chan");
 		
-			sleep(60*1000);	
+			//sleep(60*1000);	
 			exec('rm -rf '+imgloc, (err, stdout, stderr) => {
 				if (err) {
 					console.error(`exec error: ${err}`);
