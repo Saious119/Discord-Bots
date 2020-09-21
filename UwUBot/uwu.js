@@ -17,14 +17,15 @@ var bot = new Discord.Client();
 var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
-
+//let nsfw = guild.channels.cache.get(c => c.name === 'nsfw')
 //dir for images
 //const dirs = fs.readdirSync('downloads');
 
 bot.on("ready",() => {
   logger.info("Connected");
   voiceC = client.channels.find('name', 'General');
-  //nsfw = clinet.channels.find('name', 'nsfw');
+  //const nsfw = client.channels.get(process.env.nsfw);
+  //const nsfw = client.channels.find(ch => ch.name === 'nsfw');
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
@@ -206,7 +207,8 @@ bot.on("message",msg => {
 			var imgFile = dirs[fileIndex];
 			var imgloc = './downloads/'+imgFile;
 			//msg.channel.send(imgloc);
-			msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
+			msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
+			//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
 			//let nsfw = client.channels.cache.find(c => c.name === 'nsfw');
 			//msg.channel.send("give me a couple minutes to search 4chan");
 		
@@ -232,6 +234,7 @@ bot.on("message",msg => {
 			*/
 			
 			msg.channel.send("I sent an image, pwobably UwU");
+			msg.client.channels.find('name','nsfw').send("here you go");
 		}
 		else {
 			counter--;
