@@ -227,7 +227,7 @@ bot.on("message",msg => {
 			*/
 			
 			msg.channel.send("I sent an image, pwobably UwU");
-			msg.guild.channels.find('name','nsfw').send("here you go");
+			//msg.guild.channels.find('name','nsfw').send("here you go");
 		}
 		else {
 			counter--;
