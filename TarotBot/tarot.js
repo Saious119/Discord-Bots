@@ -33,13 +33,7 @@ bot.on("message",msg => {
 		if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
 			var fileIndex = randint(dataDir.length-1);
 			var fileName = "data/"+dataDir[fileIndex];
-			fs.readFile(fileName, 'utf8', (err, jsonString) => {
-				if (err) {
-					console.log("File read failed:", err)
-					return
-				}
-				console.log('File data:', jsonString) 
-			})
+			const jsonString = fs.readFile(fileName);
 			var card = JSON.parse(jsonString);  
 			var imgFile = card.img_file;
 			var imgloc = './MajorArcana/'+imgFile;
