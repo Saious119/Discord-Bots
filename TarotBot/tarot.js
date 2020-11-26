@@ -27,8 +27,14 @@ bot.on("message",msg => {
 	
 	else{
 		if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
-      var randomOyVey = randint(leng);
-      msg.channel.send("Here is what the cards tell me: ", {files: [images[randomOyVey]]});
+      var fileIndex = randint(dirs.length-1);
+			var imgFile = dirs[fileIndex];
+			var imgloc = './downloads/'+imgFile;
+      msg.channel.send({files: [imgloc]});
+      if(imgFile == "TheWorld.png"){
+        msg.channel.send("This card represents Assured success and destiny, it also hints at travel and voyage, this is a very good card that insinuates that you will do great things and that your dreams will come true.");
+      }
+			//msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
           
     }
   }
