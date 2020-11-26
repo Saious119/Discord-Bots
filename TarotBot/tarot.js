@@ -33,7 +33,7 @@ bot.on("message",msg => {
 		if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
 			var fileIndex = randint(dataDir.length-1);
 			var fileName = "data/"+dataDir[fileIndex];
-			const jsonString = fs.readFile(fileName);
+			const jsonString = fs.readFileSync(fileName, 'utf8');
 			var card = JSON.parse(jsonString);  
 			var imgFile = card.img_file;
 			var imgloc = './MajorArcana/'+imgFile;
