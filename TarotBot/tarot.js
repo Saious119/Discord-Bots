@@ -33,10 +33,10 @@ bot.on("message",msg => {
 		if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
 			var fileIndex = randint(dataDir.length-1);
 			var card = JSON.parse(dataDir[fileIndex]);  
-			var imgFile = card.img_file[0];
+			var imgFile = card.img_file;
 			var imgloc = './MajorArcana/'+imgFile;
 			msg.channel.send({files: [imgloc]});
-			msg.channel.send(card.meaning[0]);
+			msg.channel.send(card.meaning);
 			/*
       		if(card.name[0] == "The World"){
 				sleep(2*1000);
