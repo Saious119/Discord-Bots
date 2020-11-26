@@ -1,6 +1,8 @@
 var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
+const fs = require('fs');
+const majorDir = fs.readdirSync('MajorArcana');
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -27,9 +29,9 @@ bot.on("message",msg => {
 	
 	else{
 		if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
-      var fileIndex = randint(dirs.length-1);
-			var imgFile = dirs[fileIndex];
-			var imgloc = './downloads/'+imgFile;
+      var fileIndex = randint(majorDir.length-1);
+			var imgFile = majorDir[fileIndex];
+			var imgloc = './MajorArcana/'+imgFile;
       msg.channel.send({files: [imgloc]});
       if(imgFile == "TheWorld.png"){
         msg.channel.send("This card represents Assured success and destiny, it also hints at travel and voyage, this is a very good card that insinuates that you will do great things and that your dreams will come true.");
