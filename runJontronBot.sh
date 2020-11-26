@@ -1,2 +1,5 @@
 #!/bin/bash
-node JonTronBot/jontron.js
+while true 
+do
+	node JonTronBot/jontron.js
+done

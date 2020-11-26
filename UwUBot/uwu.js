@@ -18,13 +18,10 @@ var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
-//dir for images
-//const dirs = fs.readdirSync('downloads');
 
 bot.on("ready",() => {
   logger.info("Connected");
   voiceC = client.channels.find('name', 'General');
-  //nsfw = clinet.channels.find('name', 'nsfw');
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
@@ -186,27 +183,39 @@ bot.on("message",msg => {
 		}
 		else if(msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ")){
 			msg.channel.send("pwease wook in nsf-doub-UwU");
-			msg.client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
+			msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
 			//image();
-			exec('./getImage.sh', (err, stdout, stderr) => {
-				if (err) {
-				  console.error(`exec error: ${err}`);
-				  return;
-				}
-			  
-				console.log(`Number of files ${stdout}`);
-			});
-			sleep(240*1000);
 			const dirs = fs.readdirSync('downloads');
+			if(dirs.length < 2){
+				msg.guild.channels.find('name','nsfw').send("Outta images UwU, gowin' to tha stowe");
+				exec('./getImage.sh', (err, stdout, stderr) => {
+					if (err) {
+				  	console.error(`exec error: ${err}`);
+				  	return;
+					}
+			  
+					console.log(`Number of files ${stdout}`);
+				});
+				sleep(240*1000);
+			}
+			//const dirs = fs.readdirSync('downloads');
 			var fileIndex = randint(dirs.length-1);
 			var imgFile = dirs[fileIndex];
 			var imgloc = './downloads/'+imgFile;
 			//msg.channel.send(imgloc);
-			msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
-			//let nsfw = client.channels.cache.find(c => c.name === 'nsfw');
-			msg.channel.send("give me a couple minutes to search 4chan");
-		
-			sleep(60*1000);	
+			msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
+			//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
+
+			exec('rm -rf '+imgloc, (err, stdout, stderr) => {
+				if (err) {
+					console.error(`exec error: ${err}`);
+					return;
+				  }
+				
+				  console.log(`Number of files ${stdout}`);
+				  console.log(dirs.length);
+			});
+			/*
 			exec('rm -r downloads/', (err, stdout, stderr) => {
 				if (err) {
 				  console.error(`exec error: ${err}`);
@@ -215,8 +224,10 @@ bot.on("message",msg => {
 			  
 				console.log(`Number of files ${stdout}`);
 			});
+			*/
 			
-			msg.channel.send("I sent an image, probably");
+			msg.channel.send("I sent an image, pwobably UwU");
+			//msg.guild.channels.find('name','nsfw').send("here you go");
 		}
 		else {
 			counter--;
