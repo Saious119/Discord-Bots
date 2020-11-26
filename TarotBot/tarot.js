@@ -1,6 +1,7 @@
 var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
+var sleep = require('system-sleep');
 const fs = require('fs');
 const majorDir = fs.readdirSync('MajorArcana');
 
@@ -32,8 +33,9 @@ bot.on("message",msg => {
       var fileIndex = randint(majorDir.length-1);
 			var imgFile = majorDir[fileIndex];
 			var imgloc = './MajorArcana/'+imgFile;
-      msg.channel.send({files: [imgloc]});
+      			msg.channel.send({files: [imgloc]});
       if(imgFile == "TheWorld.png"){
+	sleep(2*1000);
         msg.channel.send("This card represents Assured success and destiny, it also hints at travel and voyage, this is a very good card that insinuates that you will do great things and that your dreams will come true.");
       }
 			//msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
