@@ -38,6 +38,7 @@ bot.on("message",msg => {
 			var imgFile = card.img_file;
 			var imgloc = './MajorArcana/'+imgFile;
 			msg.channel.send({files: [imgloc]});
+			sleep(2*1000);
 			msg.channel.send(card.meaning);
 			/*
       		if(card.name[0] == "The World"){
