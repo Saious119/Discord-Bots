@@ -4,6 +4,7 @@ var auth = require("./auth.json");
 var sleep = require('system-sleep');
 const fs = require('fs');
 const majorDir = fs.readdirSync('MajorArcana');
+const dataDir = fs.readdirSync('data');
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -30,18 +31,22 @@ bot.on("message",msg => {
 	
 	else{
 		if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
-      var fileIndex = randint(majorDir.length-1);
-			var imgFile = majorDir[fileIndex];
+			var fileIndex = randint(dataDir.length-1);
+			var card = JSON.parse(dataDir[fileIndex]);  
+			var imgFile = card.img_file[0];
 			var imgloc = './MajorArcana/'+imgFile;
-      			msg.channel.send({files: [imgloc]});
-      if(imgFile == "TheWorld.png"){
-	sleep(2*1000);
-        msg.channel.send("This card represents Assured success and destiny, it also hints at travel and voyage, this is a very good card that insinuates that you will do great things and that your dreams will come true.");
-      }
+			msg.channel.send({files: [imgloc]});
+			msg.channel.send(card.meaning[0]);
+			/*
+      		if(card.name[0] == "The World"){
+				sleep(2*1000);
+        		msg.channel.send("This card represents Assured success and destiny, it also hints at travel and voyage, this is a very good card that insinuates that you will do great things and that your dreams will come true.");
+			}
+			*/
 			//msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
           
-    }
-  }
+    	}
+  	}
 });
 
 function randint(bound) {
