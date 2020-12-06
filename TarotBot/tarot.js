@@ -22,8 +22,6 @@ bot.on("ready",() => {
   logger.info("Connected");
 });
 
-var images = ["bagel1.jpg", "bagel2.jpg", "bagel3.jpg", "matzo1.jpg", "matzo2.jpg", "bagel4.jpg","bagel5.jpg", "matzo3.jpg", "matzo4.jpg", "matzo5.jpg"];
-var leng = images.length;
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
 		//react to all message here
