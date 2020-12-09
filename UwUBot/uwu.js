@@ -181,7 +181,7 @@ bot.on("message",msg => {
 			msg.channel.send("H-Hewwo IsaBewwe UwU");
 			//sleep(5000);
 		}
-		else if(msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ")){
+		else if(msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")){
 			msg.channel.send("pwease wook in nsf-doub-UwU");
 			msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
 			//image();
