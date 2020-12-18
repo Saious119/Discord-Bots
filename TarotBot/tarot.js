@@ -4,6 +4,7 @@ var auth = require("./auth.json");
 var sleep = require('system-sleep');
 const fs = require('fs');
 const majorDir = fs.readdirSync('MajorArcana');
+const fullDir = fs.readdirSync('FullDeck');
 const dataDir = fs.readdirSync('data');
 
 //Logger settings
