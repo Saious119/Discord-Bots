@@ -34,9 +34,9 @@ bot.on("message",msg => {
 			const jsonString = fs.readFileSync(fileName, 'utf8');
 			var card = JSON.parse(jsonString);  
 			var imgFile = card.img_file;
-			var imgloc = './MajorArcana/'+imgFile;
+			var imgloc = './FullDeck/'+imgFile;
 			msg.channel.send({files: [imgloc]});
-			sleep(2*1000);
+			sleep(1000);
 			msg.channel.send(card.meaning);
 			/*
       		if(card.name[0] == "The World"){
