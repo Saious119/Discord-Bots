@@ -1,5 +1,14 @@
 {
     "name": "Three of Cups",
     "img_file": "Cups3.png",
-    "meaning": "The Three of Cups: This card points to plenty, perfection, happiness, and victory."
+    "meaning": "The Three of Cups: This card points to plenty, perfection, happiness, and victory.",
+    "reversed": "In this positon this card suggests achievement, expedition, and end",
+    "third": "In this position this ard represents the goals of happiness and perfection",
+    "fourth": "In this position this card suggests having plenty of resources at your disposal to use to reach your goal.",
+    "fifth": "In this position this card suggests having perfection and happiness in your past",
+    "sixth": "In this position this card suggests having perfection and victory in your future",
+    "seventh": "In this position this card suggests that you should feel happy about your current situation",
+    "eighth": "In this position this card suggests that your relationships are happy and perfect",
+    "ninth": "In this position this card suggests that you fear a lack of happiness and not having anything",
+    "tenth": "This suggets that you will have plenty of happiness and the things that make you happy"
 }
