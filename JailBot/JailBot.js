@@ -27,10 +27,14 @@ bot.on("message",msg => {
 	else{
 		if(msg.content.includes("UwU") || msg.content.includes("OwO") || msg.content.includes("UwUBot") || msg.content.includes("image") || msg.content.includes("nuggs") || msg.content.includes("ASMR")){
 			let cringerole = msg.guild.roles.get("793708658345246730");
-			msg.author.roles.add(cringerole).catch(console.error);
+			msg.channel.send(msg.author+"");
+			msg.channel.send("Cringe Detected:");
+			sleep(5*1000);
+			let member = msg.member;
+			member.addRole(cringerole).catch(console.error);
 			msg.channel.send("You have interacted with the Cringe UwUBot, you are now Cringe for 1 minute");
 			sleep(60*1000);
-			msg.member.roles.remove(cringerole).catch(console.error);
+			member.removeRole(cringerole).catch(console.error);
 			msg.channel.send(msg.author + " has been freed from the prison that is cringe, I wish you a sucessful rehabilitation back into society");
     	}
   	}
