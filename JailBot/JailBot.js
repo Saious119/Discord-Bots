@@ -26,6 +26,7 @@ bot.on("message",msg => {
 	}	
 	else{
 		if(msg.content.includes("UwU") || msg.content.includes("OwO") || msg.content.includes("UwUBot") || msg.content.includes("image") || msg.content.includes("nuggs") || msg.content.includes("ASMR")){
+			let cringerole = msg.guild.roles.cache.find(role => role.name == "Cringe");
 			msg.author.roles.add(cringerole);
 			msg.channel.send("You have interacted with the Cringe UwUBot, you are now Cringe for 1 minute");
 			sleep(60*1000);
