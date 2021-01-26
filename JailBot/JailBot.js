@@ -28,7 +28,7 @@ bot.on("message",msg => {
 		if(msg.content.includes("UwU") || msg.content.includes("OwO") || msg.content.includes("UwUBot") || msg.content.includes("image") || msg.content.includes("nuggs") || msg.content.includes("ASMR")){
 			let cringerole = msg.guild.roles.get("793708658345246730");
 			let member = msg.member;
-			if(msg.member.roles.cache.some(role => role.name => 'Cringe')) {
+			if(msg.author.roles.has(cringerole)) {
 				console.log("Silence inmate!");
 			} else {
 				msg.channel.send(msg.author+"");
