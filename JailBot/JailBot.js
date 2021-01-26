@@ -15,7 +15,7 @@ var bot = new Discord.Client();
 //var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
-let cringerole = message.guild.roles.cache.find(role => role.name == "Cringe");
+
 bot.on("ready",() => {
   logger.info("Connected");
 });
