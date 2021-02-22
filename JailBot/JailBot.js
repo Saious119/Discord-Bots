@@ -27,11 +27,12 @@ bot.on("message",msg => {
 	else{
 		if(msg.content.includes("UwU") || msg.content.includes("OwO") || msg.content.includes("UwUBot") || msg.content.includes("image") || msg.content.includes("nuggs") || msg.content.includes("ASMR")){
 			let cringerole = msg.guild.roles.get("793708658345246730");
+			console.log("@ing user");
 			msg.channel.send(msg.author+"");
-			let usera = msg.mentions.members.first();
+			let usera = msg.author;
 			msg.channel.send("Cringe Detected:");
 			let member = msg.member;
-			if(usera.roles.has(cringerole)) {
+			if(member.roles.has(cringerole)) {
 				console.log("Silence inmate!");
 			} else {
 				sleep(5*1000);
