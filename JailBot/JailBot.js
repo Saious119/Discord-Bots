@@ -31,7 +31,7 @@ bot.on("message",msg => {
 			msg.channel.send(msg.author+"");
 			let usera = msg.author;
 			msg.channel.send("Cringe Detected:");
-			//let member = msg.member;
+			let member = msg.member;
 			if(msg.member.roles.has("793708658345246730")) {
 				console.log("Silence inmate!");
 			} else {
