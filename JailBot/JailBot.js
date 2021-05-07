@@ -31,16 +31,16 @@ bot.on("message",msg => {
 			msg.channel.send(msg.author+"");
 			let usera = msg.author;
 			msg.channel.send("Cringe Detected:");
-			let member = msg.member;
-			if(msg.member.roles.has(cringerole)) {
+			//let member = msg.member;
+			if(msg.member.roles.cache.has("793708658345246730")) {
 				console.log("Silence inmate!");
 			} else {
 				sleep(5*1000);
 				//let member = msg.member;
-				msg.member.addRole("793708658345246730").catch(console.error);
+				msg.member.cache.addRole("793708658345246730").catch(console.error);
 				msg.channel.send("You have interacted with the Cringe UwUBot, you are now Cringe for 1 minute");
 				sleep(60*1000);
-				msg.member.roles.remove("793708658345246730").catch(console.error);
+				msg.member.roles.cache.removeRole("793708658345246730").catch(console.error);
 				sleep(5*1000);
 				msg.channel.send(msg.author + " has been freed from the prison that is cringe, I wish you a sucessful rehabilitation back into society");
 				sleep(5*1000);
