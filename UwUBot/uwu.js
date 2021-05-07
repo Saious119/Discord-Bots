@@ -183,8 +183,12 @@ bot.on("message",msg => {
 		}
 		else if(msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")){
 			var msgSplit = msg.content.split(" ");
+			var numImg = 1;
+			if(msgSplit.length > 1){
+				numImg = parseInt(msgSplit[1]);
+			}
 			msg.channel.send("pwease wook in nsf-doub-UwU");
-			for(var i = 0; i<parseInt(msgSplit[1]); i++){
+			for(var i = 0; i < numImg; i++){
 				msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
 				//image();
 				const dirs = fs.readdirSync('downloads');
