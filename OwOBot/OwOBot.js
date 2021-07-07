@@ -3,6 +3,7 @@ var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
 var sleep = require('system-sleep');
+const fetch = require("node-fetch");
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -19,6 +20,10 @@ var isReady = true;
 //wikipedia api
 var url = "https://en.wikipedia.org/w/api.php";
 
+//Queue of messages 
+//const messages = message.channel.messages.fetch({ limit: 2 });
+//const lastMessage = messages.last();
+
 bot.on("ready",() => {
   logger.info("Connected");
   //voiceC = client.channels.find('name', 'General');
@@ -27,6 +32,11 @@ bot.on("message",msg => {
     if(msg.content.includes("OwO, what's this?")){ //trigger
 	console.log("OwO Triggered");
         var msgSplit = msg.content.split("?"); //[0] = trigger [1] = query
+	//const messages = msg.channel.messages.fetch({ limit: 2 });
+	//const lastMessage = messages.last();
+	if(msgSplit[1] == "" || msgSplit[1] == " "){
+		exit(1);
+	}
 	console.log("request is: ");
 	console.log(msgSplit[1]);
         var params = { //sent to api
@@ -43,6 +53,8 @@ bot.on("message",msg => {
             .then(function(response) {
                 if (response.query.search[0].title === msgSplit[1]){ //if there is a page match
                     console.log("Your search page exists on English Wikipedia" );
+		    msg.channel.send("Yes, I know of this topic, here:");
+		    msg.channel.send("https://wikipedia.org/wiki/"+response.query.search[0].title);
                 }
             })
             .catch(function(error){console.log(error);});
