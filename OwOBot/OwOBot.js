@@ -48,3 +48,5 @@ bot.on("message",msg => {
             .catch(function(error){console.log(error);});
     }
 });
+
+bot.login(auth.token)

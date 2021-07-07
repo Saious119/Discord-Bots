@@ -237,41 +237,5 @@ bot.on("message",msg => {
 function randint(bound) {
 	return Math.round(Math.random()*bound);
 }
-/*
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-*/
-/*
-function image(){
-	exec('./getImage.sh', (err, stdout, stderr) => {
-		if (err) {
-		  console.error(`exec error: ${err}`);
-		  return;
-		}
-	  
-		console.log(`Number of files ${stdout}`);
-	});
-	const dirs = fs.readdirSync('downloads');
-	var fileIndex = randint(dirs.length-1);
-	var imgFile = dirs[fileIndex];
-	msg.channel.send("Hewwoooooo");
-	//client.channels.get("486580756966277120").send("give me a couple minutes to search 4chan");
-
-	exec('rm -r downloads/', (err, stdout, stderr) => {
-		if (err) {
-		  console.error(`exec error: ${err}`);
-		  return;
-		}
-	  
-		console.log(`Number of files ${stdout}`);
-	});
-}
-*/
 
 bot.login(auth.token)
