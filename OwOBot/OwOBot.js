@@ -3,8 +3,6 @@ var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
 var sleep = require('system-sleep');
-const fs = require('fs');
-const { exec } = require('child_process');
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -19,7 +17,7 @@ var counter = 0;
 var isReady = true;
 
 //wikipedia api
-var url = "https://en.wikipedia.org/w/api.php"; 
+var url = "https://en.wikipedia.org/w/api.php";
 
 bot.on("ready",() => {
   logger.info("Connected");
@@ -27,7 +25,10 @@ bot.on("ready",() => {
 });
 bot.on("message",msg => {	
     if(msg.content.includes("OwO, what's this?")){ //trigger
+	console.log("OwO Triggered");
         var msgSplit = msg.content.split("?"); //[0] = trigger [1] = query
+	console.log("request is: ");
+	console.log(msgSplit[1]);
         var params = { //sent to api
             action: "query",
             list: "search",
