@@ -26,7 +26,7 @@ bot.on("ready",() => {
 bot.on("message",msg => {	
     if(msg.content.includes("OwO, what's this?") || msg.content.includes("Θωθ, what's this?")){ //trigger
 	console.log("OwO Triggered");
-    var msgSplit = msg.content.split("?"); //[0] = trigger [1] = query
+    var msgSplit = msg.content.split("? "); //[0] = trigger [1] = query
 	//const messages = msg.channel.messages.fetch({ limit: 2 });
 	//const lastMessage = messages.last();
 	if(msgSplit[1] == "" || msgSplit[1] == " "){
@@ -48,8 +48,12 @@ bot.on("message",msg => {
             .then(function(response) {
                 if (response.query.search[0].title === msgSplit[1]){ //if there is a page match
                     console.log("Your search page exists on English Wikipedia" );
-		    msg.channel.send("Yes, I know of this topic, here:");
-		    msg.channel.send("https://wikipedia.org/wiki/"+response.query.search[0].title);
+		            msg.channel.send("Yes, I know of this topic, here:");
+		            msg.channel.send("https://wikipedia.org/wiki/"+response.query.search[0].title);
+                }
+                else {
+                    console.log("Your search page DOES NOT exists on English Wikipedia" );
+                    msg.channel.send("Hmmmm, Θωθ does not know of this.");
                 }
             })
             .catch(function(error){console.log(error);});
