@@ -19,4 +19,12 @@ The same as Terry Davis Bot but for the famous youtuber JonTron.
 
 ## Tarot Bot
 ### Description
-A bot that will. give you your fortune. All you have to say is "Give me a fortune". Right now it only does single card fortunes, the hope is that in the near future it will also do 2 card and full 10 card readings. 
+A bot that will give you your fortune. All you have to say is "Give me a fortune". Right now it only does single card fortunes, the hope is that in the near future it will also do 2 card and full 10 card readings. 
+
+## Jail Bot
+### Description
+Interacting with UwUBot will give you a cringe role for a certain amount of time, then remove it. Currently it can give you the role, but crashes when removing it. 
+
+## OwOBot / ΘωθBot
+### Description
+A bot that is a pun on the Egyption God of Knowledge's name in Greek being written at Θωθ. Asking Θωθ, what's this? <query> or OwO, what's this? <query> will use the wikipedia API to search for a valid wikipedia page and send it to you if one is found.  
