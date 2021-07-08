@@ -126,7 +126,7 @@ bot.on("message",msg => {
 			msg.channel.send("UwU");
 		}
 		else if (randint(13) == 2){
-			msg.channel.send("*Pounces on you, notices your buldge* OwO What's this? UwU");
+			msg.channel.send("*Pounces on you, notices your buldge* OwO, what's this? UwU");
 		}
 		else if(randint(25) == 2){
 			msg.channel.send("*REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*");
