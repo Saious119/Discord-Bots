@@ -26,7 +26,7 @@ bot.on("ready",() => {
 bot.on("message",msg => {	
     if(msg.content.includes("OwO, what's this?") || msg.content.includes("Θωθ, what's this?")){ //trigger
 	console.log("OwO Triggered");
-    var msgSplit = msg.content.split("? "); //[0] = trigger [1] = query
+    var msgSplit = msg.content.split(/? (.+)/); //[0] = trigger [1] = query
 	//const messages = msg.channel.messages.fetch({ limit: 2 });
 	//const lastMessage = messages.last();
 	if(msgSplit[1] == "" || msgSplit[1] == " "){
