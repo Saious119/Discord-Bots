@@ -85,6 +85,7 @@ function UrbanDicSearchC(searchTerm){
         Object.entries(results[0]).forEach(([key, prop]) => {
           console.log(`${key}: ${prop}`)
           if(key == "definition"){
+            console.log("HERE");
             return prop;
           }
         })
