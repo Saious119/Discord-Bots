@@ -59,7 +59,7 @@ bot.on("message",msg => {
                     var UrbanData = UrbanDicSearchC(msgSplit[1]);
 		    sleep(2000);
                     if(UrbanData != null){
-                        var UrbanDef = UrbanData.definition;
+                        var UrbanDef = UrbanData;
                         msg.channel.send(msgSplit[1]+": "+UrbanDef);
                     }
                     else{
@@ -83,6 +83,9 @@ function UrbanDicSearchC(searchTerm){
       
         Object.entries(results[0]).forEach(([key, prop]) => {
           console.log(`${key}: ${prop}`)
+          if(key == "definition"){
+            return prop;
+          }
         })
         return results[0];
       })
@@ -97,6 +100,9 @@ function UrbanDicSearchP(searchTerm){
       
         Object.entries(results[0]).forEach(([key, prop]) => {
             console.log(`${key}: ${prop}`)
+            if(key == "definition"){
+                return prop;
+            }
         })
         return results[0];
     }).catch((error) => {
