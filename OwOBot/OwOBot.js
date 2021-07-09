@@ -54,9 +54,14 @@ bot.on("message",msg => {
 		            msg.channel.send("Yes, I know of this topic, here:");
 		            msg.channel.send("https://wikipedia.org/wiki/"+response.query.search[0].title.replace(" ","_"));
                 }
-                else {
+                else if(UrbanDicSearch(msgSplit[1] != null)){
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
                     var UrbanData = UrbanDicSearch(msgSplit[1]);
+                    var UrbanDef = UrbanData.definition;
+                    msg.channel.send(msgSplit[1]+": "+UrbanDef);
+                }
+                else{
+                    console.log("Your search page DOES NOT exists on English Wikipedia or Urban Dictionary" );
                     msg.channel.send("Hmmmm, Θωθ does not know of this.");
                 }
             })
@@ -65,7 +70,7 @@ bot.on("message",msg => {
 });
 
 function UrbanDicSearch(searchTerm){
-    ud.define(searchTerm).then((results) => {
+    var data = ud.define(searchTerm).then((results) => {
         console.log('define (promise)')
       
         Object.entries(results[0]).forEach(([key, prop]) => {
@@ -73,7 +78,9 @@ function UrbanDicSearch(searchTerm){
         })
     }).catch((error) => {
         console.error(`define (promise) - error ${error.message}`)
+        return null;
     })
+    return data;
 }
 
 bot.login(auth.token)
