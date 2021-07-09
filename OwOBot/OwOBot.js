@@ -90,8 +90,9 @@ function UrbanDicSearchC(searchTerm){
             def = prop;
           }
         })
-        return results[0];
+        //return results[0];
       })
+    console.log("def ="+def);
     return def;
 }
 
