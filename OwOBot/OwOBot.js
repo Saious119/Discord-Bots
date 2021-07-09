@@ -74,6 +74,7 @@ bot.on("message",msg => {
 });
 
 function UrbanDicSearchC(searchTerm){
+    var def = null; 
     ud.define(searchTerm, (error, results) => {
         if (error) {
           console.error(`define (callback) error - ${error.message}`)
@@ -86,12 +87,12 @@ function UrbanDicSearchC(searchTerm){
           console.log(`${key}: ${prop}`)
           if(key == "definition"){
             console.log("HERE");
-            return prop;
+            def = prop;
           }
         })
         return results[0];
       })
-    return null;
+    return def;
 }
 
 function UrbanDicSearchP(searchTerm){
