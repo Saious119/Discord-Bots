@@ -56,11 +56,12 @@ bot.on("message",msg => {
                 }
                 else {
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
-                    var UrbanData = UrbanDicSearchC(msgSplit[1]);
+                    var UrbanData = UrbanDicSearch(msgSplit[1]);
 		            sleep(2000);
                     console.log("UrbanData = "+UrbanData);
                     if(UrbanData != null){
-                        var UrbanDef = UrbanData;
+                        var UrbanDef = UrbanData.replace("[", "");
+                        UrbanDef = UrbanDef.replace("]", "");
                         msg.channel.send(msgSplit[1]+": "+UrbanDef);
                     }
                     else{
@@ -73,7 +74,7 @@ bot.on("message",msg => {
     }
 });
 
-function UrbanDicSearchC(searchTerm){
+function UrbanDicSearch(searchTerm){
     var def = null; 
     ud.define(searchTerm, (error, results) => {
         if (error) {
@@ -86,35 +87,13 @@ function UrbanDicSearchC(searchTerm){
         Object.entries(results[0]).forEach(([key, prop]) => {
           console.log(`${key}: ${prop}`)
           if(key == "definition"){
-            console.log("HERE");
-            console.log("prop = "+prop);
-	    def = prop;
+	        def = prop;
           }
         })
-        //return results[0];
       })
     sleep(2000);
-    console.log("def ="+def);
+    //console.log("def ="+def);
     return def;
-}
-
-function UrbanDicSearchP(searchTerm){
-    console.log(searchTerm);
-    ud.define(searchTerm.toString()).then((results) => {
-        console.log(searchTerm.toString());
-	console.log('define (promise)')
-      
-        Object.entries(results[0]).forEach(([key, prop]) => {
-            console.log(`${key}: ${prop}`)
-            if(key == "definition"){
-                return prop;
-            }
-        })
-        return results[0];
-    }).catch((error) => {
-        console.error(`define (promise) - error ${error.message}`)
-        return null;
-    })
 }
 
 bot.login(auth.token)
