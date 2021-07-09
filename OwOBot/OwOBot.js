@@ -4,6 +4,7 @@ var auth = require("./auth.json");
 var opus = require('opusscript');
 var sleep = require('system-sleep');
 var axios = require("axios").default;
+const ud = require('urban-dictionary')
 const fetch = require("node-fetch");
 
 //Logger settings
@@ -64,20 +65,15 @@ bot.on("message",msg => {
 });
 
 function UrbanDicSearch(searchTerm){
-    var options = {
-        method: 'GET',
-        url: 'https://mashape-community-urban-dictionary.p.rapidapi.com/define',
-        params: {term: 'wat'},
-        headers: {'x-rapidapi-host': 'mashape-community-urban-dictionary.p.rapidapi.com'}
-      };
+    ud.define(searchTerm).then((results) => {
+        console.log('define (promise)')
       
-      axios.request(options).then(function (response) {
-          console.log(response.data);
-          return response.data;
-      }).catch(function (error) {
-          console.error(error);
-          return null;
-      });
+        Object.entries(results[0]).forEach(([key, prop]) => {
+            console.log(`${key}: ${prop}`)
+        })
+    }).catch((error) => {
+        console.error(`define (promise) - error ${error.message}`)
+    })
 }
 
 bot.login(auth.token)
