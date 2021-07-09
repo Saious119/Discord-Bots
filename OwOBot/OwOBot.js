@@ -56,7 +56,7 @@ bot.on("message",msg => {
                 }
                 else if(UrbanDicSearch(msgSplit[1] != null)){
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
-                    var UrbanData = UrbanDicSearch(msgSplit[1]);
+                    var UrbanData = UrbanDicSearch(msgSplit[1].toString());
                     var UrbanDef = UrbanData.definition;
                     msg.channel.send(msgSplit[1]+": "+UrbanDef);
                 }
@@ -76,11 +76,11 @@ function UrbanDicSearch(searchTerm){
         Object.entries(results[0]).forEach(([key, prop]) => {
             console.log(`${key}: ${prop}`)
         })
+        return results[0];
     }).catch((error) => {
         console.error(`define (promise) - error ${error.message}`)
         return null;
     })
-    return data;
 }
 
 bot.login(auth.token)
