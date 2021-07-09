@@ -56,7 +56,7 @@ bot.on("message",msg => {
                 }
                 else {
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
-                    var UrbanData = UrbanDicSearch(msgSplit[1]);
+                    var UrbanData = UrbanDicSearchC(msgSplit[1]);
                     if(UrbanData != null){
                         var UrbanDef = UrbanData.definition;
                         msg.channel.send(msgSplit[1]+": "+UrbanDef);
@@ -71,9 +71,26 @@ bot.on("message",msg => {
     }
 });
 
-function UrbanDicSearch(searchTerm){
+function UrbanDicSearchC(searchTerm){
+    ud.define(searchTerm, (error, results) => {
+        if (error) {
+          console.error(`define (callback) error - ${error.message}`)
+          return null;
+        }
+      
+        console.log('define (callback)')
+      
+        Object.entries(results[0]).forEach(([key, prop]) => {
+          console.log(`${key}: ${prop}`)
+        })
+        return results[0];
+      })
+    return null;
+}
+
+function UrbanDicSearchP(searchTerm){
     console.log(searchTerm);
-    var data = ud.define(searchTerm.toString()).then((results) => {
+    ud.define(searchTerm.toString()).then((results) => {
         console.log(searchTerm.toString());
 	console.log('define (promise)')
       
