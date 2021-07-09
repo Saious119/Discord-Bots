@@ -54,15 +54,17 @@ bot.on("message",msg => {
 		            msg.channel.send("Yes, I know of this topic, here:");
 		            msg.channel.send("https://wikipedia.org/wiki/"+response.query.search[0].title.replace(" ","_"));
                 }
-                else if(UrbanDicSearch(msgSplit[1]) != null){
+                else {
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
                     var UrbanData = UrbanDicSearch(msgSplit[1]);
-                    var UrbanDef = UrbanData.definition;
-                    msg.channel.send(msgSplit[1]+": "+UrbanDef);
-                }
-                else{
-                    console.log("Your search page DOES NOT exists on English Wikipedia or Urban Dictionary" );
-                    msg.channel.send("Hmmmm, Θωθ does not know of this.");
+                    if(UrbanData != null){
+                        var UrbanDef = UrbanData.definition;
+                        msg.channel.send(msgSplit[1]+": "+UrbanDef);
+                    }
+                    else{
+                        console.log("Your search page DOES NOT exists on English Wikipedia or Urban Dictionary" );
+                        msg.channel.send("Hmmmm, Θωθ does not know of this.");
+                    }
                 }
             })
             .catch(function(error){console.log(error);});
