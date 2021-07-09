@@ -3,6 +3,7 @@ var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
 var sleep = require('system-sleep');
+var axios = require("axios").default;
 const fetch = require("node-fetch");
 
 //Logger settings
@@ -54,11 +55,29 @@ bot.on("message",msg => {
                 }
                 else {
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
+                    var UrbanData = UrbanDicSearch(msgSplit[1]);
                     msg.channel.send("Hmmmm, Θωθ does not know of this.");
                 }
             })
             .catch(function(error){console.log(error);});
     }
 });
+
+function UrbanDicSearch(searchTerm){
+    var options = {
+        method: 'GET',
+        url: 'https://mashape-community-urban-dictionary.p.rapidapi.com/define',
+        params: {term: 'wat'},
+        headers: {'x-rapidapi-host': 'mashape-community-urban-dictionary.p.rapidapi.com'}
+      };
+      
+      axios.request(options).then(function (response) {
+          console.log(response.data);
+          return response.data;
+      }).catch(function (error) {
+          console.error(error);
+          return null;
+      });
+}
 
 bot.login(auth.token)
