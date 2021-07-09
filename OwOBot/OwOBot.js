@@ -57,7 +57,7 @@ bot.on("message",msg => {
                 else {
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
                     var UrbanData = UrbanDicSearch(msgSplit[1]);
-		            sleep(2000);
+		    sleep(2000);
                     console.log("UrbanData = "+UrbanData);
                     if(UrbanData != null){
                         var UrbanDef = UrbanData.replace("[", "");
@@ -76,7 +76,7 @@ bot.on("message",msg => {
 
 function UrbanDicSearch(searchTerm){
     var def = null; 
-    ud.define(searchTerm, (error, results) => {
+    var data = ud.define(searchTerm, (error, results) => {
         if (error) {
           console.error(`define (callback) error - ${error.message}`)
           return null;
@@ -87,12 +87,13 @@ function UrbanDicSearch(searchTerm){
         Object.entries(results[0]).forEach(([key, prop]) => {
           console.log(`${key}: ${prop}`)
           if(key == "definition"){
-	        def = prop;
+	      console.log("prop = "+prop);
+	      def = prop;
           }
         })
       })
-    sleep(2000);
-    //console.log("def ="+def);
+    sleep(15000);
+    console.log("def = "+def);
     return def;
 }
 
