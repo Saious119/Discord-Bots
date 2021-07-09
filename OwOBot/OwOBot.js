@@ -87,11 +87,13 @@ function UrbanDicSearchC(searchTerm){
           console.log(`${key}: ${prop}`)
           if(key == "definition"){
             console.log("HERE");
-            def = prop;
+            console.log("prop = "+prop);
+	    def = prop;
           }
         })
         //return results[0];
       })
+    sleep(2000);
     console.log("def ="+def);
     return def;
 }
