@@ -57,7 +57,8 @@ bot.on("message",msg => {
                 else {
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
                     var UrbanData = UrbanDicSearchC(msgSplit[1]);
-		    sleep(2000);
+		            sleep(2000);
+                    console.log("UrbanData = "+UrbanData);
                     if(UrbanData != null){
                         var UrbanDef = UrbanData;
                         msg.channel.send(msgSplit[1]+": "+UrbanDef);
