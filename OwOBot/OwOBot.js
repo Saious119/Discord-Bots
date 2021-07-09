@@ -54,9 +54,9 @@ bot.on("message",msg => {
 		            msg.channel.send("Yes, I know of this topic, here:");
 		            msg.channel.send("https://wikipedia.org/wiki/"+response.query.search[0].title.replace(" ","_"));
                 }
-                else if(UrbanDicSearch(msgSplit[1] != null)){
+                else if(UrbanDicSearch(msgSplit[1]) != null){
                     console.log("Your search page DOES NOT exists on English Wikipedia" );
-                    var UrbanData = UrbanDicSearch(msgSplit[1].toString());
+                    var UrbanData = UrbanDicSearch(msgSplit[1]);
                     var UrbanDef = UrbanData.definition;
                     msg.channel.send(msgSplit[1]+": "+UrbanDef);
                 }
@@ -70,8 +70,10 @@ bot.on("message",msg => {
 });
 
 function UrbanDicSearch(searchTerm){
-    var data = ud.define(searchTerm).then((results) => {
-        console.log('define (promise)')
+    console.log(searchTerm);
+    var data = ud.define(searchTerm.toString()).then((results) => {
+        console.log(searchTerm.toString());
+	console.log('define (promise)')
       
         Object.entries(results[0]).forEach(([key, prop]) => {
             console.log(`${key}: ${prop}`)
