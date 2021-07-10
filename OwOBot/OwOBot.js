@@ -40,7 +40,8 @@ bot.on("message",msg => {
             msg.channel.send("Yes, I know of this topic, here:");
             msg.channel.send(WikiData);
             exit(0);
-        }    
+        }
+        /*    
         var UrbanData = UrbanDicSearch(msgSplit[1]);
 	    sleep(2000);
         if(UrbanData != null){
@@ -48,6 +49,7 @@ bot.on("message",msg => {
             msg.channel.send(UrbanData);
             exit(0);
         }
+        */
         console.log("Your search page DOES NOT exists on English Wikipedia or Urban Dictionary" );
         msg.channel.send("Hmmmm, Θωθ does not know of this.");
     }
