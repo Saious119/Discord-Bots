@@ -96,7 +96,7 @@ function UrbanDicSearch(searchTerm){
                 if(def != null){
                     def.replace("[", "");
                     def.replace("]", "");
-                    def = msgSplit[1]+": "+def;
+                    def = searchTerm+": "+def;
                 }
                 return def;
             }
@@ -109,7 +109,7 @@ function UrbanDicSearch(searchTerm){
     if(def != null){
         def.replace("[", "");
         def.replace("]", "");
-        def = msgSplit[1]+": "+def;
+        def = searchTerm+": "+def;
     }
     return def;
 }
