@@ -67,7 +67,7 @@ function WikiSearch(searchTerm){
     fetch(url)
         .then(function(response){return response.json();})
         .then(function(response) {
-            if (response.query.search[0].title === msgSplit[1]){ //if there is a page match
+            if (response.query.search[0].title === searchTerm){ //if there is a page match
                 console.log("Your search page exists on English Wikipedia" );
                 //msg.channel.send("Yes, I know of this topic, here:");
                 returnString = "https://wikipedia.org/wiki/"+response.query.search[0].title.replace(" ","_");
