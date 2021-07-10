@@ -35,7 +35,7 @@ bot.on("message",msg => {
 		    exit(1);
 	    }
 	    console.log("request is: "+msgSplit[1]);
-        var WikiData = await WikiSearch(msgSplit[1]);
+        var WikiData = WikiSearch(msgSplit[1]);
         if(WikiData != null){
             msg.channel.send("Yes, I know of this topic, here:");
             msg.channel.send(WikiData);
@@ -79,6 +79,7 @@ async function WikiSearch(searchTerm){
             }
         })
         .catch(function(error){console.log(error);});
+    await WikiSearch(searchTerm);
     return returnString;
 }
 
