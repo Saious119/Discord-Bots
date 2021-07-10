@@ -83,23 +83,26 @@ function WikiSearch(searchTerm){
 function UrbanDicSearch(searchTerm){
     console.log("in func");
     var def = null; 
-    var data = ud.define(searchTerm, (error, results) => {
+    var data = ud.define(searchTerm).then((results) => {
         console.log("HERE");
-	    if (error) {
-          console.error(`define (callback) error - ${error.message}`)
-          return null;
-        }
-      
-        console.log('define (callback)')
-      
+	    console.log('define (promise)');
+
         Object.entries(results[0]).forEach(([key, prop]) => {
-            console.log(`${key}: ${prop}`)
+            console.log(`${key}: ${prop}`);
             if(key == "definition"){
 	            console.log("prop = "+prop);
 	            def = prop;
+                console.log("def = "+def);
+                if(def != null){
+                    def.replace("[", "");
+                    def.replace("]", "");
+                    def = msgSplit[1]+": "+def;
+                }
+                return def;
             }
         })
-	    //sleep(15000);
+    }).catch((error) => {
+        console.error(`define (promise) - error ${error.message}`)
     })
     console.log(data);
     console.log("def = "+def);
