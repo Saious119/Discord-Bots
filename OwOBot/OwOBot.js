@@ -35,7 +35,7 @@ bot.on("message",msg => {
 		    exit(1);
 	    }
 	    console.log("request is: "+msgSplit[1]);
-        var WikiData = WikiSearch(msgSplit[1]);
+        var WikiData = await WikiSearch(msgSplit[1]);
         if(WikiData != null){
             msg.channel.send("Yes, I know of this topic, here:");
             msg.channel.send(WikiData);
@@ -55,7 +55,7 @@ bot.on("message",msg => {
     }
 });
 
-function WikiSearch(searchTerm){
+async function WikiSearch(searchTerm){
     var returnString = null;
     var params = { //sent to api
         action: "query",
