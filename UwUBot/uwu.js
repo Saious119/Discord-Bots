@@ -27,6 +27,7 @@ bot.on("ready",() => {
 });
 bot.on("message", msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
+	NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
 		//msg.react('OwO')
 		//msg.channel.send("UwU");
