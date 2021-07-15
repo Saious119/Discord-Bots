@@ -56,7 +56,7 @@ bot.on("message",async msg => {
     }
 });
 
-async function WikiSearch(searchTerm){
+function WikiSearch(searchTerm){
     var returnString = null;
     var params = { //sent to api
         action: "query",
@@ -80,7 +80,10 @@ async function WikiSearch(searchTerm){
             }
         })
         .catch(function(error){console.log(error);});
+<<<<<<< HEAD
     //await WikiSearch(searchTerm);
+=======
+>>>>>>> edbd1ac52285475f694b431b40ddafdbe40eade1
     return returnString;
 }
 
