@@ -25,7 +25,7 @@ bot.on("ready",() => {
   //voiceC = client.channels.find('name', 'General');
   voiceC = client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message", msg => {	
+bot.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
