@@ -201,7 +201,7 @@ bot.on("message", msg => {
 				if(dirs.length < 2){
 					NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
 					//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
-					exec('./getImage.sh', (err, stdout, stderr) => {
+					var temp = await exec('./getImage.sh', (err, stdout, stderr) => {
 						if (err) {
 				  		console.error(`exec error: ${err}`);
 				  		return;
@@ -220,7 +220,7 @@ bot.on("message", msg => {
 				NSFW_Channel.send("I found something", {files: [imgloc]});
 				//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
 
-				exec('rm -rf '+imgloc, (err, stdout, stderr) => {
+				var temp = await exec('rm -rf '+imgloc, (err, stdout, stderr) => {
 					if (err) {
 						console.error(`exec error: ${err}`);
 						return;
