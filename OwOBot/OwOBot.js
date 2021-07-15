@@ -25,9 +25,10 @@ var url = "https://en.wikipedia.org/w/api.php";
 bot.on("ready",() => {
   logger.info("Connected");
 });
-bot.on("message",msg => {	
+bot.on("message",async msg => {	
     if(msg.content.includes("OwO, what's this?") || msg.content.includes("Θωθ, what's this?")){ //trigger
 	    console.log("OwO Triggered");
+		var found = false;
         var msgSplit = msg.content.split("? ", 2); //[0] = trigger [1] = query
 	    //const messages = msg.channel.messages.fetch({ limit: 2 });
 	    //const lastMessage = messages.last();
@@ -35,23 +36,23 @@ bot.on("message",msg => {
 		    exit(1);
 	    }
 	    console.log("request is: "+msgSplit[1]);
-        var WikiData = WikiSearch(msgSplit[1]);
+        var WikiData = await WikiSearch(msgSplit[1]);
         if(WikiData != null){
             msg.channel.send("Yes, I know of this topic, here:");
             msg.channel.send(WikiData);
-            exit(0);
+            found = true;
         }
-        /*    
         var UrbanData = UrbanDicSearch(msgSplit[1]);
 	    sleep(2000);
         if(UrbanData != null){
             msg.channel.send("Yes, I know of this topic, here:");
             msg.channel.send(UrbanData);
-            exit(0);
+            found = true;
         }
-        */
-        console.log("Your search page DOES NOT exists on English Wikipedia or Urban Dictionary" );
-        msg.channel.send("Hmmmm, Θωθ does not know of this.");
+		if(found == false){
+        	console.log("Your search page DOES NOT exists on English Wikipedia or Urban Dictionary" );
+        	msg.channel.send("Hmmmm, Θωθ does not know of this.");
+		}
     }
 });
 
@@ -66,7 +67,7 @@ async function WikiSearch(searchTerm){
     url = url + "?origin=*";
     Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
 
-    fetch(url)
+    const response = await fetch(url)
         .then(function(response){return response.json();})
         .then(function(response) {
             if (response.query.search[0].title === searchTerm){ //if there is a page match
@@ -79,14 +80,14 @@ async function WikiSearch(searchTerm){
             }
         })
         .catch(function(error){console.log(error);});
-    await WikiSearch(searchTerm);
+    //await WikiSearch(searchTerm);
     return returnString;
 }
 
-function UrbanDicSearch(searchTerm){
+async function UrbanDicSearch(searchTerm){
     console.log("in func");
     var def = null; 
-    var data = ud.define(searchTerm).then((results) => {
+    const data = await ud.define(searchTerm).then((results) => {
         console.log("HERE");
 	    console.log('define (promise)');
 
