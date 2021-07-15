@@ -20,12 +20,12 @@ var counter = 0;
 var isReady = true;
 
 
-bot.on("ready",() => {
+bot.on("ready",async () => {
   logger.info("Connected");
   //voiceC = client.channels.find('name', 'General');
-  voiceC = client.channels.find(ch => ch.name === 'General');
+  voiceC = await client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message",msg => {	
+bot.on("message", async msg => {	
 	if(msg.author == bot.user){
 		//msg.react('OwO')
 		//msg.channel.send("UwU");
@@ -192,12 +192,13 @@ bot.on("message",msg => {
 			msg.channel.send("pwease wook in nsf-doub-UwU");
 			for(var i = 0; i < numImg; i++){
 				//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
-				msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("give me a couple minutes to search 4chan");
+				var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
+				NSFW_Channel.send("give me a couple minutes to search 4chan");
 				//image();
 				const dirs = fs.readdirSync('downloads');
 				if(dirs.length < 2){
-					msg.guild.channels.find('name','nsfw').send("Outta images UwU, gowin' to tha stowe");
-					msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
+					NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
+					//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
 					exec('./getImage.sh', (err, stdout, stderr) => {
 						if (err) {
 				  		console.error(`exec error: ${err}`);
@@ -214,7 +215,7 @@ bot.on("message",msg => {
 				var imgloc = './downloads/'+imgFile;
 				//msg.channel.send(imgloc);
 				//msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
-				msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("I found something", {files: [imgloc]});
+				NSFW_Channel.send("I found something", {files: [imgloc]});
 				//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
 
 				exec('rm -rf '+imgloc, (err, stdout, stderr) => {
