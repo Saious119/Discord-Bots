@@ -191,11 +191,13 @@ bot.on("message",msg => {
 			}
 			msg.channel.send("pwease wook in nsf-doub-UwU");
 			for(var i = 0; i < numImg; i++){
-				msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
+				//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
+				msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("give me a couple minutes to search 4chan");
 				//image();
 				const dirs = fs.readdirSync('downloads');
 				if(dirs.length < 2){
 					msg.guild.channels.find('name','nsfw').send("Outta images UwU, gowin' to tha stowe");
+					msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
 					exec('./getImage.sh', (err, stdout, stderr) => {
 						if (err) {
 				  		console.error(`exec error: ${err}`);
@@ -211,7 +213,8 @@ bot.on("message",msg => {
 				var imgFile = dirs[fileIndex];
 				var imgloc = './downloads/'+imgFile;
 				//msg.channel.send(imgloc);
-				msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
+				//msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
+				msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("I found something", {files: [imgloc]});
 				//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
 
 				exec('rm -rf '+imgloc, (err, stdout, stderr) => {
