@@ -42,7 +42,7 @@ bot.on("message",async msg => {
             msg.channel.send(WikiData);
             found = true;
         }
-        var UrbanData = UrbanDicSearch(msgSplit[1]);
+        var UrbanData = await UrbanDicSearch(msgSplit[1]);
 	    sleep(2000);
         if(UrbanData != null){
             msg.channel.send("Yes, I know of this topic, here:");
@@ -56,7 +56,7 @@ bot.on("message",async msg => {
     }
 });
 
-function WikiSearch(searchTerm){
+async function WikiSearch(searchTerm){
     var returnString = null;
     var params = { //sent to api
         action: "query",
@@ -80,10 +80,6 @@ function WikiSearch(searchTerm){
             }
         })
         .catch(function(error){console.log(error);});
-<<<<<<< HEAD
-    //await WikiSearch(searchTerm);
-=======
->>>>>>> edbd1ac52285475f694b431b40ddafdbe40eade1
     return returnString;
 }
 
