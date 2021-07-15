@@ -26,11 +26,11 @@ bot.on("ready",async () => {
   voiceC = await client.channels.find(ch => ch.name === 'General');
 });
 bot.on("message", async msg => {	
+	var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	if(msg.author == bot.user){
 		//msg.react('OwO')
 		//msg.channel.send("UwU");
 	}
-	
 	else{
 		if(msg.content.includes("sugma") || msg.content.includes("chokonma")|| msg.content.includes("boffa")){
 			msg.channel.send("no UwU");
@@ -192,7 +192,7 @@ bot.on("message", async msg => {
 			msg.channel.send("pwease wook in nsf-doub-UwU");
 			for(var i = 0; i < numImg; i++){
 				//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
-				var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
+				//var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 				NSFW_Channel.send("give me a couple minutes to search 4chan");
 				//image();
 				const dirs = fs.readdirSync('downloads');
