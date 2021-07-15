@@ -99,7 +99,7 @@ async function UrbanDicSearch(searchTerm){
                 if(def != null){
                     def.replace("[", "");
                     def.replace("]", "");
-                    def = searchTerm+": "+def;
+                    //def = searchTerm+": "+def;
                 }
                 return def;
             }
