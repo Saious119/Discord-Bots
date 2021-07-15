@@ -5,7 +5,7 @@ var opus = require('opusscript');
 var sleep = require('system-sleep');
 const fs = require('fs');
 const { exec } = require('child_process');
-const { channel } = require("diagnostic_channel");
+//const { channel } = require("diagnostic_channel");
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -23,7 +23,7 @@ var isReady = true;
 bot.on("ready",() => {
   logger.info("Connected");
   //voiceC = client.channels.find('name', 'General');
-  voiceC = client.channels.find(channel => channel.name === 'General');
+  voiceC = client.channels.find(ch => ch.name === 'General');
 });
 bot.on("message",msg => {	
 	if(msg.author == bot.user){
