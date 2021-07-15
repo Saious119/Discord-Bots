@@ -25,7 +25,7 @@ bot.on("ready",() => {
   //voiceC = client.channels.find('name', 'General');
   voiceC = client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message", async msg => {	
+bot.on("message", msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
@@ -201,7 +201,7 @@ bot.on("message", async msg => {
 				if(dirs.length < 2){
 					NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
 					//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
-					var temp = await exec('./getImage.sh', (err, stdout, stderr) => {
+					exec('./getImage.sh', (err, stdout, stderr) => {
 						if (err) {
 				  		console.error(`exec error: ${err}`);
 				  		return;
@@ -220,7 +220,7 @@ bot.on("message", async msg => {
 				NSFW_Channel.send("I found something", {files: [imgloc]});
 				//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
 
-				var temp = await exec('rm -rf '+imgloc, (err, stdout, stderr) => {
+				exec('rm -rf '+imgloc, (err, stdout, stderr) => {
 					if (err) {
 						console.error(`exec error: ${err}`);
 						return;
