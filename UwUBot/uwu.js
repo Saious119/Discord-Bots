@@ -198,7 +198,7 @@ bot.on("message", async msg => {
 				NSFW_Channel.send("give me a couple minutes to search 4chan");
 				var imgloc = await getImage(NSFW_Channel);
 				NSFW_Channel.send("I found something", {files: [imgloc]});
-				var removeImageStatus = await removeImage(imgloc);
+				//var removeImageStatus = await removeImage(imgloc);
 				if(removeImageStatus == 0){
 					console.log("removing image successful");
 				}
