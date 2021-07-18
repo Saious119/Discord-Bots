@@ -25,7 +25,7 @@ bot.on("ready",() => {
   //voiceC = client.channels.find('name', 'General');
   voiceC = client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message", msg => {	
+bot.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	//NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
@@ -196,42 +196,9 @@ bot.on("message", msg => {
 				//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
 				//var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 				NSFW_Channel.send("give me a couple minutes to search 4chan");
-				//image();
-				const dirs = fs.readdirSync('downloads');
-				if(dirs.length < 2){
-					NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
-					//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
-					exec('./getImage.sh', (err, stdout, stderr) => {
-						if (err) {
-				  		console.error(`exec error: ${err}`);
-				  		return;
-						}
-			  
-						console.log(`Number of files ${stdout}`);
-					});
-					sleep(240*1000);
-				}
-				//const dirs = fs.readdirSync('downloads');
-				var fileIndex = randint(dirs.length-1);
-				var imgFile = dirs[fileIndex];
-				var imgloc = './downloads/'+imgFile;
-				//msg.channel.send(imgloc);
-				//msg.guild.channels.find('name','nsfw').send("I found something", {files: [imgloc]}); 
+				var imgloc = await getImage(NSFW_Channel);
 				NSFW_Channel.send("I found something", {files: [imgloc]});
-				//msg.client.channels.get("486580756966277120").send("I found something", {files: [imgloc]});
-
-				exec('rm -rf '+imgloc, (err, stdout, stderr) => {
-					if (err) {
-						console.error(`exec error: ${err}`);
-						return;
-				  	}
-				
-				  	console.log(`Number of files ${stdout}`);
-				  	console.log(dirs.length);
-				});
-			
-				msg.channel.send("I sent an image, pwobably UwU");
-				//msg.guild.channels.find('name','nsfw').send("here you go");
+				var removeImageStatus = await removeImage(imgloc);
 				sleep(1000);
 			}
 		}
@@ -241,6 +208,38 @@ bot.on("message", msg => {
 		
 	} 
 });
+
+async function getImage(NSFW_Channel){
+	const dirs = fs.readdirSync('downloads');
+	if(dirs.length < 2){
+		NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
+		//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
+		exec('./getImage.sh', (err, stdout, stderr) => {
+			if (err) {
+				console.error(`exec error: ${err}`);
+				return;
+			}  
+			console.log(`Number of files ${stdout}`);
+		});
+		sleep(240*1000);
+	}
+	//const dirs = fs.readdirSync('downloads');
+	var fileIndex = randint(dirs.length-1);
+	var imgFile = dirs[fileIndex];
+	var imgloc = './downloads/'+imgFile;
+	return imgloc;
+}
+
+async function removeImage(){
+	exec('rm -rf '+imgloc, (err, stdout, stderr) => {
+		if (err) {
+			console.error(`exec error: ${err}`);
+			return;
+		}
+		console.log(`Number of files ${stdout}`);
+		console.log(dirs.length);
+	});
+}
 
 function randint(bound) {
 	return Math.round(Math.random()*bound);
