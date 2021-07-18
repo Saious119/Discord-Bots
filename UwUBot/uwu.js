@@ -199,6 +199,9 @@ bot.on("message", async msg => {
 				var imgloc = await getImage(NSFW_Channel);
 				NSFW_Channel.send("I found something", {files: [imgloc]});
 				var removeImageStatus = await removeImage(imgloc);
+				if(removeImageStatus == 0){
+					console.log("removing image successful");
+				}
 				sleep(1000);
 			}
 		}
@@ -240,6 +243,7 @@ async function removeImage(imgloc){
 		console.log(`Number of files ${stdout}`);
 		console.log(dirs.length);
 	});
+	return 0;
 }
 
 function randint(bound) {
