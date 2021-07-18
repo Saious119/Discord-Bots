@@ -199,8 +199,9 @@ bot.on("message", async msg => {
 				var imgloc = await getImage(NSFW_Channel);
 				if(imgloc != null){
 					console.log("Image found!");
+					NSFW_Channel.send("I found something", {files: [imgloc]});
+					sleep(2000);
 				}
-				NSFW_Channel.send("I found something", {files: [imgloc]});
 				var removeImageStatus = await removeImage(imgloc);
 				if(removeImageStatus == 0){
 					console.log("removing image successful");
