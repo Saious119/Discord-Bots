@@ -230,7 +230,8 @@ async function getImage(NSFW_Channel){
 	return imgloc;
 }
 
-async function removeImage(imgloc){
+async function removeImage(imgloc, dirs){
+	const dirs = fs.readdirSync('downloads');
 	exec('rm -rf '+imgloc, (err, stdout, stderr) => {
 		if (err) {
 			console.error(`exec error: ${err}`);
