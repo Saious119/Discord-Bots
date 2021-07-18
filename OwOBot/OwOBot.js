@@ -73,7 +73,7 @@ async function WikiSearch(searchTerm){
             if (response.query.search[0].title === searchTerm){ //if there is a page match
                 console.log("Your search page exists on English Wikipedia" );
                 //msg.channel.send("Yes, I know of this topic, here:");
-                returnString = "https://wikipedia.org/wiki/"+response.query.search[0].title.replace(" ","_");
+                returnString = "https://wikipedia.org/wiki/"+response.query.search[0].title.replaceAll(" ","_");
             }
             else {
                 console.log("Your search page DOES NOT exists on English Wikipedia" );
