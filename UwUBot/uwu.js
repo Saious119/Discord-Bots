@@ -221,13 +221,14 @@ async function getImage(NSFW_Channel){
 	if(dirs.length < 2){
 		NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
 		//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
-		exec('./getImage.sh', (err, stdout, stderr) => {
+		var child = exec('./getImage.sh', function (err, stdout, stderr) {
 			if (err) {
 				console.error(`exec error: ${err}`);
 				return;
 			}  
 			console.log(`Number of files ${stdout}`);
 		});
+		child();
 		sleep(240*1000);
 	}
 	//const dirs = fs.readdirSync('downloads');
@@ -239,7 +240,7 @@ async function getImage(NSFW_Channel){
 
 async function removeImage(imgloc){
 	const dirs = fs.readdirSync('downloads');
-	exec('rm -rf '+imgloc, (err, stdout, stderr) => {
+	var child = exec('rm -rf '+imgloc, function (err, stdout, stderr) {
 		if (err) {
 			console.error(`exec error: ${err}`);
 			return;
@@ -247,6 +248,7 @@ async function removeImage(imgloc){
 		console.log(`Number of files ${stdout}`);
 		console.log(dirs.length);
 	});
+	child();
 	return 0;
 }
 
