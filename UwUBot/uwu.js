@@ -25,7 +25,7 @@ bot.on("ready",() => {
   //voiceC = client.channels.find('name', 'General');
   voiceC = client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message", async msg => {	
+bot.on("message", msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	//NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
@@ -202,7 +202,7 @@ bot.on("message", async msg => {
 					NSFW_Channel.send("I found something", {files: [imgloc]});
 					sleep(2000);
 				}
-				var removeImageStatus = await removeImage(imgloc);
+				var removeImageStatus = removeImage(imgloc);
 				if(removeImageStatus == 0){
 					console.log("removing image successful");
 				}
@@ -221,14 +221,13 @@ function getImage(NSFW_Channel){
 	if(dirs.length < 2){
 		NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
 		//msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw').send("Outta images UwU, gowin' to tha stowe");
-		var child = exec('./getImage.sh', function (err, stdout, stderr) {
+		exec('./getImage.sh', function (err, stdout, stderr) {
 			if (err) {
 				console.error(`exec error: ${err}`);
 				return;
 			}  
 			console.log(`Number of files ${stdout}`);
 		});
-		child();
 		sleep(240*1000);
 	}
 	//const dirs = fs.readdirSync('downloads');
@@ -238,9 +237,9 @@ function getImage(NSFW_Channel){
 	return imgloc;
 }
 
-async function removeImage(imgloc){
+function removeImage(imgloc){
 	const dirs = fs.readdirSync('downloads');
-	var child = exec('rm -rf '+imgloc, function (err, stdout, stderr) {
+	exec('rm -rf '+imgloc, function (err, stdout, stderr) {
 		if (err) {
 			console.error(`exec error: ${err}`);
 			return;
@@ -248,7 +247,6 @@ async function removeImage(imgloc){
 		console.log(`Number of files ${stdout}`);
 		console.log(dirs.length);
 	});
-	child();
 	return 0;
 }
 
