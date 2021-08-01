@@ -196,7 +196,7 @@ bot.on("message", async msg => {
 				//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
 				//var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 				NSFW_Channel.send("give me a couple minutes to search 4chan");
-				var imgloc = await getImage(NSFW_Channel);
+				var imgloc = getImage(NSFW_Channel);
 				if(imgloc != null){
 					console.log("Image found!");
 					NSFW_Channel.send("I found something", {files: [imgloc]});
@@ -216,7 +216,7 @@ bot.on("message", async msg => {
 	} 
 });
 
-async function getImage(NSFW_Channel){
+function getImage(NSFW_Channel){
 	const dirs = fs.readdirSync('downloads');
 	if(dirs.length < 2){
 		NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
