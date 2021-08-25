@@ -19,7 +19,7 @@ var client = new Discord.Client();
 bot.on("ready",() => {
     logger.info("Connected");
 });
-bot.on("message", msg => {
+bot.on("message", message => {
     const filter = (reaction, user) => {
         return [upVote, downVote].includes(reaction.emoji.name) && user.id === interaction.user.id;
     };
