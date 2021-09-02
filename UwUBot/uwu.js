@@ -25,7 +25,7 @@ bot.on("ready",() => {
   //voiceC = client.channels.find('name', 'General');
   voiceC = client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message", msg => {	
+bot.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	//NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
@@ -196,13 +196,13 @@ bot.on("message", msg => {
 				//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
 				//var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 				NSFW_Channel.send("give me a couple minutes to search 4chan");
-				var imgloc = getImage(NSFW_Channel);
+				var imgloc = await getImage(NSFW_Channel);
 				if(imgloc != null){
 					console.log("Image found!");
-					NSFW_Channel.send("I found something", {files: [imgloc]});
+					await NSFW_Channel.send("I found something", {files: [imgloc]});
 					sleep(2000);
 				}
-				var removeImageStatus = removeImage(imgloc);
+				var removeImageStatus = await removeImage(imgloc);
 				if(removeImageStatus == 0){
 					console.log("removing image successful");
 				}
@@ -216,7 +216,7 @@ bot.on("message", msg => {
 	} 
 });
 
-function getImage(NSFW_Channel){
+async function getImage(NSFW_Channel){
 	const dirs = fs.readdirSync('downloads');
 	if(dirs.length < 2){
 		NSFW_Channel.send("Outta images UwU, gowin' to tha stowe");
@@ -237,7 +237,7 @@ function getImage(NSFW_Channel){
 	return imgloc;
 }
 
-function removeImage(imgloc){
+async function removeImage(imgloc){
 	const dirs = fs.readdirSync('downloads');
 	exec('rm -rf '+imgloc, function (err, stdout, stderr) {
 		if (err) {
