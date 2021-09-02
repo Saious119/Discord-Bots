@@ -39,7 +39,7 @@ bot.on("message", async msg => {
 			} else {
 				sleep(5*1000);
 				//let member = msg.member;
-				member.roles.addRole(cringerole).catch(console.error);
+				msg.author.roles.addRole(cringerole).catch(console.error);
 				msg.channel.send("You have interacted with the Cringe UwUBot, you are now Cringe for 1 minute");
 				sleep(60*1000);
 				msg.member.roles.removeRole(cringerole).catch(console.error);
