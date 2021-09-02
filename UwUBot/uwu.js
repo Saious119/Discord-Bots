@@ -185,7 +185,6 @@ bot.on("message", async msg => {
 			//sleep(5000);
 		}
 		else if(msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")){
-			msg.channel.send("pwease wook in nsf-doub-UwU2");
 			var msgSplit = msg.content.split(" ");
 			var numImg = 1;
 			if(msgSplit.length > 1){
