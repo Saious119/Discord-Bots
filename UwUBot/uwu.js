@@ -209,6 +209,7 @@ bot.on("message", async msg => {
 			}
 		}
 		else {
+			/*
 			var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
 			var caacTextChat = msg.guild.channels.find(ctc => ctc.name === 'caac-only'); 
 			console.log("Found message");
@@ -220,6 +221,7 @@ bot.on("message", async msg => {
 					console.log("removed");
 				}
 			}
+			*/
 			counter--;
 		}
 		
