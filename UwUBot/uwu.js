@@ -209,6 +209,13 @@ bot.on("message", async msg => {
 			}
 		}
 		else {
+			var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
+			var caacTextChat = msg.guild.channels.find(ctc => c.name === 'caac-only'); 
+			if(msg.channel == caacTextChat){
+				if(msg.author != membersInCaac){
+					msg.remove;
+				}
+			}
 			counter--;
 		}
 		
