@@ -210,10 +210,14 @@ bot.on("message", async msg => {
 		}
 		else {
 			var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
-			var caacTextChat = msg.guild.channels.find(ctc => c.name === 'caac-only'); 
+			var caacTextChat = msg.guild.channels.find(ctc => ctc.name === 'caac-only'); 
+			console.log("Found message");
 			if(msg.channel == caacTextChat){
-				if(msg.author != membersInCaac){
+				console.log("in caac only");
+				if(membersInCaac.find(user => user.username === msg.author)){
+					console.log("removing");
 					msg.remove;
+					console.log("removed");
 				}
 			}
 			counter--;
