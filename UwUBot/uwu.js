@@ -214,6 +214,7 @@ bot.on("message", async msg => {
 			console.log("Found message");
 			if(msg.channel == caacTextChat){
 				console.log("in caac only");
+				console.log(membersInCaac);
 				if(membersInCaac.find(user => user.username === msg.author)){
 					console.log("removing");
 					message.delete(1000); //Supposed to delete message
