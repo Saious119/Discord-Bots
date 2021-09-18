@@ -217,11 +217,14 @@ bot.on("message", async msg => {
 				console.log(membersInCaac);
 				var found = false;
 				for(var item in membersInCaac){
+					console.log(item.username);
 					if(msg.author == item.username){
 						found = true;
+
+						console.log("found author");
 					}
 				}
-				if(found){
+				if(!found){
 					console.log("removing");
 					message.delete(1000); //Supposed to delete message
       				message.channel.send(message.content.slice(5, message.content.length));
