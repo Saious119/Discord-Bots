@@ -29,7 +29,7 @@ bot.on("message", async msg => {
 		console.log(membersInCaac.members);
 		var found = false;
 		for(var item in membersInCaac.members){
-			//console.log(item);
+			console.log(item.user.username);
 			if(msg.author.username == item.user.username){
 				found = true;
 
