@@ -216,11 +216,11 @@ bot.on("message", async msg => {
 				console.log("in caac only");
 				console.log(membersInCaac);
 				var found = false;
-				membersInCaac.forEach(element => {
-					if(msg.author == element.username){
+				for(var item in membersInCaac){
+					if(msg.author == item.username){
 						found = true;
 					}
-				});
+				}
 				if(found){
 					console.log("removing");
 					message.delete(1000); //Supposed to delete message
