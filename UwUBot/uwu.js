@@ -214,11 +214,11 @@ bot.on("message", async msg => {
 			console.log("Found message");
 			if(msg.channel == caacTextChat){
 				console.log("in caac only");
-				console.log(membersInCaac);
+				console.log(membersInCaac.members);
 				var found = false;
-				for(var item in membersInCaac.member){
-					console.log(item);
-					if(msg.author == username){
+				for(var item in membersInCaac.members){
+					//console.log(item);
+					if(msg.author == item.user.username){
 						found = true;
 
 						console.log("found author");
