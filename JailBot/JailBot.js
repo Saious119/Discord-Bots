@@ -20,7 +20,28 @@ bot.on("ready",() => {
   logger.info("Connected");
 });
 
-bot.on("message", async msg => {	
+bot.on("message", async msg => {
+	var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
+	var caacTextChat = msg.guild.channels.find(ctc => ctc.name === 'caac-only'); 
+	console.log("Found message");
+	if(msg.channel == caacTextChat){
+		console.log("in caac only");
+		console.log(membersInCaac.members);
+		var found = false;
+		for(var item in membersInCaac.members){
+			//console.log(item);
+			if(msg.author == item.user.username){
+				found = true;
+
+					console.log("found author");
+			}
+		}
+		if(!found){
+			console.log("removing");
+			msg.delete().then(msg => console.log(`Deleted message from ${msg.author.username}`)).catch(console.error); //Supposed to delete message
+			console.log("removed");
+		}
+	}	
 	if(msg.author == bot.user){
 		//react to all message here
 	}	
