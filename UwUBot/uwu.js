@@ -216,9 +216,9 @@ bot.on("message", async msg => {
 				console.log("in caac only");
 				console.log(membersInCaac);
 				var found = false;
-				for(var item in membersInCaac){
-					console.log(item.username);
-					if(msg.author == item.username){
+				for(var item in membersInCaac.member){
+					console.log(item);
+					if(msg.author == username){
 						found = true;
 
 						console.log("found author");
@@ -227,7 +227,6 @@ bot.on("message", async msg => {
 				if(!found){
 					console.log("removing");
 					msg.delete().then(msg => console.log(`Deleted message from ${msg.author.username}`)).catch(console.error); //Supposed to delete message
-      				//msg.channel.send(msg.content.slice(5, msg.content.length));
 					console.log("removed");
 				}
 			}
