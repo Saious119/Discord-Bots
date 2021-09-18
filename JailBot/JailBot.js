@@ -28,13 +28,12 @@ bot.on("message", async msg => {
 		console.log("in caac only");
 		console.log(membersInCaac.members);
 		var found = false;
-		for(var item in membersInCaac.members){
+		for([memberID, member] in membersInCaac.members){
 			console.log("what bruh");
-			console.log(item.user.username);
-			if(msg.author.username == item.user.username){
+			console.log(member.user.username);
+			if(msg.author.username == member.user.username){
 				found = true;
-
-					console.log("found author");
+				console.log("found author");
 			}
 		}
 		if(!found){
