@@ -226,7 +226,7 @@ bot.on("message", async msg => {
 				}
 				if(!found){
 					console.log("removing");
-					message.delete(1000); //Supposed to delete message
+					msg.delete(1000); //Supposed to delete message
       				message.channel.send(message.content.slice(5, message.content.length));
 					console.log("removed");
 				}
