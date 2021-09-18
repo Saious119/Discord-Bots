@@ -30,7 +30,7 @@ bot.on("message", async msg => {
 		var found = false;
 		for(var item in membersInCaac.members){
 			//console.log(item);
-			if(msg.author == item.user.username){
+			if(msg.author.username == item.user.username){
 				found = true;
 
 					console.log("found author");
