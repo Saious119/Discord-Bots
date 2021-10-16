@@ -49,6 +49,18 @@ bot.on("message", async msg => {
 			msg.channel.send("ask for an image or picture by saying image or picture OwO");
 			msg.channel.send("ok bye. UwU.");
 		}
+		else if(msg.content.includes("UwUsend") || msg.content.includes("uwusend")){
+			var msgSplit = msg.content.split(" ");
+			if(msgSplit.length < 4){
+				msg.channel.send("Pweese use da fowmat \'UwUsend <channel ID> message\' k thx UwU");
+			}
+			var channelID = msgSplit[1];
+			var messageToSend = msgSplit[2];
+			for(var i = 3; i < msgSplit.length; i++){
+				messageToSend += msgSplit[i];
+			}
+			client.channels.cache.get(channelID).send(messageToSend);
+		}
 		else if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")){//||msg.content.includes(" ")){
 			var cont = msg.content;
 			var uwu1 = cont.replace("l","w");
