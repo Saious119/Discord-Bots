@@ -60,7 +60,7 @@ bot.on("message", async msg => {
 			for(var i = 3; i < msgSplit.length; i++){
 				messageToSend += msgSplit[i];
 			}
-			client.guilds.fetch(guildID).then(guild => guild.channels.fetch(channelID).then(channel => channel.send('HI!')));
+			client.guilds.fetch(guildID).then(guild => guild.channels.fetch(channelID).then(channel => channel.send(messageToSend)));
 		}
 		else if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")){//||msg.content.includes(" ")){
 			var cont = msg.content;
