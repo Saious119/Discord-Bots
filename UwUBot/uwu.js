@@ -1,4 +1,4 @@
-var Discord = require("discord.js");
+//var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
@@ -6,7 +6,8 @@ var sleep = require('system-sleep');
 const fs = require('fs');
 const { exec } = require('child_process');
 //const { channel } = require("diagnostic_channel");
-
+const { Client, Intents } = require('discord.js');
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 //Logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -15,7 +16,7 @@ logger.add(new logger.transports.Console, {
 logger.level = "debug";
 //Robot time
 var bot = new Discord.Client();
-var client = new Discord.Client();
+//var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
