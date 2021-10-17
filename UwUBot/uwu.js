@@ -1,4 +1,4 @@
-var Discord = require("discord.js");
+//var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
@@ -15,7 +15,7 @@ logger.add(new logger.transports.Console, {
 });
 logger.level = "debug";
 //Robot time
-var bot = new Discord.Client();
+var bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 //var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
