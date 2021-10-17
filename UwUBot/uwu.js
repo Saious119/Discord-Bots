@@ -15,18 +15,18 @@ logger.add(new logger.transports.Console, {
 });
 logger.level = "debug";
 //Robot time
-var bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+//var bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 //var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
 
-bot.on("ready",() => {
+client.on("ready",() => {
   logger.info("Connected");
   //voiceC = client.channels.find('name', 'General');
   voiceC = client.channels.find(ch => ch.name === 'General');
 });
-bot.on("message", async msg => {	
+client.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 	//NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
@@ -290,4 +290,4 @@ function randint(bound) {
 	return Math.round(Math.random()*bound);
 }
 
-bot.login(auth.token)
+client.login(auth.token)
