@@ -52,14 +52,15 @@ bot.on("message", async msg => {
 		else if(msg.content.includes("UwUsend") || msg.content.includes("uwusend")){
 			var msgSplit = msg.content.split(" ");
 			if(msgSplit.length < 4){
-				msg.channel.send("Pweese use da fowmat \'UwUsend <channel ID> message\' k thx UwU");
+				msg.channel.send("Pweese use da fowmat \'UwUsend <guildID> <channel ID> message\' k thx UwU");
 			}
-			var channelID = msgSplit[1];
-			var messageToSend = msgSplit[2];
+			var guildID = msgSplit[1]
+			var channelID = msgSplit[2];
+			var messageToSend = msgSplit[3];
 			for(var i = 3; i < msgSplit.length; i++){
 				messageToSend += msgSplit[i];
 			}
-			client.channels.cache.get(channelID).send(messageToSend);
+			client.guilds.fetch(guildID).then(guild => guild.channels.fetch(channelID).then(channel => channel.send('HI!')));
 		}
 		else if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")){//||msg.content.includes(" ")){
 			var cont = msg.content;
