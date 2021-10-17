@@ -24,10 +24,10 @@ var isReady = true;
 client.on("ready",() => {
   logger.info("Connected");
   //voiceC = client.channels.find('name', 'General');
-  voiceC = client.channels.fetch(ch => ch.name === 'General');
 });
 client.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
+	voiceC = mag.guild.channels.find(ch => ch.name === 'General');
 	//NSFW_Channel.send("HERE!!!!");
 	if(msg.author == bot.user){
 		//msg.react('OwO')
