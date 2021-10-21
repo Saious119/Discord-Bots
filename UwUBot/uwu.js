@@ -25,7 +25,7 @@ client.on("ready",() => {
   logger.info("Connected");
   //voiceC = client.channels.find('name', 'General');
 });
-bot.on("message", async msg => {	
+client.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
 	var voiceC = msg.guild.channels.cache.find(Voice => Voice.name === 'General');
 	//NSFW_Channel.send("HERE!!!!");
