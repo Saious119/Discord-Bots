@@ -58,11 +58,13 @@ client.on("message", async msg => {
 			var guildID = msgSplit[1]
 			var channelID = msgSplit[2];
 			var messageToSend = msgSplit[3];
-			for(var i = 3; i < msgSplit.length; i++){
+			for(var i = 4; i < msgSplit.length; i++){
 				messageToSend += msgSplit[i];
 			}
-			client.guilds.fetch(guildID).then(guild => guild.channels.fetch(channelID).then(channel => channel.send(messageToSend)));
-		}
+			//client.guilds.fetch(guildID).then(guild => guild.channels.fetch(channelID).then(channel => channel.send('HI!')));
+			// Fetch a channel by its id
+			client.channels.fetch('222109930545610754').then(channel => channel.send(messageToSend)).catch(console.error);
+    }
 		else if(msg.content.includes("UwUify")||msg.content.includes(" UwUify ")){//||msg.content.includes(" ")){
 			var cont = msg.content;
 			var uwu1 = cont.replace("l","w");
