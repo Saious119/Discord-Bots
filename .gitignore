@@ -6,3 +6,4 @@ UwUBot/auth.json
 */auth.json
 UwUBot/downloads/*
 *.zip
+*/node_modules/

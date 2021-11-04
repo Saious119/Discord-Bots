@@ -27,7 +27,7 @@ const playOnTheVoiceChannel = (msg, voiceC, mp3File) => {
 		voiceChannel.join().then(connection => {
 			const file = path.join(__dirname, mp3File) // works in any OS
 			const dispatcher = connection.play(file);
-			dispatcher.on("end", end => {
+			dispatcher.on("finish", end => {
 				voiceChannel.leave();
 			});
 		}).catch(err => console.log(err));
@@ -96,10 +96,10 @@ client.on("message", async msg => {
 		playOnTheVoiceChannel(msg, voiceC, './theMcnugRap.mp3')
 	}
 	else if (msg.content.includes("UwUBot sing me some country music")) {
-		playOnTheVoiceChannel('./countryroads.mp3')
+		playOnTheVoiceChannel(msg, voiceC, './countryroads.mp3')
 	}
 	else if (msg.content.includes("UwUBot rap")) {
-		playOnTheVoiceChannel('./rap.mp3')
+		playOnTheVoiceChannel(msg, voiceC, './rap.mp3')
 	}
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
 		msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
