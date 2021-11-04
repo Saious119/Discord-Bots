@@ -42,8 +42,10 @@ client.on("message", async msg => {
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
 	var voiceC = msg.guild.channels.cache.find(Voice => Voice.name === 'General');
 	//NSFW_Channel.send("HERE!!!!");
-	
-	if (msg.content.includes("sugma") || msg.content.includes("chokonma") || msg.content.includes("boffa")) {
+	if(msg.author.username == "UwUBot"){
+		//skip tree
+	} 
+	else if (msg.content.includes("sugma") || msg.content.includes("chokonma") || msg.content.includes("boffa")) {
 		msg.channel.send("no UwU");
 	}
 	else if (msg.content.includes("UwUBot help") || msg.content.includes("UwUBot what can you do")) {
@@ -177,13 +179,13 @@ client.on("message", async msg => {
 			if (imgloc != null) {
 				console.log("Image found!");
 				await NSFW_Channel.send("I found something", { files: [imgloc] });
-				sleep(2000);
+				//sleep(2000);
 			}
 			var removeImageStatus = await removeImage(imgloc);
 			if (removeImageStatus == 0) {
 				console.log("removing image successful");
 			}
-			sleep(1000);
+			//sleep(1000);
 		}
 	}
 	else {
