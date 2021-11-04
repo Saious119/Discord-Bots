@@ -8,6 +8,7 @@ const fs = require('fs');
 const { exec } = require('child_process');
 //const { channel } = require("diagnostic_channel");
 const { Client, Intents } = require('discord.js');
+const { isContext } = require("vm");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -118,7 +119,7 @@ client.on("message", async msg => {
 			msg.channel.send("UwU What's this? A MAnthony Foot?");
 		}
 		else {
-			msg.channel.send("UwU what's this? " + msg.author);
+			msg.reply("UwU what's this?");
 			//sleep(5000);
 		}
 		if (counter == 0) { counter = randint(10) + 5; }
@@ -129,13 +130,13 @@ client.on("message", async msg => {
 	}
 	else if (msg.content.includes(" anime ") || msg.content.includes(" anime's ")) {
 		//	msg.react('UwU')
-		msg.channel.send("OwO what's this? " + msg.author);
+		msg.reply("OwO what's this? anime");
 		//sleep(5000);
 		if (counter == 0) { counter = randint(10) + 5; }
 	}
 	else if (msg.content.includes(" UwU ") || msg.content.includes("UwU")) {
 		//		msg.react('UwU')
-		msg.channel.send("Uwufu desu " + msg.author);
+		msg.reply("Uwufu desu");
 		//sleep(5000);
 		if (counter == 0) { counter = randint(10) + 5; }
 	}
@@ -149,7 +150,7 @@ client.on("message", async msg => {
 		//sleep(5000);
 	}
 	else if (msg.content.includes("Hey") || msg.content.includes("hey")) {
-		msg.channel.send("Pwease give me huggie wuggies " + msg.author);
+		msg.reply("Pwease give me huggie wuggies");
 		msg.channel.send("UwU");
 		//sleep(5000);
 	}
