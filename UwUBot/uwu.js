@@ -3,6 +3,7 @@ var logger = require("winston");
 var auth = require("./auth.json");
 var opus = require('opusscript');
 var sleep = require('system-sleep');
+const path = require( "path")
 const fs = require('fs');
 const { exec } = require('child_process');
 //const { channel } = require("diagnostic_channel");
@@ -20,10 +21,21 @@ logger.level = "debug";
 var counter = 0;
 var isReady = true;
 
+const playOnTheVoiceChannel = (msg, voiceC, mp3File) => {
+	msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+		var voiceChannel = msg.member.voiceChannel ? msg.member.voiceChannel : voiceC
+		voiceChannel.join().then(connection => {
+			const file = path.join(__dirname, mp3File) // works in any OS
+			const dispatcher = connection.play(file);
+			dispatcher.on("end", end => {
+				voiceChannel.leave();
+			});
+		}).catch(err => console.log(err));
+		isReady = true;
+}
 
 client.on("ready",() => {
   logger.info("Connected");
-  //voiceC = client.channels.find('name', 'General');
 });
 client.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
@@ -75,59 +87,19 @@ client.on("message", async msg => {
 		msg.channel.send(uwu1 + " UwU");
 	}
 	else if (msg.content.includes("ASMR")) {
-		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
-		var voiceChannel = msg.member.voiceChannel;
-		voiceChannel.join().then(connection => {
-			const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/ASMR.mp3');
-			dispatcher.on("end", end => {
-				voiceChannel.leave();
-			});
-		}).catch(err => console.log(err));
-		isReady = true;
+		playOnTheVoiceChannel(msg, voiceC, './ASMR.mp3')
 	}
 	else if (msg.content.includes("UwUBot are you drunk?")) {
-		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
-		var voiceChannel = msg.member.voiceChannel;
-		voiceChannel.join().then(connection => {
-			const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/drunk.mp3');
-			dispatcher.on("end", end => {
-				voiceChannel.leave();
-			});
-		}).catch(err => console.log(err));
-		isReady = true;
+		playOnTheVoiceChannel(msg, voiceC, './drunk.mp3')
 	}
 	else if (msg.content.includes("nuggets") || msg.content.includes("nuggs")) {
-		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
-		var voiceChannel = msg.member.voiceChannel;
-		voiceChannel.join().then(connection => {
-			const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/theMcnugRap.mp3');
-			dispatcher.on("end", end => {
-				voiceChannel.leave();
-			});
-		}).catch(err => console.log(err));
-		isReady = true;
+		playOnTheVoiceChannel(msg, voiceC, './theMcnugRap.mp3')
 	}
 	else if (msg.content.includes("UwUBot sing me some country music")) {
-		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
-		var voiceChannel = msg.member.voiceChannel;
-		voiceChannel.join().then(connection => {
-			const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/countryroads.mp3');
-			dispatcher.on("end", end => {
-				voiceChannel.leave();
-			});
-		}).catch(err => console.log(err));
-		isReady = true;
+		playOnTheVoiceChannel('./countryroads.mp3')
 	}
 	else if (msg.content.includes("UwUBot rap")) {
-		msg.channel.send("Pwease go to that Genewaw woice chat. UwU");
-		var voiceChannel = msg.member.voiceChannel;
-		voiceChannel.join().then(connection => {
-			const dispatcher = connection.playFile('/home/andym/Discord-Bots/UwUBot/rap.mp3')
-			dispatcher.on("end", end => {
-				voiceChannel.leave();
-			});
-		}).catch(err => console.log(err));
-		isReady = true;
+		playOnTheVoiceChannel('./rap.mp3')
 	}
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
 		msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
