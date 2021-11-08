@@ -89,6 +89,7 @@ client.on("message", async msg => {
 		}
 		msg.channel.send(uwu1 + " UwU");
 	}
+	// AUDIO COMMANDS START
 	else if (msg.content.includes("ASMR")) {
 		playOnTheVoiceChannel(msg, voiceC, './ASMR.mp3')
 	}
@@ -104,10 +105,15 @@ client.on("message", async msg => {
 	else if (msg.content.includes("UwUBot rap")) {
 		playOnTheVoiceChannel(msg, voiceC, './rap.mp3')
 	}
+	else if (msg.content.includes("patriotism") || msg.content.includes("communism")){
+		playOnTheVoiceChannel(msg, voiceC, './USSR.mp3')
+	}
+	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
 		msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
 		msg.channel.send("UwU");
 	}
+	// RANDOM RESPONSES START
 	else if (randint(13) == 2) {
 		msg.channel.send("*Pounces on you, notices your buldge* OwO, what's this? UwU");
 	}
@@ -115,6 +121,7 @@ client.on("message", async msg => {
 		msg.channel.send("*REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*");
 		msg.channel.send("UwU");
 	}
+	// RANDOM RESPONSES END
 	else if (msg.content.includes(" is ") || msg.content.includes("'s ")) {
 		//	msg.react('UwU')
 		if (randint(16) == 2) {
@@ -164,6 +171,7 @@ client.on("message", async msg => {
 		msg.channel.send("H-Hewwo IsaBewwe UwU");
 		//sleep(5000);
 	}
+	// IMAGE CODE
 	else if (msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")) {
 		var msgSplit = msg.content.split(" ");
 		var numImg = 1;
