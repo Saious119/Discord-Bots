@@ -4,7 +4,6 @@ package main
 
 import (
 	"bufio"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -85,7 +84,7 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func main() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-	auth, err := ioutil.ReadFile("auth.txt")
+	auth, err := os.ReadFile("auth.txt")
 	if err != nil {
 		panic(err)
 	}
