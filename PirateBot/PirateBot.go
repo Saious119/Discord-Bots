@@ -36,7 +36,7 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	for i := 0; i < len(m.Mentions); i++ {
-		if strings.Contains(m.Mentions[i].String(), "One Piece") || strings.Contains(m.Mentions[i].String(), "everyone") {
+		if strings.Contains(m.Mentions[i].String(), "PirateBot") || strings.Contains(m.Mentions[i].String(), "everyone") {
 			if strings.Contains(m.Author.String(), "VimBot") {
 				continue
 			}
