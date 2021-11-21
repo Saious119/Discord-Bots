@@ -16,7 +16,8 @@ import (
 
 const LEN int = 20
 const MAX_CHAIN int = 8192
-const TOKEN string = ""
+
+var TOKEN string = ""
 
 var lyrics []string
 var chain []MarkovNode
@@ -85,6 +86,13 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func main() {
 	rand.Seed(int64(time.Now().Nanosecond()))
+	auth, err := os.Open("auth.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer auth.Close()
+	Authin := bufio.NewScanner(bufio.NewReader(auth))
+	TOKEN = Authin.Text()
 	ds, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
 		panic(err)
