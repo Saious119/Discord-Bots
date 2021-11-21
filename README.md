@@ -28,3 +28,10 @@ Interacting with UwUBot will give you a cringe role for a certain amount of time
 ## OwOBot / ΘωθBot
 ### Description
 A bot that is a pun on the Egyption God of Knowledge's name in Greek being written at Θωθ. Asking Θωθ, what's this? <query> or OwO, what's this? <query> will use the wikipedia API to search for a valid wikipedia page and send it to you if one is found.  
+  
+## PirateBot
+### Description
+A bot that uses a markov chain to combine words from OnePieceQuotes.txt to create new sentences (sorta) you can @ it or say One Piece to trigger it
+### How to Build
+go build PirateBot.go markov.go 
+./PirateBot
