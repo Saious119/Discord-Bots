@@ -7,3 +7,4 @@ UwUBot/auth.json
 UwUBot/downloads/*
 *.zip
 */node_modules/
+PirateBot/.DS_Store
