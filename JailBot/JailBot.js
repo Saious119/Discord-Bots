@@ -20,27 +20,50 @@ bot.on("ready",() => {
   logger.info("Connected");
 });
 
-bot.on("message",msg => {	
+bot.on("message", async msg => {
+	var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
+	var caacTextChat = msg.guild.channels.find(ctc => ctc.name === 'caac-only'); 
+	console.log("Found message");
+	if(msg.channel == caacTextChat){
+		console.log("in caac only");
+		console.log(membersInCaac.members);
+		var found = false;
+		for([memberID, member] in membersInCaac.members){
+			console.log("what bruh");
+			console.log(member.user.username);
+			if(msg.author.username == member.user.username){
+				found = true;
+				console.log("found author");
+			}
+		}
+		if(!found){
+			console.log("removing");
+			msg.delete().then(msg => console.log(`Deleted message from ${msg.author.username}`)).catch(console.error); //Supposed to delete message
+			console.log("removed");
+		}
+	}	
 	if(msg.author == bot.user){
 		//react to all message here
 	}	
 	else{
 		if(msg.content.includes("UwU") || msg.content.includes("OwO") || msg.content.includes("UwUBot") || msg.content.includes("image") || msg.content.includes("nuggs") || msg.content.includes("ASMR")){
-			let cringerole = msg.guild.roles.get("793708658345246730");
+			//let cringerole = msg.guild.roles.get("793708658345246730");
+			let cringerole = await msg.guild.roles.find(r => r.name === "Cringe");
 			console.log("@ing user");
+			let member = msg.mentions.members.first();
 			msg.channel.send(msg.author+"");
 			let usera = msg.author;
 			msg.channel.send("Cringe Detected:");
-			let member = msg.member;
-			if(msg.member.roles.has("793708658345246730")) {
+			//let member = msg.member;
+			if(msg.guild.roles.has(r => r.name === "Cringe")) {
 				console.log("Silence inmate!");
 			} else {
 				sleep(5*1000);
 				//let member = msg.member;
-				msg.member.addRole("793708658345246730").catch(console.error);
+				msg.author.roles.addRole(cringerole).catch(console.error);
 				msg.channel.send("You have interacted with the Cringe UwUBot, you are now Cringe for 1 minute");
 				sleep(60*1000);
-				msg.member.roles.remove("793708658345246730").catch(console.error);
+				msg.member.roles.removeRole(cringerole).catch(console.error);
 				sleep(5*1000);
 				msg.channel.send(msg.author + " has been freed from the prison that is cringe, I wish you a sucessful rehabilitation back into society");
 				sleep(5*1000);

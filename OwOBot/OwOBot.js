@@ -1,3 +1,4 @@
+//global.fetch = require("node-fetch");
 var Discord = require("discord.js");
 var logger = require("winston");
 var auth = require("./auth.json");
@@ -5,7 +6,10 @@ var opus = require('opusscript');
 var sleep = require('system-sleep');
 var axios = require("axios").default;
 const ud = require('urban-dictionary')
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
+
+const { Client, Intents } = require('discord.js');
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -14,8 +18,8 @@ logger.add(new logger.transports.Console, {
 });
 logger.level = "debug";
 //Robot time
-var bot = new Discord.Client();
-var client = new Discord.Client();
+var bot = client;
+//var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
@@ -43,9 +47,9 @@ bot.on("message",async msg => {
             found = true;
         }
         var UrbanData = await UrbanDicSearch(msgSplit[1]);
-	    sleep(2000);
+	    //sleep(2000);
         if(UrbanData != null){
-            msg.channel.send("Yes, I know of this topic, here:");
+            msg.channel.send("Yes, I know of this topic from Urban Dictionary, here:");
             msg.channel.send(UrbanData);
             found = true;
         }
@@ -114,6 +118,7 @@ async function UrbanDicSearch(searchTerm){
         def.replace("]", "");
         def = searchTerm+": "+def;
     }
+    console.log("Reutrning Urban Dictionary Def");
     return def;
 }
 
