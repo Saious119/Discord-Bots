@@ -100,7 +100,7 @@ func main() {
 	ds.AddHandler(PirateBrain)
 	err = ds.Open()
 	if err != nil {
-		panic("failed to connect")
+		panic(err)
 	}
 
 	file, err := os.Open("OnePieceQuotes.txt")
