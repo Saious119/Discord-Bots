@@ -4,6 +4,7 @@ package main
 
 import (
 	"bufio"
+	"io/ioutil"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -16,8 +17,6 @@ import (
 
 const LEN int = 20
 const MAX_CHAIN int = 8192
-
-var TOKEN string = ""
 
 var lyrics []string
 var chain []MarkovNode
@@ -86,13 +85,13 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func main() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-	auth, err := os.Open("auth.txt")
+	auth, err := ioutil.ReadFile("auth.txt")
 	if err != nil {
 		panic(err)
 	}
-	defer auth.Close()
-	Authin := bufio.NewScanner(bufio.NewReader(auth))
-	TOKEN = Authin.Text()
+
+	// Convert []byte to string and print to screen
+	TOKEN := string(auth)
 	ds, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
 		panic(err)
