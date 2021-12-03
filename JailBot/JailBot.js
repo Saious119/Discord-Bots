@@ -28,6 +28,12 @@ bot.on("message", async msg => {
 		console.log("in caac only");
 		console.log(membersInCaac.members);
 		var found = false;
+		var memberName = membersInCaac.members.get(user.username);
+		if(msg.author.username == memberName){
+			found = true;
+			console.log("found author");
+		}
+		/*
 		for([memberID, member] in membersInCaac.members){
 			console.log("what bruh");
 			console.log(member.user.username);
@@ -36,6 +42,7 @@ bot.on("message", async msg => {
 				console.log("found author");
 			}
 		}
+		*/
 		if(!found){
 			console.log("removing");
 			msg.delete().then(msg => console.log(`Deleted message from ${msg.author.username}`)).catch(console.error); //Supposed to delete message
