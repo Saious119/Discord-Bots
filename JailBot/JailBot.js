@@ -21,8 +21,8 @@ bot.on("ready",() => {
 });
 
 bot.on("message", async msg => {
-	var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
-	var caacTextChat = msg.guild.channels.find(ctc => ctc.name === 'caac-only'); 
+	var membersInCaac = msg.guild.channels.cache.find(c => c.name === 'caac');
+	var caacTextChat = msg.guild.channels.cache.find(ctc => ctc.name === 'caac-only'); 
 	console.log("Found message");
 	if(msg.channel == caacTextChat){
 		console.log("in caac only");
