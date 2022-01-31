@@ -9,3 +9,5 @@ UwUBot/downloads/*
 */node_modules/
 PirateBot/.DS_Store
 .DS_Store
+PirateBot/auth.txt
+DisckJohnson/auth.txt

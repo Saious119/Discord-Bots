@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -22,13 +24,13 @@ class Program
         _client = new DiscordSocketClient();
 
         CockPosters = new List<string>();
-        cockEmote = "<:cock:937780576704950302>";
+        cockEmote = "<:cock:899135029190475826>";
 
         _client.Log += Log;
         _client.MessageReceived += ClientOnMessageReceived;
         _client.MessageReceived += CockRecieved;
 
-        var token = JsonConvert.DeserializeObject<AConfigurationClass>(File.ReadAllText("auth.json")).Token;
+        var token = File.ReadAllText("auth.txt");
 
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();

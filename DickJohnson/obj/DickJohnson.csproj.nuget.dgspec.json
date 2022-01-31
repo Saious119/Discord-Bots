@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/andy/Documents/Code/Discord-Bots/DickJohnson/DickJohnson.csproj": {}
+    "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj": {}
   },
   "projects": {
-    "/Users/andy/Documents/Code/Discord-Bots/DickJohnson/DickJohnson.csproj": {
+    "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/andy/Documents/Code/Discord-Bots/DickJohnson/DickJohnson.csproj",
+        "projectUniqueName": "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj",
         "projectName": "DickJohnson",
-        "projectPath": "/Users/andy/Documents/Code/Discord-Bots/DickJohnson/DickJohnson.csproj",
-        "packagesPath": "/Users/andy/.nuget/packages/",
-        "outputPath": "/Users/andy/Documents/Code/Discord-Bots/DickJohnson/obj/",
+        "projectPath": "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj",
+        "packagesPath": "/home/andym/.nuget/packages/",
+        "outputPath": "/home/andym/Discord-Bots/DickJohnson/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/andy/.nuget/NuGet/NuGet.Config"
+          "/home/andym/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
         }
       }
     }

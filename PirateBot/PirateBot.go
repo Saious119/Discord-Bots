@@ -90,7 +90,7 @@ func main() {
 //	}
 
 	// Convert []byte to string and print to screen
-    TOKEN := "OTExODAyNjc3ODUwMTY5NDA3.YZmsag.3TXRjYfznm-e1ONqSMDCseKtnKc"
+    TOKEN := "OTExODAyNjc3ODUwMTY5NDA3.YZmsag.IMn81Jy0MtBhpHX1rGzmTNLg-4Q"
 	ds, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
 		panic(err)
