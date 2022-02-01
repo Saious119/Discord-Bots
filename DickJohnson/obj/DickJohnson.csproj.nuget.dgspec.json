@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj": {}
+    "C:\\Code\\Discord-Bots\\DickJohnson\\DickJohnson.csproj": {}
   },
   "projects": {
-    "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj": {
+    "C:\\Code\\Discord-Bots\\DickJohnson\\DickJohnson.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj",
+        "projectUniqueName": "C:\\Code\\Discord-Bots\\DickJohnson\\DickJohnson.csproj",
         "projectName": "DickJohnson",
-        "projectPath": "/home/andym/Discord-Bots/DickJohnson/DickJohnson.csproj",
-        "packagesPath": "/home/andym/.nuget/packages/",
-        "outputPath": "/home/andym/Discord-Bots/DickJohnson/obj/",
+        "projectPath": "C:\\Code\\Discord-Bots\\DickJohnson\\DickJohnson.csproj",
+        "packagesPath": "C:\\Users\\sht13\\.nuget\\packages\\",
+        "outputPath": "C:\\Code\\Discord-Bots\\DickJohnson\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/andym/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\sht13\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -58,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

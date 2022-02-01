@@ -19,12 +19,17 @@ class Program
 
     private string cockEmote {get; set;}
 
+    private string bigCock { get; set;}
+
+    private string bigCockPoster { get; set;}
+
     public async Task MainAsync()
     {
         _client = new DiscordSocketClient();
 
         CockPosters = new List<string>();
         cockEmote = "<:cock:899135029190475826>";
+        bigCock = "BigCock";
 
         _client.Log += Log;
         _client.MessageReceived += ClientOnMessageReceived;
@@ -69,6 +74,23 @@ class Program
             }
             CockPosters.Add(arg.Author.Username);
         }
+        var stickers = arg.Stickers;
+        foreach (var s in stickers)
+        {
+            if (s.Name == bigCock)
+            {
+                if (bigCockPoster == null)
+                {
+                    //arg.Channel.SendMessageAsync($"Nice Cock!");
+                    arg.Channel.SendFileAsync("nicecock.gif");
+                    bigCockPoster = arg.Author.Username;
+                }
+                else
+                {
+                    arg.Channel.SendMessageAsync($"{arg.Author.Username} HAS A TINY COCK!");
+                }
+            }
+        }
         return Task.CompletedTask;
     }
     private async Task ClearList()
@@ -79,6 +101,7 @@ class Program
             {
                 Console.WriteLine("It's midnight, clearing list");
                 CockPosters = new List<string>();
+                bigCockPoster = null;
             }
         }
     }
