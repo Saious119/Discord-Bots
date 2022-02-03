@@ -97,7 +97,7 @@ class Program
     {
         DateTime midnight = new System.DateTime(2022, 1, 31, 14, 0, 0, 0);
         while(true){
-            if(DateTime.Now == midnight)
+            if(DateTime.Now.Hour == midnight.Hour)
             {
                 Console.WriteLine("It's midnight, clearing list");
                 CockPosters = new List<string>();
