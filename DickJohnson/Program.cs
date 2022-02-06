@@ -36,11 +36,12 @@ class Program
         _client.MessageReceived += CockRecieved;
 
         var token = File.ReadAllText("auth.txt");
-
+		
+		ClearList();
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
 
-        ClearList();
+        //ClearList();
 
         // Block this task until the program is closed.
         await Task.Delay(-1);
