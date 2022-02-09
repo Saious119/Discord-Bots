@@ -15,19 +15,18 @@ class Program
 
     private DiscordSocketClient _client;
 
-    private List<string> CockPosters {get; set;}
-
     private string cockEmote {get; set;}
 
     private string bigCock { get; set;}
 
-    private string bigCockPoster { get; set;}
+    private Time time = new Time();
 
     public async Task MainAsync()
     {
         _client = new DiscordSocketClient();
 
-        CockPosters = new List<string>();
+        time.TimeInit();
+        
         cockEmote = "<:cock:899135029190475826>";
         bigCock = "BigCock";
 
@@ -36,8 +35,8 @@ class Program
         _client.MessageReceived += CockRecieved;
 
         var token = File.ReadAllText("auth.txt");
-		
-		ClearList();
+
+        Thread timeThread = new Thread(new ThreadStart(time.ClearList));
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
 
@@ -67,24 +66,24 @@ class Program
         if(arg.Content == cock.ToString())
         {
             //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
-            foreach (var user in CockPosters)
+            foreach (var user in time.CockPosters)
             {
                 if(arg.Author.Username == user){
                     arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
                 }
             }
-            CockPosters.Add(arg.Author.Username);
+            time.CockPosters.Add(arg.Author.Username);
         }
         var stickers = arg.Stickers;
         foreach (var s in stickers)
         {
             if (s.Name == bigCock)
             {
-                if (bigCockPoster == null)
+                if (time.bigCockPoster == null)
                 {
                     //arg.Channel.SendMessageAsync($"Nice Cock!");
                     arg.Channel.SendFileAsync("nicecock.gif");
-                    bigCockPoster = arg.Author.Username;
+                    time.bigCockPoster = arg.Author.Username;
                 }
                 else
                 {
@@ -93,18 +92,5 @@ class Program
             }
         }
         return Task.CompletedTask;
-    }
-    private async Task ClearList()
-    {
-        Console.WriteLine("Starting up clear list task");
-        DateTime midnight = new System.DateTime(2022, 1, 31, 14, 0, 0, 0);
-        while(true){
-            if(DateTime.Now.Hour == midnight.Hour)
-            {
-                Console.WriteLine("It's midnight, clearing list");
-                CockPosters = new List<string>();
-                bigCockPoster = null;
-            }
-        }
     }
 }
