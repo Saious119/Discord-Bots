@@ -37,6 +37,8 @@ class Program
         var token = File.ReadAllText("auth.txt");
 
         Thread timeThread = new Thread(new ThreadStart(time.ClearList));
+        timeThread.IsBackground = true;
+        timeThread.Start();
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
 

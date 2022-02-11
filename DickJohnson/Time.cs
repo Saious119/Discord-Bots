@@ -13,10 +13,9 @@ public class Time
     public void ClearList()
     {
         Console.WriteLine("Starting up clear list task");
-        DateTime midnight = new System.DateTime(2022, 1, 31, 14, 0, 0, 0);
         while (true)
         {
-            if (DateTime.Now.Hour == midnight.Hour)
+            if ((DateTime.Now.Hour == 0) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second < 5))
             {
                 Console.WriteLine("It's midnight, clearing list");
                 CockPosters = new List<string>();
