@@ -167,6 +167,9 @@ client.on("message", async msg => {
 		msg.channel.send("*Pounces on you* OwO What's this? *Notices your bulge*");
 		//sleep(5000);
 	}
+	else if (msg.content.includes("lean")) {
+		msg.channel.send("I FUCKING WUV WEAN")
+	}
 	else if (msg.author.username === "Isabelle") {
 		msg.channel.send("H-Hewwo IsaBewwe UwU");
 		//sleep(5000);
