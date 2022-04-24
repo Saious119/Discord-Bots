@@ -68,13 +68,15 @@ class Program
         if(arg.Content == cock.ToString())
         {
             //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
+            bool foundUser = false;
             foreach (var user in time.CockPosters)
             {
                 if(arg.Author.Username == user){
                     arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
+                    foundUser = true;
                 }
             }
-            else{
+            if(foundUser == false){
                 time.CockPosters.Add(arg.Author.Username);
             }
         }
