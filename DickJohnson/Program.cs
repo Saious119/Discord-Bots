@@ -74,7 +74,9 @@ class Program
                     arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
                 }
             }
-            time.CockPosters.Add(arg.Author.Username);
+            else{
+                time.CockPosters.Add(arg.Author.Username);
+            }
         }
         var stickers = arg.Stickers;
         foreach (var s in stickers)
