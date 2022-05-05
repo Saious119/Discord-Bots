@@ -84,13 +84,13 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func main() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-//	auth, err := ioutil.ReadFile("auth.txt")
-//	if err != nil {
-//		panic(err)
-//	}
+	//	auth, err := ioutil.ReadFile("auth.txt")
+	//	if err != nil {
+	//		panic(err)
+	//	}
 
 	// Convert []byte to string and print to screen
-    TOKEN := "OTY5Mzk5OTQ0ODQ0ODA0MTE2.Yms2DQ.BZUazQ-bktPlg8yT7K4V5Ecm3eY"
+	TOKEN := "OTY5Mzk5OTQ0ODQ0ODA0MTE2.Yms2DQ.BZUazQ-bktPlg8yT7K4V5Ecm3eY"
 	ds, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
 		panic(err)

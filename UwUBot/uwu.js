@@ -174,6 +174,9 @@ client.on("message", async msg => {
 		msg.channel.send("H-Hewwo IsaBewwe UwU");
 		//sleep(5000);
 	}
+	else if(msg.author.username == "rexro"){
+		msg.channel.send("Fuck UwU, Jacob");
+	}
 	// IMAGE CODE
 	else if (msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")) {
 		var msgSplit = msg.content.split(" ");
