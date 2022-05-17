@@ -108,6 +108,9 @@ client.on("message", async msg => {
 	else if (msg.content.includes("patriotism") || msg.content.includes("communism")){
 		playOnTheVoiceChannel(msg, voiceC, './USSR.mp3')
 	}
+	else if(msg.content.includes("bussy")){
+		playOnTheVoiceChannel(msg, voiceC, './I_LOVE_BUSSY.mp3')
+	}
 	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
 		msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
