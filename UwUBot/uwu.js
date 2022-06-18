@@ -7,7 +7,7 @@ const path = require( "path")
 const fs = require('fs');
 const { exec } = require('child_process');
 //const { channel } = require("diagnostic_channel");
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, Message, VoiceChannel } = require('discord.js');
 const { isContext } = require("vm");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 //Logger settings
@@ -22,17 +22,36 @@ logger.level = "debug";
 var counter = 0;
 var isReady = true;
 
-const playOnTheVoiceChannel = (msg, voiceC, mp3File) => {
-	msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
-		var voiceChannel = msg.member.voiceChannel ? msg.member.voiceChannel : voiceC
-		voiceChannel.join().then(connection => {
-			const file = path.join(__dirname, mp3File) // works in any OS
-			const dispatcher = connection.play(file);
-			dispatcher.on("finish", end => {
-				voiceChannel.leave();
-			});
-		}).catch(err => console.log(err));
-		isReady = true;
+/**
+ * Play audio clip in the general voice channel
+ * @param {Message} msg 
+ * @param {VoiceChannel} voiceC 
+ * @param {String} mp3File 
+ */
+const playOnTheVoiceChannel = async (msg, voiceC, mp3File) => {
+	const randNum = Math.random() * 100;
+	
+	if (randNum <= 20) {
+		const allVoiceChannels = msg.guild.channels.cache.filter(ch => ch.type === "voice")
+		const vcUsers = allVoiceChannels.map(vc => vc.members.array()).flat()
+		
+		msg.channel.send("OwO, You made a fuckey wuckey. Youwe gowing to tha Genewaw woice chat. UwU");
+		
+		for (const user of vcUsers) {
+			await user.voice.setChannel(voiceC)
+		}
+	} else {
+		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+	}
+	
+	voiceC.join().then(connection => {
+		const file = path.join(__dirname, mp3File) // works in any OS
+		const dispatcher = connection.play(file);
+		dispatcher.on("finish", end => {
+			voiceC.leave();
+		});
+	}).catch(err => console.log(err));
+	isReady = true;
 }
 
 client.on("ready",() => {
@@ -91,25 +110,25 @@ client.on("message", async msg => {
 	}
 	// AUDIO COMMANDS START
 	else if (msg.content.includes("ASMR")) {
-		playOnTheVoiceChannel(msg, voiceC, './ASMR.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './ASMR.mp3')
 	}
 	else if (msg.content.includes("UwUBot are you drunk?")) {
-		playOnTheVoiceChannel(msg, voiceC, './drunk.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './drunk.mp3')
 	}
 	else if (msg.content.includes("nuggets") || msg.content.includes("nuggs")) {
-		playOnTheVoiceChannel(msg, voiceC, './theMcnugRap.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './theMcnugRap.mp3')
 	}
 	else if (msg.content.includes("UwUBot sing me some country music")) {
-		playOnTheVoiceChannel(msg, voiceC, './countryroads.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './countryroads.mp3')
 	}
 	else if (msg.content.includes("UwUBot rap")) {
-		playOnTheVoiceChannel(msg, voiceC, './rap.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './rap.mp3')
 	}
 	else if (msg.content.includes("patriotism") || msg.content.includes("communism")){
-		playOnTheVoiceChannel(msg, voiceC, './USSR.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './USSR.mp3')
 	}
 	else if(msg.content.includes("bussy")){
-		playOnTheVoiceChannel(msg, voiceC, './I_LOVE_BUSSY.mp3')
+		await playOnTheVoiceChannel(msg, voiceC, './I_LOVE_BUSSY.mp3')
 	}
 	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
