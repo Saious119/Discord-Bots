@@ -1,24 +1,20 @@
-//var Discord = require("discord.js");
 var logger = require("winston");
-var auth = require("./auth.json");
-var opus = require('opusscript');
 var sleep = require('system-sleep');
 const path = require( "path")
 const fs = require('fs');
 const { exec } = require('child_process');
-//const { channel } = require("diagnostic_channel");
+
+const auth = require("./auth.json");
 const { Client, Intents, Message, VoiceChannel } = require('discord.js');
-const { isContext } = require("vm");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
 //Logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
   colorize : true
 });
 logger.level = "debug";
-//Robot time
-//var bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-//var client = new Discord.Client();
+
 var counter = 0;
 var isReady = true;
 
@@ -57,10 +53,11 @@ const playOnTheVoiceChannel = async (msg, voiceC, mp3File) => {
 client.on("ready",() => {
   logger.info("Connected");
 });
+
 client.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
 	var voiceC = msg.guild.channels.cache.find(Voice => Voice.name === 'General');
-	//NSFW_Channel.send("HERE!!!!");
+
 	if(msg.author.username == "UwUBot"){
 		//skip tree
 	} 
@@ -93,11 +90,10 @@ client.on("message", async msg => {
 		}
 		client.guilds.fetch(guildID).then(guild => guild.channels.fetch(channelID).then(channel => channel.send(messageToSend)));
 	}
-	else if (msg.content.includes("UwUify") || msg.content.includes(" UwUify ")) {//||msg.content.includes(" ")){
+	else if (msg.content.includes("UwUify") || msg.content.includes(" UwUify ")) {
 		var cont = msg.content;
 		var uwu1 = cont.replace("l", "w");
-		//var uwu2 = uwu1.replace("L","W");
-		//msg.channel.send(uwu2);
+
 		for (var i = 0; i < cont.length; i++) {
 			uwu1 = uwu1.replace("l", "w");
 			uwu1 = uwu1.replace("L", "W");
@@ -145,56 +141,44 @@ client.on("message", async msg => {
 	}
 	// RANDOM RESPONSES END
 	else if (msg.content.includes(" is ") || msg.content.includes("'s ")) {
-		//	msg.react('UwU')
 		if (randint(16) == 2) {
 			msg.channel.send("UwU What's this? A MAnthony Foot?");
 		}
 		else {
 			msg.reply("UwU what's this?");
-			//sleep(5000);
 		}
 		if (counter == 0) { counter = randint(10) + 5; }
 	}
 	else if (msg.content.includes("UwU Bot") || msg.content.includes(" UwU Bot ")) {
 		msg.channel.send("*Is nervous* H-Hewwo UwU");
-		//sleep(5000);
 	}
 	else if (msg.content.includes(" anime ") || msg.content.includes(" anime's ")) {
-		//	msg.react('UwU')
 		msg.reply("OwO what's this? anime");
-		//sleep(5000);
 		if (counter == 0) { counter = randint(10) + 5; }
 	}
 	else if (msg.content.includes(" UwU ") || msg.content.includes("UwU")) {
-		//		msg.react('UwU')
 		msg.reply("Uwufu desu");
-		//sleep(5000);
 		if (counter == 0) { counter = randint(10) + 5; }
 	}
 	else if (msg.content.includes("Fuck") || msg.content.includes(" fuck ") || msg.content.includes(" fucking ") || msg.content.includes("Fucking") || msg.content.includes("fuck")) {
 		msg.channel.send("Oopsie woopsie, looks like we made a little fuckey wuckey, a little fucko boingo UwU");
-		//sleep(5000);
 		if (counter == 0) { counter = randint(10) + 5; }
 	}
 	else if (msg.content.includes(" woops ") || msg.content.includes("Woops") || msg.content.includes("woops") || msg.content.includes("whoops") || msg.content.includes("Whoops")) {
 		msg.channel.send("Oopsie woopsie UwU! It UwU looks like UwU I've dropped UwU some UwUs all over the UwU place UwU");
-		//sleep(5000);
 	}
 	else if (msg.content.includes("Hey") || msg.content.includes("hey")) {
 		msg.reply("Pwease give me huggie wuggies");
 		msg.channel.send("UwU");
-		//sleep(5000);
 	}
 	else if (msg.content.includes("Cute") || msg.content.includes("cute") || msg.content.includes(" cute ")) {
 		msg.channel.send("*Pounces on you* OwO What's this? *Notices your bulge*");
-		//sleep(5000);
 	}
 	else if (msg.content.includes("lean")) {
 		msg.channel.send("I FUCKING WUV WEAN")
 	}
 	else if (msg.author.username === "Isabelle") {
 		msg.channel.send("H-Hewwo IsaBewwe UwU");
-		//sleep(5000);
 	}
 	else if(msg.author.username == "rexro"){
 		msg.channel.send("Fuck UwU, Jacob");
@@ -208,46 +192,19 @@ client.on("message", async msg => {
 		}
 		msg.channel.send("pwease wook in nsf-doub-UwU");
 		for (var i = 0; i < numImg; i++) {
-			//msg.guild.channels.find('name','nsfw').send("give me a couple minutes to search 4chan");
-			//var NSFW_Channel = await msg.guild.channels.find(NSFWch => NSFWch.name === 'nsfw');
 			NSFW_Channel.send("give me a couple minutes to search 4chan");
 			var imgloc = await getImage(NSFW_Channel);
 			if (imgloc != null) {
 				console.log("Image found!");
 				await NSFW_Channel.send("I found something", { files: [imgloc] });
-				//sleep(2000);
 			}
 			var removeImageStatus = await removeImage(imgloc);
 			if (removeImageStatus == 0) {
 				console.log("removing image successful");
 			}
-			//sleep(1000);
 		}
 	}
 	else {
-		/*
-		var membersInCaac = msg.guild.channels.find(c => c.name === 'caac');
-		var caacTextChat = msg.guild.channels.find(ctc => ctc.name === 'caac-only'); 
-		console.log("Found message");
-		if(msg.channel == caacTextChat){
-			console.log("in caac only");
-			console.log(membersInCaac.members);
-			var found = false;
-			for(var item in membersInCaac.members){
-				//console.log(item);
-				if(msg.author == item.user.username){
-					found = true;
-
-					console.log("found author");
-				}
-			}
-			if(!found){
-				console.log("removing");
-				msg.delete().then(msg => console.log(`Deleted message from ${msg.author.username}`)).catch(console.error); //Supposed to delete message
-				console.log("removed");
-			}
-		}
-		*/
 		counter--;
 	}
 
@@ -267,7 +224,6 @@ async function getImage(NSFW_Channel){
 		});
 		sleep(240*1000);
 	}
-	//const dirs = fs.readdirSync('downloads');
 	var fileIndex = randint(dirs.length-1);
 	var imgFile = dirs[fileIndex];
 	var imgloc = './downloads/'+imgFile;
