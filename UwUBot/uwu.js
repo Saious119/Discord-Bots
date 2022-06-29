@@ -149,9 +149,19 @@ client.on("message", async msg => {
 		}
 		caac.leave()
 	}
-	else if (isLongWomp(msg.content)) {
+	else if (isLongWomp(msg.content, 6)) {
 		const connection = await caac.join()
-		await playLongWomp(connection)
+		await playAudioFile(connection, "longwomp1.mp3")
+		caac.leave()
+	}
+	else if (isLongWomp(msg.content, 12)) {
+		const connection = await caac.join()
+		await playAudioFile(connection, "longwomp2.mp3")
+		caac.leave()
+	}
+	else if (isLongWomp(msg.content, 2000)) {
+		const connection = await caac.join()
+		await playAudioFile(connection, "longwomp3.mp3")
 		caac.leave()
 	}
 	// AUDIO COMMANDS END
@@ -238,14 +248,14 @@ client.on("message", async msg => {
 
 });
 
-function isLongWomp(message) {
-	const regex = new RegExp('wo{3,}mp');
+function isLongWomp(message, maxNumO) {
+	const regex = new RegExp(`wo{3,${maxNumO}}mp`);
 	return regex.test(message)
 }
 
-async function playLongWomp (connection) {
+async function playAudioFile (connection, fileName) {
 	return new Promise(resolve => {
-		const file = path.join(__dirname, "longwomp.mp3") // works in any OS
+		const file = path.join(__dirname, fileName) // works in any OS
 		const dispatcher = connection.play(file);
 		dispatcher.on("finish", end => {
 			resolve()
