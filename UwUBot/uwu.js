@@ -5,7 +5,7 @@ const fs = require('fs');
 const { exec } = require('child_process');
 
 const auth = require("./auth.json");
-const { Client, Intents, Message, VoiceChannel } = require('discord.js');
+const { Client, Intents, Message, VoiceChannel, VoiceConnection } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 //Logger settings
@@ -50,6 +50,20 @@ const playOnTheVoiceChannel = async (msg, voiceC, mp3File) => {
 	isReady = true;
 }
 
+/**
+ * Play womp womp
+ * @param {VoiceConnection} connection 
+ */
+const playWompWomp = async (connection) => {
+	return new Promise(resolve => {
+		const file = path.join(__dirname, "wompwomp.mp3") // works in any OS
+		const dispatcher = connection.play(file);
+		dispatcher.on("finish", end => {
+			resolve()
+		});
+	})
+}
+
 client.on("ready",() => {
   logger.info("Connected");
 });
@@ -57,6 +71,7 @@ client.on("ready",() => {
 client.on("message", async msg => {	
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
 	var voiceC = msg.guild.channels.cache.find(Voice => Voice.name === 'General');
+	var caac = msg.guild.channels.cache.find(Voice => Voice.name === "caac");
 
 	if(msg.author.username == "UwUBot"){
 		//skip tree
@@ -125,6 +140,14 @@ client.on("message", async msg => {
 	}
 	else if(msg.content.includes("bussy")){
 		await playOnTheVoiceChannel(msg, voiceC, './I_LOVE_BUSSY.mp3')
+	}
+	else if (msg.content.toLowerCase().includes("womp womp")) {
+		const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
+		const connection = await caac.join()
+		for (let i = 0; i < wompWomps; i++) {
+			await playWompWomp(connection)
+		}
+		caac.leave()
 	}
 	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
