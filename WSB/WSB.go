@@ -14,7 +14,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-const LEN int = 20
+const LEN int = 100
 const MAX_CHAIN int = 8192
 
 var lyrics []string
