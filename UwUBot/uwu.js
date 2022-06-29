@@ -149,6 +149,11 @@ client.on("message", async msg => {
 		}
 		caac.leave()
 	}
+	else if (isLongWomp(msg.content)) {
+		const connection = await caac.join()
+		await playLongWomp(connection)
+		caac.leave()
+	}
 	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
 		msg.channel.send("ASMR, nuggets, UwU Bot sing me country music, UwU Bot Rap, UwU Bot are you drunk?");
@@ -232,6 +237,21 @@ client.on("message", async msg => {
 	}
 
 });
+
+function isLongWomp(message) {
+	const regex = new RegExp('wo{3,}mp');
+	return regex.test(message)
+}
+
+async function playLongWomp (connection) {
+	return new Promise(resolve => {
+		const file = path.join(__dirname, "longwomp.mp3") // works in any OS
+		const dispatcher = connection.play(file);
+		dispatcher.on("finish", end => {
+			resolve()
+		});
+	})
+}
 
 async function getImage(NSFW_Channel){
 	const dirs = fs.readdirSync('downloads');
