@@ -64,6 +64,23 @@ const playWompWomp = async (connection) => {
 	})
 }
 
+/**
+ * Check that a user is in the caac before going ahead with a task
+ * @param {Message} msg 
+ */
+const caacCheck = async (msg) => {
+	const pass = true
+	
+	if (!msg.author.bot && (msg.member.voice.channel === null || msg.member.voice.channel?.name !== "caac")) {
+		await msg.channel.send({
+			content: "You're not in the caac, only real gamers can use this when in the caac",
+		})
+		pass = false
+	}
+
+	return pass
+}
+
 client.on("ready",() => {
   logger.info("Connected");
 });
@@ -142,27 +159,39 @@ client.on("message", async msg => {
 		await playOnTheVoiceChannel(msg, voiceC, './I_LOVE_BUSSY.mp3')
 	}
 	else if (msg.content.toLowerCase().includes("womp womp")) {
-		const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
-		const connection = await caac.join()
-		for (let i = 0; i < wompWomps; i++) {
-			await playWompWomp(connection)
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
+			const connection = await caac.join()
+			for (let i = 0; i < wompWomps; i++) {
+				await playWompWomp(connection)
+			}
+			caac.leave()
 		}
-		caac.leave()
 	}
 	else if (isLongWomp(msg.content, 6)) {
-		const connection = await caac.join()
-		await playAudioFile(connection, "longwomp1.mp3")
-		caac.leave()
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const connection = await caac.join()
+			await playAudioFile(connection, "longwomp1.mp3")
+			caac.leave()
+		}
 	}
 	else if (isLongWomp(msg.content, 12)) {
-		const connection = await caac.join()
-		await playAudioFile(connection, "longwomp2.mp3")
-		caac.leave()
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const connection = await caac.join()
+			await playAudioFile(connection, "longwomp2.mp3")
+			caac.leave()
+		}
 	}
 	else if (isLongWomp(msg.content, 2000)) {
-		const connection = await caac.join()
-		await playAudioFile(connection, "longwomp3.mp3")
-		caac.leave()
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const connection = await caac.join()
+			await playAudioFile(connection, "longwomp3.mp3")
+			caac.leave()
+		}
 	}
 	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
