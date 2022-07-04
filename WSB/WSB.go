@@ -75,7 +75,7 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.Contains(strings.ToLower(m.Content), "gamer") || strings.Contains(strings.ToLower(m.Content), "quote") {
-		markov := markov(chain, LEN)
+		markov := markov(chain, rand.Intn(LEN))
 
 		s.ChannelMessageSend(m.ChannelID, markov)
 	}
