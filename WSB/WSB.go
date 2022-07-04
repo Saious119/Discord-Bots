@@ -65,10 +65,10 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 				return
 			}
 			if m.ChannelID != "486580637139075082" { // SPAM Channel
-				markov := markov(chain, LEN)
+				markov := markov(chain, rand.Intn(LEN))
 				s.ChannelMessageSend(m.ChannelID, markov)
 			} else {
-				markov := markov(chain, LEN)
+				markov := markov(chain, rand.Intn(LEN))
 				s.ChannelMessageSend(m.ChannelID, markov)
 			}
 		}
