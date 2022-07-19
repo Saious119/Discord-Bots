@@ -64,6 +64,23 @@ const playWompWomp = async (connection) => {
 	})
 }
 
+/**
+ * Check that a user is in the caac before going ahead with a task
+ * @param {Message} msg 
+ */
+const caacCheck = async (msg) => {
+	const pass = true
+	
+	if (!msg.author.bot && (msg.member.voice.channel === null || msg.member.voice.channel?.name !== "caac")) {
+		await msg.channel.send({
+			content: "You're not in the caac, only real gamers can use this when in the caac",
+		})
+		pass = false
+	}
+
+	return pass
+}
+
 client.on("ready",() => {
   logger.info("Connected");
 });
@@ -145,17 +162,39 @@ client.on("message", async msg => {
 		await playOnTheVoiceChannel(msg, voiceC, './CPR.mp3')
 	}
 	else if (msg.content.toLowerCase().includes("womp womp")) {
-		const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
-		const connection = await caac.join()
-		for (let i = 0; i < wompWomps; i++) {
-			await playWompWomp(connection)
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
+			const connection = await caac.join()
+			for (let i = 0; i < wompWomps; i++) {
+				await playWompWomp(connection)
+			}
+			caac.leave()
 		}
-		caac.leave()
 	}
-	else if (isLongWomp(msg.content)) {
-		const connection = await caac.join()
-		await playLongWomp(connection)
-		caac.leave()
+	else if (isLongWomp(msg.content, 6)) {
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const connection = await caac.join()
+			await playAudioFile(connection, "longwomp1.mp3")
+			caac.leave()
+		}
+	}
+	else if (isLongWomp(msg.content, 12)) {
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const connection = await caac.join()
+			await playAudioFile(connection, "longwomp2.mp3")
+			caac.leave()
+		}
+	}
+	else if (isLongWomp(msg.content, 2000)) {
+		const pass = await caacCheck(msg)
+		if (pass) {
+			const connection = await caac.join()
+			await playAudioFile(connection, "longwomp3.mp3")
+			caac.leave()
+		}
 	}
 	// AUDIO COMMANDS END
 	else if (msg.content.includes("UwU Bot what are your voice options?")) {
@@ -241,14 +280,14 @@ client.on("message", async msg => {
 
 });
 
-function isLongWomp(message) {
-	const regex = new RegExp('wo{3,}mp');
+function isLongWomp(message, maxNumO) {
+	const regex = new RegExp(`wo{3,${maxNumO}}mp`);
 	return regex.test(message)
 }
 
-async function playLongWomp (connection) {
+async function playAudioFile (connection, fileName) {
 	return new Promise(resolve => {
-		const file = path.join(__dirname, "longwomp.mp3") // works in any OS
+		const file = path.join(__dirname, fileName) // works in any OS
 		const dispatcher = connection.play(file);
 		dispatcher.on("finish", end => {
 			resolve()
