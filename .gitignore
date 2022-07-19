@@ -18,3 +18,7 @@ node_modules
 WSB/*.txt
 UwUBot/.auth.json.un~
 UwUBot/auth.json~
+
+*/.scannerwork
+.scannerwork/.sonar_lock
+.scannerwork/report-task.txt

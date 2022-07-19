@@ -141,6 +141,9 @@ client.on("message", async msg => {
 	else if(msg.content.includes("bussy")){
 		await playOnTheVoiceChannel(msg, voiceC, './I_LOVE_BUSSY.mp3')
 	}
+	else if(msg.content.includes("CPR")){
+		await playOnTheVoiceChannel(msg, voiceC, './CPR.mp3')
+	}
 	else if (msg.content.toLowerCase().includes("womp womp")) {
 		const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
 		const connection = await caac.join()
