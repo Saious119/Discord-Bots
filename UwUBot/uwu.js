@@ -188,12 +188,20 @@ client.on("message", async msg => {
 			caac.leave()
 		}
 	}
-	else if (isLongWomp(msg.content, 2000)) {
+	else if (isLongWomp(msg.content, 20)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
 			const connection = await caac.join()
 			await playAudioFile(connection, "longwomp3.mp3")
 			caac.leave()
+		}
+	}
+	else if(isLongWomp(msg.content, 2000)){
+		const pass = await caacCheck(msg)
+		if(pass){
+			const connection = await caac.join()
+			await playAudioFile(connection, "cowboy_womp.mp3")
+			caac.leave;
 		}
 	}
 	// AUDIO COMMANDS END
