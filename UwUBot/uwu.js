@@ -201,7 +201,7 @@ client.on("message", async msg => {
 		if(pass){
 			const connection = await caac.join()
 			await playAudioFile(connection, "cowboy_womp.mp3")
-			caac.leave;
+			caac.leave();
 		}
 	}
 	// AUDIO COMMANDS END
