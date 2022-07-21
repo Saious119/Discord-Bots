@@ -41,7 +41,7 @@ func main() {
 		panic(err)
 	}
 
-	TOKEN := string(authBuff)
+	TOKEN := strings.TrimSuffix(string(authBuff), "\n")
 
 	ds, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
