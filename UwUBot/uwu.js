@@ -81,6 +81,85 @@ const caacCheck = async (msg) => {
 	return pass
 }
 
+function morseCode(msg){
+	var outputStr = '';
+	var morseKey = {
+		'A': '.-',
+		'B': '-...',
+		'C': '-.-.',
+		'D': '-..',
+		'E': '.',
+		'F': '..-.',
+		'G': '--.',
+		'H': '....',
+		'I': '..',
+		'J': '.---',
+		'K': '-.-',
+		'L': '.-..',
+		'M': '--',
+		'N': '-.',
+		'O': '---',
+		'P': '.--.',
+		'Q': '--.-',
+		'R': '.-.',
+		'S': '...',
+		'T': '-',
+		'U': '..-',
+		'V': '...-',
+		'W': '.--',
+		'X': '-..-',
+		'Y': '-.--',
+		'Z': '--..',
+
+		'0': '-----',
+		'1': '.----',
+		'2': '..---',
+		'3': '...--',
+		'4': '....-',
+		'5': '.....',
+		'6': '-....',
+		'7': '--...',
+		'8': '---..',
+		'9': '----.',
+	};
+	var alphanumeric = /^[0-9a-zA-Z]+$/;
+	var whitespace = /\s/;
+	var colonFound = false;
+	for(var i = 0; i < msg.length; i++){
+		if (colonFound){
+			outputStr += msg[i]
+			if(msg[i] == ':'){
+				colonFound = false;
+			}
+			continue;
+		} else if(msg[i] == ':'){
+			let colonMsg = msg.substring(i+1);
+			if(colonMsg.includes(':')){
+				let newColonMsg = colonMsg.substring(0, colonMsg.indexOf(':'));
+				if(whitespace.test(newColonMsg)){
+					colonFound = false;
+					outputStr += ':';
+					continue;
+				}
+				colonFound = true;
+				outputStr += ':';
+			} else {
+				outputStr += ':';
+			}
+		} else if(msg[i] == ':' && colonFound){
+			outputStr += ':'
+			colonFound = false;
+		} else if(msg[i].match(alphanumeric)){
+			outputStr += morseKey[msg[i].toUpperCase()] + ' ';
+		} else if (msg[i] == ' '){
+			outputStr += '\n';
+		} else {
+			outputStr += msg[i];
+		}
+	}
+	return outputStr;
+}
+
 client.on("ready",() => {
   logger.info("Connected");
 });
@@ -260,6 +339,9 @@ client.on("message", async msg => {
 	}
 	else if(msg.author.username == "rexro"){
 		msg.channel.send("Fuck UwU, Jacob");
+	}
+	else if(msg.author.username == "Saious"){
+		msg.channel.send(morseCode(msg.content));
 	}
 	// IMAGE CODE
 	else if (msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")) {
