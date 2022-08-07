@@ -5,8 +5,9 @@ const fs = require('fs');
 const { exec } = require('child_process');
 
 const auth = require("./auth.json");
-const { Client, Intents, Message, VoiceChannel, VoiceConnection } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const { Client, Message, VoiceChannel, GatewayIntentBits, ChannelType } = require('discord.js');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require("@discordjs/voice");
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] });
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -28,40 +29,46 @@ const playOnTheVoiceChannel = async (msg, voiceC, mp3File) => {
 	const randNum = Math.random() * 100;
 	
 	if (randNum <= 20) {
-		const allVoiceChannels = msg.guild.channels.cache.filter(ch => ch.type === "voice")
-		const vcUsers = allVoiceChannels.map(vc => vc.members.array()).flat()
+		const allVoiceChannels = msg.guild?.channels.cache.filter(ch => ch.type === ChannelType.GuildVoice)
+		
+		for (let [_, vc] of allVoiceChannels) {
+			for (let [_, member] of vc.members) {
+				await member.voice.setChannel(voiceC)
+			}
+		}
 		
 		msg.channel.send("OwO, You made a fuckey wuckey. Youwe gowing to tha Genewaw woice chat. UwU");
-		
-		for (const user of vcUsers) {
-			await user.voice.setChannel(voiceC)
-		}
 	} else {
 		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
 	}
 	
-	voiceC.join().then(connection => {
-		const file = path.join(__dirname, mp3File) // works in any OS
-		const dispatcher = connection.play(file);
-		dispatcher.on("finish", end => {
-			voiceC.leave();
-		});
-	}).catch(err => console.log(err));
+	await playAudio(voiceC.id, msg.guild.id, msg.guild.voiceAdapterCreator, mp3File)
+
 	isReady = true;
 }
 
-/**
- * Play womp womp
- * @param {VoiceConnection} connection 
- */
-const playWompWomp = async (connection) => {
-	return new Promise(resolve => {
-		const file = path.join(__dirname, "wompwomp.mp3") // works in any OS
-		const dispatcher = connection.play(file);
-		dispatcher.on("finish", end => {
-			resolve()
+async function playAudio(channelId, guildId, adapterCreator, fileName) {
+	return new Promise((resolve) => {
+		const connection = joinVoiceChannel({
+			channelId,
+			guildId,
+			adapterCreator
+		})
+	
+		const file = path.join(__dirname, fileName);
+		const player = createAudioPlayer();
+		const resource = createAudioResource(file);
+	
+		const sub = connection.subscribe(player);
+		player.play(resource);
+	
+		resource.playStream.on('end', () => {
+			sub?.unsubscribe();
+			player.stop(true);
+			connection.destroy();
+			resolve();
 		});
-	})
+	});
 }
 
 /**
@@ -69,7 +76,7 @@ const playWompWomp = async (connection) => {
  * @param {Message} msg 
  */
 const caacCheck = async (msg) => {
-	const pass = true
+	let pass = true
 	
 	if (!msg.author.bot && (msg.member.voice.channel === null || msg.member.voice.channel?.name !== "caac")) {
 		await msg.channel.send({
@@ -164,7 +171,7 @@ client.on("ready",() => {
   logger.info("Connected");
 });
 
-client.on("message", async msg => {	
+client.on("messageCreate", async msg => {	
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
 	var voiceC = msg.guild.channels.cache.find(Voice => Voice.name === 'General');
 	var caac = msg.guild.channels.cache.find(Voice => Voice.name === "caac");
@@ -244,43 +251,33 @@ client.on("message", async msg => {
 		const pass = await caacCheck(msg)
 		if (pass) {
 			const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
-			const connection = await caac.join()
 			for (let i = 0; i < wompWomps; i++) {
-				await playWompWomp(connection)
+				await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "wompwomp.mp3")
 			}
-			caac.leave()
 		}
 	}
 	else if (isLongWomp(msg.content, 6)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
-			const connection = await caac.join()
-			await playAudioFile(connection, "longwomp1.mp3")
-			caac.leave()
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "longwomp1.mp3")
 		}
 	}
 	else if (isLongWomp(msg.content, 12)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
-			const connection = await caac.join()
-			await playAudioFile(connection, "longwomp2.mp3")
-			caac.leave()
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "longwomp2.mp3")
 		}
 	}
 	else if (isLongWomp(msg.content, 20)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
-			const connection = await caac.join()
-			await playAudioFile(connection, "longwomp3.mp3")
-			caac.leave()
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "longwomp3.mp3")
 		}
 	}
 	else if(isLongWomp(msg.content, 2000)){
 		const pass = await caacCheck(msg)
-		if(pass){
-			const connection = await caac.join()
-			await playAudioFile(connection, "cowboy_womp.mp3")
-			caac.leave();
+		if (pass) {
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "cowboy_womp.mp3")
 		}
 	}
 	// AUDIO COMMANDS END
