@@ -5,7 +5,7 @@ const fs = require('fs');
 const { exec } = require('child_process');
 
 const auth = require("./auth.json");
-const { Client, Message, VoiceChannel, GatewayIntentBits, ChannelType } = require('discord.js');
+const { Client, Message, VoiceChannel, GatewayIntentBits, ChannelType, ApplicationCommandOptionType, InteractionType } = require('discord.js');
 const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require("@discordjs/voice");
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] });
 
@@ -18,6 +18,8 @@ logger.level = "debug";
 
 var counter = 0;
 var isReady = true;
+var whitespace = /\s/;
+var alphanumeric = /^[0-9a-zA-Z]+$/;
 
 /**
  * Play audio clip in the general voice channel
@@ -129,8 +131,7 @@ function morseCode(msg){
 		'8': '---..',
 		'9': '----.',
 	};
-	var alphanumeric = /^[0-9a-zA-Z]+$/;
-	var whitespace = /\s/;
+
 	var colonFound = false;
 	for(var i = 0; i < msg.length; i++){
 		if (colonFound){
@@ -193,9 +194,50 @@ function splitMorseStr(msg){
 	return splitStr;
 }
 
-client.on("ready",() => {
+client.on("ready", async () => {
   logger.info("Connected");
+
+	const guild = client.guilds.cache.get(auth.waaId);
+
+	if (guild) {
+		const commands = guild.commands;
+
+		await commands.create({
+			name: "morse",
+			description: "Convert a message to morse code",
+			options: [
+				{
+					name: "message",
+					description: "The message you wish to convert to morse code",
+					type: ApplicationCommandOptionType.String,
+					required: true
+				},
+			]
+		})
+	}
 });
+
+client.on('interactionCreate', async (interaction) => {
+	if (interaction.type !== InteractionType.ApplicationCommand) {
+		return;
+	}
+
+	const { commandName, options } = interaction;
+
+	if (commandName === "morse") {
+		const msg = options.getString("message")
+
+		let morseCodeStr = morseCode(msg);
+		let morseCodeSplit = splitMorseStr(morseCodeStr);
+		for(var i = 0; i < morseCodeSplit.length; i++){
+			await interaction.channel.send(morseCodeSplit[i])
+		}
+
+		await interaction.reply({
+			content: "Morse code sent!",
+		});
+	}
+})
 
 client.on("messageCreate", async msg => {	
 	var NSFW_Channel = msg.guild.channels.cache.find(NSFWch => NSFWch.name === 'nsfw');
@@ -367,7 +409,7 @@ client.on("messageCreate", async msg => {
 		let morseCodeStr = morseCode(msg.content);
 		let morseCodeSplit = splitMorseStr(morseCodeStr);
 		for(var i = 0; i < morseCodeSplit.length; i++){
-			msg.channel.send(morseCodeSplit[i]);
+			await msg.channel.send(morseCodeSplit[i]);
 		}
 	}
 	else if(msg.content.toLowerCase().includes("cum")){
