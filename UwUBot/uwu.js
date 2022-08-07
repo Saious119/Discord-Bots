@@ -167,6 +167,32 @@ function morseCode(msg){
 	return outputStr;
 }
 
+function splitMorseStr(msg){
+	let morseLetters = msg.split(whitespace);
+	let currStr = "";
+	let splitStr = [];
+	const discordMaxLength = 2000;
+	const morseLetterMaxLength = 5;
+	for(var i = 0; i < morseLetters.length; i++){
+		if(currStr.length > discordMaxLength-morseLetterMaxLength){
+			splitStr.push(currStr);
+			if(morseLetters[i] == ''){
+				currStr += '\n';
+			} else {
+				currStr = morseLetters[i] + ' ';
+			}
+		} else {
+			if(morseLetters[i] == ''){
+				currStr += '\n';
+			} else {
+				currStr += morseLetters[i] + ' ';
+			}
+		}
+	}
+	splitStr.push(currStr);
+	return splitStr;
+}
+
 client.on("ready",() => {
   logger.info("Connected");
 });
@@ -338,7 +364,14 @@ client.on("messageCreate", async msg => {
 		msg.channel.send("Fuck UwU, Jacob");
 	}
 	else if(msg.author.username == "Saious"){
-		msg.channel.send(morseCode(msg.content));
+		let morseCodeStr = morseCode(msg.content);
+		let morseCodeSplit = splitMorseStr(morseCodeStr);
+		for(var i = 0; i < morseCodeSplit.length; i++){
+			msg.channel.send(morseCodeSplit[i]);
+		}
+	}
+	else if(msg.content.toLowerCase().includes("cum")){
+		msg.channel.send("cum in my boi pussy UwU :pleading_face:");
 	}
 	// IMAGE CODE
 	else if (msg.content.includes("image") || msg.content.includes("picture") || msg.content.includes(" image ") || msg.content.includes(" picture ") || msg.content.includes("Image")) {
