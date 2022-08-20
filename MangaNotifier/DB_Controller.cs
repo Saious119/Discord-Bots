@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace MangaNotifier 
 {
@@ -19,29 +20,7 @@ namespace MangaNotifier
             var client = new MongoClient(settings);
             var database = client.GetDatabase("Notifier");
         }
-        public List<string> GetSubscribers(string s)
-        {
-            List<string> Subscribers = new List<string>();
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
-            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-            var client = new MongoClient(settings);
-            var database = client.GetDatabase("Notifier");
-            IMongoCollection<BsonDocument> collection = null;
-            Console.WriteLine("checking for user");
-            collection = database.GetCollection<BsonDocument>(s);
-            if (collection == null)
-            {
-                Console.WriteLine("No subscribers for series {0}", s);
-            }
-            collection = database.GetCollection<BsonDocument>(s);
-            Console.WriteLine("got collection");
-            var documents = collection.Find(new BsonDocument()).ToList();
-            foreach (BsonDocument doc in documents)
-            {
-                Console.WriteLine(doc.ToString());
-            }
-        }
-        public void AddSubscriber(string sub, string s)
+        public List<string> GetSubscribers(Series s)
         {
             try
             {
@@ -49,10 +28,118 @@ namespace MangaNotifier
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
-                var collection = database.GetCollection<BsonDocument>(s);
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = Builders<BsonDocument>.Filter.Eq("Title", s.Title);
+                var collection = database.GetCollection<BsonDocument>("series");
                 var documents = collection.Find(new BsonDocument()).ToList();
-                var newDoc = sub.ToBsonDocument();
+                foreach (var doc in documents)
+                {
+                    Console.WriteLine(doc);
+                }
+                Series Doc = BsonSerializer.Deserialize<Series>(documents.First());
+                return Doc.Subscribers;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return new List<string>();
+        }
+        public void AddSubscriber(string sub, string seriesTitle)
+        {
+            try
+            {
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
+                settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+                var client = new MongoClient(settings);
+                var database = client.GetDatabase("Notifier");
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = Builders<BsonDocument>.Filter.Eq("Title", seriesTitle); 
+                var collection = database.GetCollection<BsonDocument>("series");
+                var documents = collection.Find(new BsonDocument()).ToList();
+                foreach(var doc in documents)
+                {
+                    Console.WriteLine(doc);
+                }
+                Series oldDoc = BsonSerializer.Deserialize<Series>(documents.First());
+                oldDoc.Subscribers.Add(sub);
+                //var upDoc = documents.Add(sub); //.First.Subscribers.Add(sub);
+                var newDoc = oldDoc.ToBsonDocument();
+                collection.DeleteOne(filter);
                 collection.InsertOne(newDoc);
+                Console.WriteLine("sub added");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public void RemoveSubscriber(string sub, string seriesTitle)
+        {
+            try
+            {
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
+                settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+                var client = new MongoClient(settings);
+                var database = client.GetDatabase("Notifier");
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = Builders<BsonDocument>.Filter.Eq("Title", seriesTitle);
+                var collection = database.GetCollection<BsonDocument>("series");
+                var documents = collection.Find(new BsonDocument()).ToList();
+                foreach (var doc in documents)
+                {
+                    Console.WriteLine(doc);
+                }
+                Series oldDoc = BsonSerializer.Deserialize<Series>(documents.First());
+                oldDoc.Subscribers.Remove(sub);
+                //var upDoc = documents.Add(sub); //.First.Subscribers.Add(sub);
+                var newDoc = oldDoc.ToBsonDocument();
+                collection.DeleteOne(filter);
+                collection.InsertOne(newDoc);
+                Console.WriteLine("sub removed");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public List<Series> GetAllSeries()
+        {
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
+            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("Notifier");
+            List<Series> series = new List<Series>();
+            var collection = database.GetCollection<BsonDocument>("series");
+            var documents = collection.Find(new BsonDocument()).ToList();
+            foreach (var doc in documents)
+            {
+                series.Add(BsonSerializer.Deserialize<Series>(doc));
+            }
+            return series;
+        }
+        public void UpdateLastChapter(Series s)
+        {
+            try
+            {
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
+                settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+                var client = new MongoClient(settings);
+                var database = client.GetDatabase("Notifier");
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = Builders<BsonDocument>.Filter.Eq("Title", s.Title);
+                var collection = database.GetCollection<BsonDocument>("series");
+                var documents = collection.Find(new BsonDocument()).ToList();
+                foreach (var doc in documents)
+                {
+                    Console.WriteLine(doc);
+                }
+                Series oldDoc = BsonSerializer.Deserialize<Series>(documents.First());
+                oldDoc.LastChapter = (Convert.ToInt32(oldDoc.LastChapter) + 1).ToString();
+                var newDoc = oldDoc.ToBsonDocument();
+                collection.DeleteOne(filter);
+                collection.InsertOne(newDoc);
+                Console.WriteLine("Last Chapter Updated for {0}", s.Title);
             }
             catch (Exception e)
             {
