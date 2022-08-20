@@ -11,7 +11,7 @@ namespace MangaNotifier
     public class Series
     {
         [BsonId]
-        public ObjectId? id { get; set; }
+        public ObjectId id { get; set; }
         [BsonElement("BaseURL")]
         public string? BaseURL { get; set; }
         [BsonElement("Title")]

@@ -32,7 +32,6 @@ namespace MangaNotifier {
             //time.TimeInit();
 
             _client.Log += Log;
-            _client.MessageReceived += Notify;
            // _client.MessageReceived += ClientOnMessageReceived;
             _client.SlashCommandExecuted += SlashCommandHandler;
             _client.Ready += Client_Ready;
@@ -88,12 +87,19 @@ namespace MangaNotifier {
             var guildCommand3 = new SlashCommandBuilder()
                 .WithName("start_notifier")
                 .WithDescription("Start the notifier process");
+            var guildCommand4 = new SlashCommandBuilder()
+                .WithName("newseries")
+                .WithDescription("Add a new series to setup notifications for")
+                .AddOption("baseurl", ApplicationCommandOptionType.String, "The url with out the -chapternumber", isRequired: true)
+                .AddOption("title", ApplicationCommandOptionType.String, "Title of the series", isRequired: true)
+                .AddOption("lastchapter", ApplicationCommandOptionType.String, "The last chapter available", isRequired: true);
 
             try
             {
                 await _client.Rest.CreateGuildCommand(guildCommand.Build(), guildId);
                 await _client.Rest.CreateGuildCommand(guildCommand2.Build(), guildId);
                 await _client.Rest.CreateGuildCommand(guildCommand3.Build(), guildId);
+                await _client.Rest.CreateGuildCommand(guildCommand4.Build(), guildId);
 
             }
             catch (Exception e)
@@ -101,17 +107,18 @@ namespace MangaNotifier {
                 //var json = JsonConvert.SerializeObject(exception.Error, Formatting.Indented);
                 Console.WriteLine(e);
             }
-            //Console.WriteLine("starting notifier");
-            //ulong botChannel = 792596945322770453;
-            //Notifier notifier = new Notifier();
-            //Thread notifierThread = new Thread(() => notifier.StartNotifier(_client.GetGuild(guildId).GetTextChannel(botChannel)));
-            //notifierThread.IsBackground = true;
-            //notifierThread.Start();
+            Console.WriteLine("starting notifier");
+            ulong botChannel = 792596945322770453;
+            Notifier notifier = new Notifier();
+            Thread notifierThread = new Thread(() => notifier.StartNotifier(_client.GetGuild(guildId).GetTextChannel(botChannel)));
+            notifierThread.IsBackground = true;
+            notifierThread.Start();
         }
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
             if (command.CommandName == "sub")
             {
+                await command.DeferAsync();
                 var cmdData = command.Data.Options.ToArray();
                 var user = cmdData[0].Value;
                 //user = user.Replace("?", "");
@@ -119,10 +126,11 @@ namespace MangaNotifier {
                 string series = cmdData[1].Value.ToString();
                 Console.WriteLine(series);
                 DB.AddSubscriber(user.ToString(), series);
-                await command.RespondAsync($"You executed {command.Data.Name}");
+                await command.ModifyOriginalResponseAsync(msg => msg.Content = $"You executed {command.Data.Name}");
             }
             if(command.CommandName == "unsub")
             {
+                await command.DeferAsync();
                 var cmdData = command.Data.Options.ToArray();
                 var user = cmdData[0].Value;
                 //user = user.Replace("?", "");
@@ -130,41 +138,24 @@ namespace MangaNotifier {
                 string series = cmdData[1].Value.ToString();
                 Console.WriteLine(series);
                 DB.RemoveSubscriber(user.ToString(), series);
-                await command.RespondAsync($"You executed {command.Data.Name}");
+                await command.ModifyOriginalResponseAsync(msg => msg.Content = $"You executed {command.Data.Name}");
             }
-            /*
-            if(command.CommandName == "start_notifier")
+            if(command.CommandName == "newseries")
             {
-                Console.WriteLine("Starting Notifier");
-                Notifier notifier = new Notifier();
-                while (true)
-                {
-                    string msg = notifier.StartNotifier();
-                    if (msg != "")
-                    {
-                        await command.Channel.SendMessageAsync(msg);
-                    }
-                }
-                await command.RespondAsync($"You executed {command.Data.Name}");
+                await command.DeferAsync();
+                var cmdData = command.Data.Options.ToArray();
+                string baseUrl = cmdData[0].Value.ToString();
+                string title = cmdData[1].Value.ToString();
+                var lastChapter = cmdData[2].Value.ToString();
+                Series newSeries = new Series();
+                newSeries.BaseURL = baseUrl;
+                newSeries.Title = title;
+                newSeries.LastChapter = lastChapter;
+                newSeries.Subscribers = new List<string>();
+                DB.AddNewSeies(newSeries);
+                await command.ModifyOriginalResponseAsync(msg => msg.Content = $"You executed {command.Data.Name}");
             }
-            */
-        }
-        private async Task Notify(SocketMessage arg) 
-        {
-            /*
-            if (arg.Content.StartsWith("!Start_Notify") && NotifyRunning == false)
-            {
-                Console.WriteLine("Starting Notifier");
-                Notifier notifier = new Notifier();
-                while (true)
-                {
-                    string msg = notifier.StartNotifier();
-                    if (msg != "")
-                    {
-                        await arg.Channel.SendMessageAsync(msg);
-                    }
-                }
-            }*/
+   
         }
     }
 }

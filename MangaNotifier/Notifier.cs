@@ -67,7 +67,7 @@ namespace MangaNotifier
                 string msgToSend = "";
                 foreach (string sub in subs)
                 {
-                    msgToSend += ("@" + sub + " ");
+                    msgToSend += ("<@" + sub + "> ");
                 }
                 msgToSend += "New chapter for " + s.Title + "!\n";
                 msgToSend += s.BaseURL + "-" + newChapter;
