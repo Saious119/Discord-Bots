@@ -17,14 +17,15 @@ namespace MangaNotifier
         {
             LastChecked = DateTime.MinValue;
         }
-        public string StartNotifier()
+        public void StartNotifier(SocketTextChannel botChannel)
         {
             string msg = "";
             if ((DateTime.Now - LastChecked).TotalHours > 1)
             {
-
+                Console.WriteLine("going to get the series");
                 DB dB = new DB();
                 List<Series> seriesToCheck = dB.GetAllSeries();
+                Console.WriteLine("Got series!!");
                 foreach (Series s in seriesToCheck)
                 {
                     int newChapter = 0;
@@ -53,7 +54,7 @@ namespace MangaNotifier
                 LastChecked = DateTime.Now;
             }
             
-            return msg;
+            botChannel.SendMessageAsync(msg);
 
         }
         public string NotifySubs(Series s, string newChapter)

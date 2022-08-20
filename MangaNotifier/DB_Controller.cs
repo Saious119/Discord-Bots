@@ -105,16 +105,24 @@ namespace MangaNotifier
         }
         public List<Series> GetAllSeries()
         {
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
-            settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-            var client = new MongoClient(settings);
-            var database = client.GetDatabase("Notifier");
             List<Series> series = new List<Series>();
-            var collection = database.GetCollection<BsonDocument>("series");
-            var documents = collection.Find(new BsonDocument()).ToList();
-            foreach (var doc in documents)
+            try{
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
+                settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+                var client = new MongoClient(settings);
+                var database = client.GetDatabase("Notifier");
+                var collection = database.GetCollection<BsonDocument>("series");
+                Console.WriteLine("Got Coll!");
+                var documents = collection.Find(new BsonDocument()).ToList();
+                foreach (var doc in documents)
+                {
+                    Console.Write(doc);
+                    series.Add(BsonSerializer.Deserialize<Series>(doc));
+                }
+            }
+            catch(Exception e)
             {
-                series.Add(BsonSerializer.Deserialize<Series>(doc));
+                Console.WriteLine(e);
             }
             return series;
         }

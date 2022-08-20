@@ -17,7 +17,7 @@ namespace MangaNotifier {
 
         private DB DB = new DB();
 
-        private Notifier notifier = new Notifier();
+        //private Notifier notifier = new Notifier();
 
         private bool NotifyRunning = false;
 
@@ -27,6 +27,7 @@ namespace MangaNotifier {
         {
             _client = new DiscordSocketClient();
             ulong guildID = 792595734985048074;
+            ulong botChannel = 792596945322770453;
 
             //time.TimeInit();
 
@@ -42,7 +43,8 @@ namespace MangaNotifier {
             //Thread timeThread = new Thread(new ThreadStart(time.ClearList));
             //timeThread.IsBackground = true;
             //timeThread.Start();
-            //Thread notifierThread = new Thread(new ThreadStart(notifier.StartNotifier));
+            //Notifier notifier = new Notifier();
+            //Thread notifierThread = new Thread(() => notifier.StartNotifier(_client.GetGuild(guildID).GetTextChannel(botChannel)));
             //notifierThread.IsBackground = true;
             //notifierThread.Start();
 
@@ -69,6 +71,8 @@ namespace MangaNotifier {
         }
         public async Task Client_Ready()
         {
+
+            
             ulong guildId = 792595734985048074;
 
             var guildCommand = new SlashCommandBuilder()
@@ -81,11 +85,15 @@ namespace MangaNotifier {
                 .WithDescription("subscribe to notifications for a series")
                 .AddOption("user", ApplicationCommandOptionType.User, "The users whos roles you want to be listed", isRequired: true)
                 .AddOption("series", ApplicationCommandOptionType.String, "The series to unsubscribe to", isRequired: true);
+            var guildCommand3 = new SlashCommandBuilder()
+                .WithName("start_notifier")
+                .WithDescription("Start the notifier process");
 
             try
             {
                 await _client.Rest.CreateGuildCommand(guildCommand.Build(), guildId);
                 await _client.Rest.CreateGuildCommand(guildCommand2.Build(), guildId);
+                await _client.Rest.CreateGuildCommand(guildCommand3.Build(), guildId);
 
             }
             catch (Exception e)
@@ -93,6 +101,12 @@ namespace MangaNotifier {
                 //var json = JsonConvert.SerializeObject(exception.Error, Formatting.Indented);
                 Console.WriteLine(e);
             }
+            //Console.WriteLine("starting notifier");
+            //ulong botChannel = 792596945322770453;
+            //Notifier notifier = new Notifier();
+            //Thread notifierThread = new Thread(() => notifier.StartNotifier(_client.GetGuild(guildId).GetTextChannel(botChannel)));
+            //notifierThread.IsBackground = true;
+            //notifierThread.Start();
         }
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
@@ -118,9 +132,26 @@ namespace MangaNotifier {
                 DB.RemoveSubscriber(user.ToString(), series);
                 await command.RespondAsync($"You executed {command.Data.Name}");
             }
+            /*
+            if(command.CommandName == "start_notifier")
+            {
+                Console.WriteLine("Starting Notifier");
+                Notifier notifier = new Notifier();
+                while (true)
+                {
+                    string msg = notifier.StartNotifier();
+                    if (msg != "")
+                    {
+                        await command.Channel.SendMessageAsync(msg);
+                    }
+                }
+                await command.RespondAsync($"You executed {command.Data.Name}");
+            }
+            */
         }
         private async Task Notify(SocketMessage arg) 
         {
+            /*
             if (arg.Content.StartsWith("!Start_Notify") && NotifyRunning == false)
             {
                 Console.WriteLine("Starting Notifier");
@@ -133,7 +164,7 @@ namespace MangaNotifier {
                         await arg.Channel.SendMessageAsync(msg);
                     }
                 }
-            }
+            }*/
         }
     }
 }
