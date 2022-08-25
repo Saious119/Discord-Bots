@@ -15,7 +15,7 @@ namespace MangaNotifier
     {
         public DB()
         {
-            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+            var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
             var client = new MongoClient(settings);
             var database = client.GetDatabase("Notifier");
@@ -24,7 +24,7 @@ namespace MangaNotifier
         {
             try
             {
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
@@ -49,7 +49,7 @@ namespace MangaNotifier
         {
             try
             {
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
@@ -78,7 +78,7 @@ namespace MangaNotifier
         {
             try
             {
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
@@ -107,7 +107,7 @@ namespace MangaNotifier
         {
             List<Series> series = new List<Series>();
             try{
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
@@ -130,7 +130,7 @@ namespace MangaNotifier
         {
             try
             {
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
@@ -145,7 +145,9 @@ namespace MangaNotifier
                 Series oldDoc = BsonSerializer.Deserialize<Series>(documents.First());
                 oldDoc.LastChapter = (Convert.ToInt32(oldDoc.LastChapter) + 1).ToString();
                 var newDoc = oldDoc.ToBsonDocument();
-                collection.DeleteOne(filter);
+                Console.WriteLine("going to delete");
+                var Dresult = collection.DeleteOne(filter);
+                Console.WriteLine("going to insert");
                 collection.InsertOne(newDoc);
                 Console.WriteLine("Last Chapter Updated for {0}", s.Title);
             }
@@ -158,7 +160,7 @@ namespace MangaNotifier
         {
             try
             {
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority?replicaSet=test&connectTimeoutMS=300000");
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
                 settings.ServerApi = new ServerApi(ServerApiVersion.V1);
                 var client = new MongoClient(settings);
                 var database = client.GetDatabase("Notifier");
