@@ -46,18 +46,16 @@ namespace MangaNotifier
                     else
                     {
                         Console.WriteLine("New Chapter Found!");
-                        msg = NotifySubs(s, newChapter.ToString());
+                        msg = NotifySubs(s, newChapter.ToString(), botChannel);
                         dB.UpdateLastChapter(s);
                     }
                 }
                 Console.WriteLine("Checked for updates");
                 LastChecked = DateTime.Now;
             }
-            
             botChannel.SendMessageAsync(msg);
-
         }
-        public string NotifySubs(Series s, string newChapter)
+        public string NotifySubs(Series s, string newChapter,  SocketTextChannel botChanel)
         {
             try
             {
@@ -68,6 +66,7 @@ namespace MangaNotifier
                 foreach (string sub in subs)
                 {
                     msgToSend += ("<@" + sub + "> ");
+
                 }
                 msgToSend += "New chapter for " + s.Title + "!\n";
                 msgToSend += s.BaseURL + "-" + newChapter;
