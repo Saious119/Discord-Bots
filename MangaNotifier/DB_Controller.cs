@@ -172,6 +172,27 @@ namespace MangaNotifier
             catch (Exception e)
             {
                 Console.WriteLine(e);
+           
+            }
+        }
+        public void RemoveSeries(string title)
+        {
+            try
+            {
+                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://guest:defaultPass@mangadb.hrhudi3.mongodb.net/?retryWrites=true&w=majority");
+                settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+                var client = new MongoClient(settings);
+                var database = client.GetDatabase("Notifier");
+                var builder = Builders<BsonDocument>.Filter;
+                var filter = Builders<BsonDocument>.Filter.Eq("Title", title);
+                var collection = database.GetCollection<BsonDocument>("series");
+                collection.DeleteOne(filter);
+                Console.WriteLine("Removed series: {0}", title);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
             }
         }
     }

@@ -46,6 +46,10 @@ namespace MangaNotifier
                         {
                             Console.WriteLine("No new Chapters");
                         }
+                        else if((int)response.StatusCode == 404)
+                        {
+                            Console.WriteLine("No new Chapters");
+                        }
                         else
                         {
                             Console.WriteLine("New Chapter Found!");
