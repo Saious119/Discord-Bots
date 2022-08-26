@@ -19,41 +19,49 @@ namespace MangaNotifier
         }
         public void StartNotifier(SocketTextChannel botChannel)
         {
-            string msg = "";
-            if ((DateTime.Now - LastChecked).TotalHours > 1)
+            while (true)
             {
-                Console.WriteLine("going to get the series");
-                DB dB = new DB();
-                List<Series> seriesToCheck = dB.GetAllSeries();
-                Console.WriteLine("Got series!!");
-                foreach (Series s in seriesToCheck)
+                string msg = "";
+                Console.WriteLine("Now = {0}. LastCehcked = {1}", DateTime.Now, LastChecked);
+                if ((DateTime.Now - LastChecked).TotalHours > 1)
                 {
-                    int newChapter = 0;
-                    if (s.LastChapter != null)
+                    Console.WriteLine("going to get the series");
+                    DB dB = new DB();
+                    List<Series> seriesToCheck = dB.GetAllSeries();
+                    Console.WriteLine("Got series!!");
+                    foreach (Series s in seriesToCheck)
                     {
-                        newChapter = Convert.ToInt32(s.LastChapter) + 1;
-                        Console.WriteLine("newChapter = {0}", newChapter);
+                        int newChapter = 0;
+                        if (s.LastChapter != null)
+                        {
+                            newChapter = Convert.ToInt32(s.LastChapter) + 1;
+                            Console.WriteLine("newChapter = {0}", newChapter);
+                        }
+                        HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(s.BaseURL + "-" + newChapter);
+                        webRequest.AllowAutoRedirect = false;
+                        HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+                        Console.WriteLine("respons for chapter {0}, for series {1}", newChapter, s.Title);
+                        Console.WriteLine((int)response.StatusCode);
+                        if ((int)response.StatusCode != 200)
+                        {
+                            Console.WriteLine("No new Chapters");
+                        }
+                        else
+                        {
+                            Console.WriteLine("New Chapter Found!");
+                            msg = NotifySubs(s, newChapter.ToString(), botChannel);
+                            dB.UpdateLastChapter(s);
+                        }
                     }
-                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(s.BaseURL + "-" + newChapter);
-                    webRequest.AllowAutoRedirect = false;
-                    HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
-                    Console.WriteLine("respons for chapter {0}, for series {1}", newChapter, s.Title);
-                    Console.WriteLine((int)response.StatusCode);
-                    if ((int)response.StatusCode != 200)
-                    {
-                        Console.WriteLine("No new Chapters");
-                    }
-                    else
-                    {
-                        Console.WriteLine("New Chapter Found!");
-                        msg = NotifySubs(s, newChapter.ToString(), botChannel);
-                        dB.UpdateLastChapter(s);
-                    }
+                    Console.WriteLine("Checked for updates");
+                    LastChecked = DateTime.Now;
+                    botChannel.SendMessageAsync(msg);
                 }
-                Console.WriteLine("Checked for updates");
-                LastChecked = DateTime.Now;
+                else
+                {
+                    Thread.Sleep(660000);
+                }
             }
-            botChannel.SendMessageAsync(msg);
         }
         public string NotifySubs(Series s, string newChapter,  SocketTextChannel botChanel)
         {
