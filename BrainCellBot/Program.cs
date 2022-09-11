@@ -20,12 +20,12 @@ namespace BrainCellBot
             _client = new DiscordSocketClient();
 
             _client.Log += Log;
-            _client.MessageReceived += ClientOnMessageReceived;
+           // _client.MessageReceived += ClientOnMessageReceived;
             _client.SlashCommandExecuted += SlashCommandHandler;
             _client.Ready += Client_Ready;
 
             var token = File.ReadAllText("auth.txt");
-            await _client.LoginAsync(TokenType.Bot, token);
+            await _client.LoginAsync(TokenType.Bot, "MTAxODM0MjExMDM2MzEyNzgzOQ.GGNebl.RatWAILMek-4JdidT0u-S_1yCfJXz99cUOyQdU");
 
             await _client.StartAsync();
 
@@ -54,13 +54,13 @@ namespace BrainCellBot
                 .WithName("givebraincell")
                 .WithDescription("Give the brain cell")
                 .AddOption("user", ApplicationCommandOptionType.User, "The users whos you want to give the brain cell", isRequired: true);
-            var guildCommand3 = new SlashCommandBuilder()
+            var guildCommand2 = new SlashCommandBuilder()
                 .WithName("whohasbraincell")
                 .WithDescription("Who has the Brain Cell");
             try
             {
                 await _client.Rest.CreateGuildCommand(guildCommand.Build(), guildId);
-                await _client.Rest.CreateGuildCommand(guildCommand3.Build(), guildId);
+                await _client.Rest.CreateGuildCommand(guildCommand2.Build(), guildId);
             }
             catch (Exception e)
             {
