@@ -25,7 +25,7 @@ namespace BrainCellBot
             _client.Ready += Client_Ready;
 
             var token = File.ReadAllText("auth.txt");
-            await _client.LoginAsync(TokenType.Bot, "MTAxODM0MjExMDM2MzEyNzgzOQ.GGNebl.RatWAILMek-4JdidT0u-S_1yCfJXz99cUOyQdU");
+            await _client.LoginAsync(TokenType.Bot, token);
 
             await _client.StartAsync();
 
