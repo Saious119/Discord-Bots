@@ -324,6 +324,9 @@ client.on("messageCreate", async msg => {
 			}
 		}
 	}
+	else if(msg.content.toLowerCase().includes("i like")){
+		await playOnTheVoiceChannel(msg, voiceC, './I_Like_To_Womp_Womp.mp3')
+	}
 	else if (isLongWomp(msg.content, 6)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
