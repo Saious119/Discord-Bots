@@ -23,3 +23,8 @@ UwUBot/auth.json~
 .scannerwork/.sonar_lock
 .scannerwork/report-task.txt
 AndyBot/AndyQuotes.txt
+*.v2
+*.v2
+BrainCellBot/.vs/BrainCellBot/v17/.suo
+*.2
+BrainCellBot/.vs/BrainCellBot/v17/.suo
