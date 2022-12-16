@@ -13,7 +13,7 @@ namespace BrainCellBot
 
         private DiscordSocketClient _client;
 
-        private string BrainCellOwner = "";
+        private string BrainCellOwner = "BrainCellBot"; //start with a default holder
 
         public async Task MainAsync()
         {
