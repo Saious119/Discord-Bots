@@ -3,6 +3,7 @@ var sleep = require('system-sleep');
 const path = require( "path")
 const fs = require('fs');
 const { exec } = require('child_process');
+const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
 
 const auth = require("./auth.json");
 const { Client, Message, VoiceChannel, GatewayIntentBits, ChannelType, ApplicationCommandOptionType, InteractionType } = require('discord.js');
@@ -408,13 +409,6 @@ client.on("messageCreate", async msg => {
 	else if(msg.author.username == "rexro"){
 		msg.channel.send("Fuck UwU, Jacob");
 	}
-	else if(msg.author.username == "Saious"){
-		let morseCodeStr = morseCode(msg.content);
-		let morseCodeSplit = splitMorseStr(morseCodeStr);
-		for(var i = 0; i < morseCodeSplit.length; i++){
-			await msg.channel.send(morseCodeSplit[i]);
-		}
-	}
 	else if(msg.content.toLowerCase().includes("cum")){
 		msg.channel.send("cum in my boi pussy UwU :pleading_face:");
 	}
@@ -431,12 +425,23 @@ client.on("messageCreate", async msg => {
 			var imgloc = await getImage(NSFW_Channel);
 			if (imgloc != null) {
 				console.log("Image found!");
-				await NSFW_Channel.send("I found something", { files: [imgloc] });
+				const img = new AttachmentBuilder(imgloc);
+				const imageEmbed = new EmbedBuilder()
+					.setImage('attachment://'+imgloc);
+				NSFW_Channel.send({ embeds: [imageEmbed], files: [img] });
 			}
 			var removeImageStatus = await removeImage(imgloc);
 			if (removeImageStatus == 0) {
 				console.log("removing image successful");
 			}
+		}
+	}
+	//Annoy Saious with Morse Code
+	else if(msg.author.username == "Saious"){
+		let morseCodeStr = morseCode(msg.content);
+		let morseCodeSplit = splitMorseStr(morseCodeStr);
+		for(var i = 0; i < morseCodeSplit.length; i++){
+			await msg.channel.send(morseCodeSplit[i]);
 		}
 	}
 	else {
