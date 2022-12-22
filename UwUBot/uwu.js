@@ -420,15 +420,15 @@ client.on("messageCreate", async msg => {
 			numImg = parseInt(msgSplit[1]);
 		}
 		msg.channel.send("pwease wook in nsf-doub-UwU");
+		NSFW_Channel.send("give me a couple seconds to search 4chan");
 		for (var i = 0; i < numImg; i++) {
-			NSFW_Channel.send("give me a couple minutes to search 4chan");
 			var imgloc = await getImage(NSFW_Channel);
 			if (imgloc != null) {
 				console.log("Image found!");
 				const img = new AttachmentBuilder(imgloc);
 				const imageEmbed = new EmbedBuilder()
 					.setImage('attachment://'+imgloc);
-				NSFW_Channel.send({ embeds: [imageEmbed], files: [img] });
+				await NSFW_Channel.send({ embeds: [imageEmbed], files: [img] });
 			}
 			var removeImageStatus = await removeImage(imgloc);
 			if (removeImageStatus == 0) {
