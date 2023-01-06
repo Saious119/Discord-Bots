@@ -25,7 +25,8 @@ client.on("ready", async () => {
 client.on("messageCreate", async msg => {
 	//var membersInCaac = msg.guild.channels.cache.find(c => c.name === 'caac');
 	//var caacTextChat = msg.guild.channels.cache.find(ctc => ctc.name === 'caac-only'); 
-	console.log("Found message");
+	//console.log("Found message");
+	//ACTUALLY BROKEN BELOW
 	/*if(msg.channel == caacTextChat){
 		console.log("in caac only");
 		console.log(membersInCaac.members);
@@ -76,7 +77,7 @@ client.on("messageCreate", async msg => {
 			}	
     	}
 		if(msg.stickers.size == 1){
-			if(msg.stickers.at(0).name == "shut"){
+			if(msg.stickers.at(0).name.includes("shut")){
 				//msg.channel.send("Cringe Detected!");
 				msg.delete();
 			}
