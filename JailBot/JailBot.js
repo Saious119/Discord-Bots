@@ -3,6 +3,8 @@ var logger = require("winston");
 var auth = require("./auth.json");
 var sleep = require('system-sleep');
 
+const { Client, Message, VoiceChannel, GatewayIntentBits, ChannelType, ApplicationCommandOptionType, InteractionType } = require('discord.js');
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] });
 
 //Logger settings
 logger.remove(logger.transports.Console);
@@ -11,20 +13,20 @@ logger.add(new logger.transports.Console, {
 });
 logger.level = "debug";
 //Robot time
-var bot = new Discord.Client();
+//var bot = new Discord.Client();
 //var client = new Discord.Client();
 var counter = 0;
 var isReady = true;
 
-bot.on("ready",() => {
+client.on("ready", async () => {
   logger.info("Connected");
 });
 
-bot.on("message", async msg => {
-	var membersInCaac = msg.guild.channels.cache.find(c => c.name === 'caac');
-	var caacTextChat = msg.guild.channels.cache.find(ctc => ctc.name === 'caac-only'); 
+client.on("messageCreate", async msg => {
+	//var membersInCaac = msg.guild.channels.cache.find(c => c.name === 'caac');
+	//var caacTextChat = msg.guild.channels.cache.find(ctc => ctc.name === 'caac-only'); 
 	console.log("Found message");
-	if(msg.channel == caacTextChat){
+	/*if(msg.channel == caacTextChat){
 		console.log("in caac only");
 		console.log(membersInCaac.members);
 		var found = false;
@@ -42,17 +44,14 @@ bot.on("message", async msg => {
 				console.log("found author");
 			}
 		}
-		*/
+		
 		if(!found){
 			console.log("removing");
 			msg.delete().then(msg => console.log(`Deleted message from ${msg.author.username}`)).catch(console.error); //Supposed to delete message
 			console.log("removed");
 		}
-	}	
-	if(msg.author == bot.user){
-		//react to all message here
-	}	
-	else{
+	}*/	
+	if(true){
 		if(msg.content.includes("UwU") || msg.content.includes("OwO") || msg.content.includes("UwUBot") || msg.content.includes("image") || msg.content.includes("nuggs") || msg.content.includes("ASMR")){
 			//let cringerole = msg.guild.roles.get("793708658345246730");
 			let cringerole = await msg.guild.roles.find(r => r.name === "Cringe");
@@ -76,6 +75,12 @@ bot.on("message", async msg => {
 				sleep(5*1000);
 			}	
     	}
+		if(msg.stickers.size == 1){
+			if(msg.stickers.at(0).name == "shut"){
+				//msg.channel.send("Cringe Detected!");
+				msg.delete();
+			}
+		}
   	}
 });
 
@@ -83,4 +88,4 @@ function randint(bound) {
 	return Math.round(Math.random()*bound);
 }
 
-bot.login(auth.token)
+client.login(auth.token)
