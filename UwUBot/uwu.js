@@ -333,25 +333,25 @@ client.on("messageCreate", async msg => {
 	else if (isLongWomp(msg.content, 6)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
-			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "./longwomp1.mp3")
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, './longwomp1.mp3')
 		}
 	}
 	else if (isLongWomp(msg.content, 12)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
-			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "./longwomp2.mp3")
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, './longwomp2.mp3')
 		}
 	}
 	else if (isLongWomp(msg.content, 20)) {
 		const pass = await caacCheck(msg)
 		if (pass) {
-			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "./longwomp3.mp3")
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, './longwomp3.mp3')
 		}
 	}
 	else if(isLongWomp(msg.content, 2000)){
 		const pass = await caacCheck(msg)
 		if (pass) {
-			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "./cowboy_womp.mp3")
+			await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, './cowboy_womp.mp3')
 		}
 	}
 	// AUDIO COMMANDS END
