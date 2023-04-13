@@ -57,12 +57,13 @@ async function playAudio(channelId, guildId, adapterCreator, fileName) {
 			guildId,
 			adapterCreator
 		})
-	
-		const file = path.join(__dirname, fileName);
+		const audioFolder = path.join(__dirname, 'audio/');
+		const file = path.join(audioFolder, fileName);
 		const player = createAudioPlayer();
 		const resource = createAudioResource(file);
 	
 		const sub = connection.subscribe(player);
+		sleep(500); //give time to connect before playing so audio isn't cut off
 		player.play(resource);
 	
 		resource.playStream.on('end', () => {
@@ -321,7 +322,8 @@ client.on("messageCreate", async msg => {
 		if (pass) {
 			const wompWomps = msg.content.toLowerCase().match(new RegExp("womp womp", "g")).length
 			for (let i = 0; i < wompWomps; i++) {
-				await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, "wompwomp.mp3")
+				const wompwomptype = await getWompWomp();
+				await playAudio(caac.id, msg.guild.id, msg.guild.voiceAdapterCreator, wompwomptype)
 			}
 		}
 	}
@@ -455,14 +457,14 @@ function isLongWomp(message, maxNumO) {
 	return regex.test(message)
 }
 
-async function playAudioFile (connection, fileName) {
-	return new Promise(resolve => {
-		const file = path.join(__dirname, fileName) // works in any OS
-		const dispatcher = connection.play(file);
-		dispatcher.on("finish", end => {
-			resolve()
-		});
-	})
+async function getWompWomp() {
+	var fileName = "";
+	const audioDir = fs.readdirSync('audio');
+	while(!fileName.includes("womp") || fileName.includes("cowboy") || fileName.includes("long")){ //must include womp but not cowboy womp or a long womp
+		var fileIndex = randint(audioDir.length-1);
+		fileName = audioDir[fileIndex];
+	}
+	return fileName;
 }
 
 async function getImage(NSFW_Channel){
