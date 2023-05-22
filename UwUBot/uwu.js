@@ -30,49 +30,58 @@ var alphanumeric = /^[0-9a-zA-Z]+$/;
  */
 const playOnTheVoiceChannel = async (msg, voiceC, mp3File) => {
 	const randNum = Math.random() * 100;
-	
-	if (randNum <= 20) {
-		const allVoiceChannels = msg.guild?.channels.cache.filter(ch => ch.type === ChannelType.GuildVoice)
-		
-		for (let [_, vc] of allVoiceChannels) {
-			for (let [_, member] of vc.members) {
-				await member.voice.setChannel(voiceC)
+	try{
+		if (randNum <= 20) {
+			const allVoiceChannels = msg.guild?.channels.cache.filter(ch => ch.type === ChannelType.GuildVoice)
+			
+			for (let [_, vc] of allVoiceChannels) {
+				for (let [_, member] of vc.members) {
+					await member.voice.setChannel(voiceC)
+				}
 			}
+			
+			msg.channel.send("OwO, You made a fuckey wuckey. Youwe gowing to tha Genewaw woice chat. UwU");
+		} else {
+			msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
 		}
 		
-		msg.channel.send("OwO, You made a fuckey wuckey. Youwe gowing to tha Genewaw woice chat. UwU");
-	} else {
-		msg.channel.send("Pwease go to tha Genewaw woice chat. UwU");
+		await playAudio(voiceC.id, msg.guild.id, msg.guild.voiceAdapterCreator, mp3File)
 	}
-	
-	await playAudio(voiceC.id, msg.guild.id, msg.guild.voiceAdapterCreator, mp3File)
+	catch(e){
+		console.log(e);
+	}
 
 	isReady = true;
 }
 
 async function playAudio(channelId, guildId, adapterCreator, fileName) {
-	return new Promise((resolve) => {
-		const connection = joinVoiceChannel({
-			channelId,
-			guildId,
-			adapterCreator
-		})
-		const audioFolder = path.join(__dirname, 'audio/');
-		const file = path.join(audioFolder, fileName);
-		const player = createAudioPlayer();
-		const resource = createAudioResource(file);
-	
-		const sub = connection.subscribe(player);
-		sleep(500); //give time to connect before playing so audio isn't cut off
-		player.play(resource);
-	
-		resource.playStream.on('end', () => {
-			sub?.unsubscribe();
-			player.stop(true);
-			connection.destroy();
-			resolve();
+	try{
+		return new Promise((resolve) => {
+			const connection = joinVoiceChannel({
+				channelId,
+				guildId,
+				adapterCreator
+			})
+			const audioFolder = path.join(__dirname, 'audio/');
+			const file = path.join(audioFolder, fileName);
+			const player = createAudioPlayer();
+			const resource = createAudioResource(file);
+		
+			const sub = connection.subscribe(player);
+			sleep(500); //give time to connect before playing so audio isn't cut off
+			player.play(resource);
+		
+			resource.playStream.on('end', () => {
+				sub?.unsubscribe();
+				player.stop(true);
+				connection.destroy();
+				resolve();
+			});
 		});
-	});
+	}
+	catch(e){
+		console.log(e);
+	}
 }
 
 /**
@@ -459,10 +468,15 @@ function isLongWomp(message, maxNumO) {
 
 async function getWompWomp() {
 	var fileName = "";
-	const audioDir = fs.readdirSync('audio');
-	while(!fileName.includes("womp") || fileName.includes("cowboy") || fileName.includes("long")){ //must include womp but not cowboy womp or a long womp
-		var fileIndex = randint(audioDir.length-1);
-		fileName = audioDir[fileIndex];
+	try{
+		const audioDir = fs.readdirSync('audio');
+		while(!fileName.includes("womp") || fileName.includes("cowboy") || fileName.includes("long")){ //must include womp but not cowboy womp or a long womp
+			var fileIndex = randint(audioDir.length-1);
+			fileName = audioDir[fileIndex];
+		}
+	}
+	catch(e){
+		console.log(e);
 	}
 	return fileName;
 }

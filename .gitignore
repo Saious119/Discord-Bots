@@ -30,3 +30,7 @@ BrainCellBot/.vs/BrainCellBot/v17/.suo
 BrainCellBot/.vs/BrainCellBot/v17/.suo
 .vscode/
 /BrainCellBot/.vs/BrainCellBot/FileContentIndex
+
+*/obj/*
+*/bin/*
+*/.vs/*
