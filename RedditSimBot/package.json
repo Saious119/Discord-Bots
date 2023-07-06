@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "axios": "^0.21.2",
+    "discord.js": "^14.9.0",
+    "mongodb": "^5.1.0",
     "urban-dictionary": "^3.0.1"
   }
 }
