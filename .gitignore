@@ -29,3 +29,9 @@ BrainCellBot/.vs/BrainCellBot/v17/.suo
 *.2
 BrainCellBot/.vs/BrainCellBot/v17/.suo
 .vscode/
+/BrainCellBot/.vs/BrainCellBot/FileContentIndex
+
+*/obj/*
+*/bin/*
+*/.vs/*
+*.v2
