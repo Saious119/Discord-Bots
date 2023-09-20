@@ -30,7 +30,7 @@ class Program
         time.TimeInit();
         
         cockEmote = "<:cock:899135029190475826>";
-        tinyCock = "<:tinycock:1153862591983132712>";
+        tinyCock = ":tinycock:";
         bigCock = "BigCock";
 
         _client.Log += Log;
