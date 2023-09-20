@@ -17,6 +17,8 @@ class Program
 
     private string cockEmote {get; set;}
 
+    private string tinyCock {get; set;}
+
     private string bigCock { get; set;}
 
     private Time time = new Time();
@@ -28,6 +30,7 @@ class Program
         time.TimeInit();
         
         cockEmote = "<:cock:899135029190475826>";
+        tinyCock = "<:tinycock:1153862591983132712>";
         bigCock = "BigCock";
 
         _client.Log += Log;
@@ -65,7 +68,8 @@ class Program
     private Task CockRecieved(SocketMessage arg)
     {
         Emote.TryParse(cockEmote, out var cock);
-        if(arg.Content == cock.ToString())
+        Emote.TryParse(tinyCock, out var tinycock);
+        if(arg.Content == cock.ToString() || arg.Content == tinycock.ToString())
         {
             //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
             bool foundUser = false;
