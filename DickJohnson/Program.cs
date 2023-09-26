@@ -68,8 +68,8 @@ class Program
     private Task CockRecieved(SocketMessage arg)
     {
         Emote.TryParse(cockEmote, out var cock);
-        Emote.TryParse(tinyCock, out var tinycock);
-        if(arg.Content == cock.ToString() || arg.Content == tinycock.ToString())
+        //Emote.TryParse(tinyCock, out var tinycock);
+        if(arg.Content == cock.ToString())
         {
             //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
             bool foundUser = false;
