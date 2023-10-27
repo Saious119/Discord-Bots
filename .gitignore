@@ -35,3 +35,9 @@ BrainCellBot/.vs/BrainCellBot/v17/.suo
 */bin/*
 */.vs/*
 *.v2
+
+*/ScribeBot/auth.txt
+AndyBot/UnfilteredQuotes.txt
+ScribeBot/AndyQuotes.txt
+ScribeBot/GamerQuotes.txt
+AndyBot/oldAndyQuotes.txt

@@ -21,7 +21,7 @@ The same as Terry Davis Bot but for the famous youtuber JonTron.
 ### Description
 A bot that will give you your fortune. All you have to say is "Give me a fortune". Right now it only does single card fortunes, the hope is that in the near future it will also do 2 card and full 10 card readings. 
 
-## Jail Bot
+## Jail Bot (Under Construction)
 ### Description
 Interacting with UwUBot will give you a cringe role for a certain amount of time, then remove it. Currently it can give you the role, but crashes when removing it. 
 
@@ -35,3 +35,35 @@ A bot that uses a markov chain to combine words from OnePieceQuotes.txt to creat
 ### How to Build
 go build PirateBot.go markov.go 
 ./PirateBot
+
+## WSB (WAA Simulation bot)
+### Description
+A bot that uses the same markov chain as pirate bot but with quotes from the WAA server
+
+## AndyBot
+### Description
+A bot that uses the same markov chain as pirate bot but with quotes specifically from Andy in the WAA server
+
+## ScribeBot
+### Description
+A bot that reads the quotes text channel of my server then outputs text files for WSB and AndyBot
+
+## OyVeyBot
+### Description
+when you say Oy Vey this bot will comfort you with Matzo Ball Soup and Bagels
+
+## DickJohnson
+### Description
+a .NET bot that rewards you for posting in the daily channel in WAA and punishes you for double posting
+
+## Manga Notifier (Under Construction)
+### Description
+A bot you can subscribe manga series to and get notified when new chapters release
+
+## BrainCellBot
+### Description
+Give the collective braincell to someone and keep track of who has the brain cell
+
+## RedditSimBot (Under Construction)
+### Description
+A bot that allows your to upvote or downvote messages and keep track of each users "Discord Karma"
