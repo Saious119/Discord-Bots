@@ -54,7 +54,7 @@ func main() {
 		panic(err)
 	}
 
-	file, err := os.Open("GamerQuotes.txt")
+	file, err := os.Open("../ScribeBot/GamerQuotes.txt")
 	if err != nil {
 		panic(err)
 	}
