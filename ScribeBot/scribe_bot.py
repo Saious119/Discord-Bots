@@ -1,6 +1,7 @@
 # This bot requires the 'message_content' intent.
 
 import discord
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -10,12 +11,16 @@ token_file = open("auth.txt", 'r', encoding="utf-8")
 token = token_file.read()
 
 def write_wsb_quotes(quotes):
+    if os.path.exists("GamerQuotes.txt"):
+        os.remove("GamerQuotes.txt")
     file = open("GamerQuotes.txt", "a+", encoding="utf-8")
     for quote in quotes:
         file.writelines(quote+'\n')
     print("WSB Quotes Written to File!")
 
 def write_andy_quotes(quotes):
+    if os.path.exists("AndyQuotes.txt"):
+        os.remove("AndyQuotes.txt")
     file = open("AndyQuotes.txt", "a+", encoding="utf-8")
     for quote in quotes:
         file.write(quote+'\n')
