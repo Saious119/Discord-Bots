@@ -21,17 +21,23 @@ client.on("ready",() => {
   logger.info("Connected");
 });
 
-client.on("messageCreate",msg => {	
+client.on("messageCreate", async msg => {	
 	if(msg.content.includes("Give me a fortune") || msg.content.includes("give me a fortune") || msg.content.includes(" give me a fortune") || msg.content.includes(" give me a fortune")){
-		var fileIndex = randint(dataDir.length-1);
-		var fileName = "data/"+dataDir[fileIndex];
-		const jsonString = fs.readFileSync(fileName, 'utf8');
-		var card = JSON.parse(jsonString);  
-		var imgFile = card.img_file;
-		var imgloc = './FullDeck/'+imgFile;
-		msg.channel.send({files: [imgloc]});
-		sleep(1000);
-		msg.channel.send(card.meaning);
+		try{
+			var fileIndex = randint(dataDir.length-1);
+			var fileName = "data/"+dataDir[fileIndex];
+			const jsonString = fs.readFileSync(fileName, 'utf8');
+			var card = JSON.parse(jsonString);  
+			var imgFile = card.img_file;
+			var imgloc = './FullDeck/'+imgFile;
+			const img = new Discord.AttachmentBuilder(imgloc);
+			const imageEmbed = new Discord.EmbedBuilder().setImage('attachment://'+imgloc).setDescription(card.meaning);
+			await msg.channel.send({embeds: [imageEmbed], files: [img], MessageContent: [card.meaning]});
+			sleep(1000);
+		}
+		catch(e){
+			console.log(e);
+		}
 	}
 });
 
