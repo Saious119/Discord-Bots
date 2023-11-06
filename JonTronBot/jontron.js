@@ -18,16 +18,10 @@ var len = quotes.length;
 client.on("ready",() => {
   logger.info("Connected");
 });
-client.on("message",msg => {	
-	if(msg.author == bot.user){
-		//future work maybe?
+client.on("messageCreate",msg => {	
+	if (msg.content.includes(" JonTron ") || msg.content.includes("JonTron") || msg.content.includes("jontron") || msg.content.includes("Jontron") || msg.content.includes(" jontron ") || msg.content.includes(" Jontron ")){
+		msg.channel.send(quotes[getRandomInt(len)]);
 	}
-	
-	else{
-		if (msg.content.includes(" JonTron ") || msg.content.includes("JonTron") || msg.content.includes("jontron") || msg.content.includes("Jontron") || msg.content.includes(" jontron ") || msg.content.includes(" Jontron ")){
-			msg.channel.send(quotes[getRandomInt(len)]);
-		}
-	} 
 });
 
 function getRandomInt(max) {

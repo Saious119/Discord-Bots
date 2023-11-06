@@ -19,14 +19,13 @@ var len = quotes.length;
 client.on("ready",() => {
   logger.info("Connected");
 });
-client.on("message",msg => {	
-	if(msg.author == bot.user){
-		//future work maybe?
-	}
-	
-	else{
-		if (msg.content.includes(" Terry Davis ") || msg.content.includes("Terry Davis") || msg.content.includes("terry davis") || msg.content.includes(" terry davis ")){
+client.on("messageCreate",async msg => {
+	if (msg.content.includes(" Terry Davis ") || msg.content.includes("Terry Davis") || msg.content.includes("terry davis") || msg.content.includes(" terry davis ")){
+		try{
 			msg.channel.send(quotes[getRandomInt(len)]);
+		}
+		catch(e){
+			console.log(e);
 		}
 	} 
 });
