@@ -33,7 +33,6 @@ client.on("messageCreate", async msg => {
 			const img = new Discord.AttachmentBuilder(imgloc);
 			const imageEmbed = new Discord.EmbedBuilder().setImage('attachment://'+imgloc).setDescription(card.meaning);
 			await msg.channel.send({embeds: [imageEmbed], files: [img], MessageContent: [card.meaning]});
-			sleep(1000);
 		}
 		catch(e){
 			console.log(e);
