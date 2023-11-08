@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/gin-gonic/gin"
 )
 
 const LEN int = 100
@@ -67,6 +68,25 @@ func main() {
 		corpus = append(corpus, in.Text())
 	}
 	chain = createChain(corpus)
+
+	r := gin.Default()
+	r.GET("/refreshQuotes", func(c *gin.Context) {
+		chain = nil
+		file, err := os.Open("../ScribeBot/GamerQuotes.txt")
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+
+		in := bufio.NewScanner(bufio.NewReader(file))
+		in.Split(bufio.ScanWords)
+
+		for in.Scan() {
+			corpus = append(corpus, in.Text())
+		}
+		chain = createChain(corpus)
+	})
+	r.Run("localhost:8081") // listen and serve on 0.0.0.0:8080
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
