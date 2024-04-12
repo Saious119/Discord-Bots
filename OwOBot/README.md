@@ -67,11 +67,3 @@ Give the collective braincell to someone and keep track of who has the brain cel
 ## RedditSimBot (Under Construction)
 ### Description
 A bot that allows your to upvote or downvote messages and keep track of each users "Discord Karma"
-
-## Purple Haro Bot
-### Description
-A python bot inspired by the Purple Haro in Mobile Suit Gundam 00, this used the NLTK library to get the sentiment value of a given message and respond
-
-## Scribe Bot
-### Description
-A bot that scrapes a channel for quotes to update the sources for WSB and AndyBot
