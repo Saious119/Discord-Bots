@@ -66,6 +66,7 @@ namespace BrainCellBot
             {
                 Console.WriteLine(e);
             }
+            this.BrainCellOwner = await getLastBrainCellOwner();
         }
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
@@ -75,6 +76,7 @@ namespace BrainCellBot
                 var cmdData = command.Data.Options.ToArray();
                 var user = cmdData[0].Value;
                 BrainCellOwner = user.ToString();
+                await setLastBrainCellOwner(user.ToString());
                 await command.ModifyOriginalResponseAsync(msg => msg.Content = $"You gave the brain cell to {BrainCellOwner}");
             }   
             if (command.CommandName == "whohasbraincell")
@@ -84,6 +86,30 @@ namespace BrainCellBot
                 await command.ModifyOriginalResponseAsync(msg => msg.Content = msgToSend);
             }
             
+        }
+
+        private async Task<string> getLastBrainCellOwner(){
+            try
+            {
+                var user = File.ReadAllText("lastOwner.txt");
+                return user;
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return this.BrainCellOwner;
+        }
+
+        private async Task setLastBrainCellOwner(string user){
+            try
+            {
+                File.WriteAllText("lastOwner.txt", user);
+            }
+            catch (Exception e) 
+            { 
+                Console.WriteLine(e.ToString()); 
+            }
         }
     }
 }
