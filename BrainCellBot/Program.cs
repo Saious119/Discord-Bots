@@ -15,6 +15,8 @@ namespace BrainCellBot
 
         private string BrainCellOwner = "BrainCellBot"; //start with a default holder
 
+        private string lastOwnerPath = @"/home/pi/Discord-Bots/BrainCellBot/lastOwner.txt";
+
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
@@ -91,7 +93,7 @@ namespace BrainCellBot
         private string getLastBrainCellOwner(){
             try
             {
-                var user = File.ReadAllText("lastOwner.txt");
+                var user = File.ReadAllText(this.lastOwnerPath);
                 return user;
             }
             catch (Exception e) 
@@ -104,7 +106,7 @@ namespace BrainCellBot
         private void setLastBrainCellOwner(string user){
             try
             {
-                File.WriteAllText("lastOwner.txt", user);
+                File.WriteAllText(this.lastOwnerPath, user);
             }
             catch (Exception e) 
             { 
