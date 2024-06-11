@@ -15,7 +15,7 @@ namespace BrainCellBot
 
         private string BrainCellOwner = "BrainCellBot"; //start with a default holder
 
-        private string lastOwnerPath = @"/home/pi/Discord-Bots/BrainCellBot/lastOwner.txt";
+        private string lastOwnerPath = "/home/pi/Discord-Bots/BrainCellBot/lastOwner.txt";
 
         public async Task MainAsync()
         {
@@ -63,18 +63,25 @@ namespace BrainCellBot
             {
                 await _client.Rest.CreateGuildCommand(guildCommand.Build(), guildId);
                 await _client.Rest.CreateGuildCommand(guildCommand2.Build(), guildId);
+                this.BrainCellOwner = getLastBrainCellOwner();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-            this.BrainCellOwner = getLastBrainCellOwner();
         }
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
             if (command.CommandName == "givebraincell")
             {
-                await command.DeferAsync();
+                try
+                {
+                    await command.DeferAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 var cmdData = command.Data.Options.ToArray();
                 var user = cmdData[0].Value;
                 BrainCellOwner = user.ToString();
@@ -83,7 +90,14 @@ namespace BrainCellBot
             }   
             if (command.CommandName == "whohasbraincell")
             {
-                await command.DeferAsync();
+                try
+                {
+                    await command.DeferAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 var msgToSend = BrainCellOwner;
                 await command.ModifyOriginalResponseAsync(msg => msg.Content = msgToSend);
             }
@@ -93,7 +107,7 @@ namespace BrainCellBot
         private string getLastBrainCellOwner(){
             try
             {
-                var user = File.ReadAllText(this.lastOwnerPath);
+                var user = File.ReadAllText(lastOwnerPath);
                 return user;
             }
             catch (Exception e) 
@@ -106,7 +120,7 @@ namespace BrainCellBot
         private void setLastBrainCellOwner(string user){
             try
             {
-                File.WriteAllText(this.lastOwnerPath, user);
+                File.WriteAllText(lastOwnerPath, user);
             }
             catch (Exception e) 
             { 
