@@ -41,9 +41,9 @@ async def get_history_of_quotes_channel(channel):
     andy_quotes = []
     for message in messages:
         #please stop deadnaming my friend :(
-        message = message.replace("ben", "mel")
-        message = message.replace("Ben", "Mel")
-        message = message.replace("BEN", "MEL")
+        message.content = message.content.replace("ben", "mel")
+        message.content = message.content.replace("Ben", "Mel")
+        message.content = message.content.replace("BEN", "MEL")
         #do stuff
         if '/' and ':' not in message.content: #filter out time stamps
             message_to_add = message.content
@@ -68,8 +68,7 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-@client.tree.command(name="refreshQuotes")
-@app_commands.describe(thing_to_say="Refreshes AndyBot and WSB with new quotes")
+@client.tree.command(name="refresh_quotes", description="Refreshes AndyBot and WSB with new quotes")
 async def refreshQuotes(interaction: discord.Interaction):
     try:
         await interaction.response.send_message("Refreshing Quotes, may take a few minutes...", ephemeral=True)
