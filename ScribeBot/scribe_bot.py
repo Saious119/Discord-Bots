@@ -1,13 +1,16 @@
 # This bot requires the 'message_content' intent.
 
 import discord
+from discord import app_commands
+from discord.ext import commands
 import requests
 import os
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = discord.Client(intents=intents)
+#client = discord.Client(intents=intents)
+client = commands.Bot(command_prefix="$", intents=discord.Intents.all())
 token_file = open("auth.txt", 'r', encoding="utf-8")
 token = token_file.read()
 
@@ -37,6 +40,10 @@ async def get_history_of_quotes_channel(channel):
     wsb_quotes= []
     andy_quotes = []
     for message in messages:
+        #please stop deadnaming my friend :(
+        message = message.replace("ben", "mel")
+        message = message.replace("Ben", "Mel")
+        message = message.replace("BEN", "MEL")
         #do stuff
         if '/' and ':' not in message.content: #filter out time stamps
             message_to_add = message.content
@@ -55,18 +62,20 @@ async def get_history_of_quotes_channel(channel):
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
+    try:
+        synced = await client.tree.sync()
+        print(f"Synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
-    
-    if message.content.startswith("$refreshQuotes"):
-        await message.channel.send("Refreshing Quotes, may take a few minutes...")
+@client.tree.command(name="refreshQuotes")
+@app_commands.describe(thing_to_say="Refreshes AndyBot and WSB with new quotes")
+async def refreshQuotes(interaction: discord.Interaction):
+    try:
+        await interaction.response.send_message("Refreshing Quotes, may take a few minutes...", ephemeral=True)
         await get_history_of_quotes_channel(client.get_channel(908550006678626334))
-        await message.channel.send("Refreshed Quotes!")
+        await interaction.response.send_message("Refreshed Quotes!", ephemeral=True)
+    except Exception as e:
+        print(e)
 
 client.run(token)
