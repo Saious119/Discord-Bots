@@ -73,7 +73,7 @@ async def refreshQuotes(interaction: discord.Interaction):
     try:
         await interaction.response.send_message("Refreshing Quotes, may take a few minutes...", ephemeral=True)
         await get_history_of_quotes_channel(client.get_channel(908550006678626334))
-        await interaction.followup.send_message("Refreshed Quotes!", ephemeral=True)
+        await interaction.followup.send("Refreshed Quotes!", ephemeral=True)
     except Exception as e:
         print(e)
 
