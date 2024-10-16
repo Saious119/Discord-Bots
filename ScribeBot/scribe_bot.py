@@ -21,7 +21,7 @@ def write_wsb_quotes(quotes):
     for quote in quotes:
         file.writelines(quote+'\n')
     print("WSB Quotes Written to File!")
-    response = requests.get("localhost:8081/refreshQuotes") #Call WSB's API to reload the quotes file
+    response = requests.get("http://localhost:8081/refreshQuotes") #Call WSB's API to reload the quotes file
     print("Called WSB's API")
 
 def write_andy_quotes(quotes):
@@ -31,7 +31,7 @@ def write_andy_quotes(quotes):
     for quote in quotes:
         file.write(quote+'\n')
     print("Andy Quotes Written to File!")
-    response = requests.get("localhost:8080/refreshQuotes") #Call AndyBot's API to reload the quotes file
+    response = requests.get("http://localhost:8080/refreshQuotes") #Call AndyBot's API to reload the quotes file
     print("Called AndyBot's API")
 
 async def get_history_of_quotes_channel(channel):
