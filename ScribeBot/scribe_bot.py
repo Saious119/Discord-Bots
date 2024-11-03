@@ -56,8 +56,8 @@ async def get_history_of_quotes_channel(channel):
                 message_to_add = message.content
                 if " - " in message.content: #filter out quote attributions 
                     message_to_add = message.content.split(" - ")[0]
-                if " ~ " in message.content:
-                    message_to_add = message.content.split(" ~ ")[0]
+                if "~" in message.content:
+                    message_to_add = message.content.split("~")[0]
                 if '357280188025012252' in message.content: #Check for AndyBot Quote
                     andy_quotes.append(message_to_add)
                 wsb_quotes.append(message_to_add)
