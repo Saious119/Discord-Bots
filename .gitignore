@@ -41,3 +41,10 @@ AndyBot/UnfilteredQuotes.txt
 ScribeBot/AndyQuotes.txt
 ScribeBot/GamerQuotes.txt
 AndyBot/oldAndyQuotes.txt
+DickJohnson/obj/
+DickJohnson/bin/
+.idea/
+DickJohnson/obj/DickJohnson.csproj.nuget.dgspec.json
+DickJohnson/obj/DickJohnson.csproj.nuget.g.props
+DickJohnson/obj/project.assets.json
+DickJohnson/obj/project.nuget.cache

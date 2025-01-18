@@ -47,23 +47,27 @@ async def get_history_of_quotes_channel(channel):
         wsb_quotes= []
         andy_quotes = []
         for message in messages:
-            #please stop deadnaming my friend :(
-            message.content = message.content.replace("ben", "mel")
-            message.content = message.content.replace("Ben", "Mel")
-            message.content = message.content.replace("BEN", "MEL")
-            #do stuff
-            if '/' and ':' not in message.content: #filter out time stamps
-                message_to_add = message.content
-                if " - " in message.content: #filter out quote attributions 
-                    message_to_add = message.content.split(" - ")[0]
-                if " ~ " in message.content:
-                    message_to_add = message.content.split(" ~ ")[0]
-                if '357280188025012252' in message.content: #Check for AndyBot Quote
-                    andy_quotes.append(message_to_add)
-                wsb_quotes.append(message_to_add)
+            try:
+                #please stop deadnaming my friend :(
+                message.content = message.content.replace("ben", "mel")
+                message.content = message.content.replace("Ben", "Mel")
+                message.content = message.content.replace("BEN", "MEL")
+                #do stuff
+                if '/' and ':' not in message.content: #filter out time stamps
+                    message_to_add = message.content
+                    if " - " in message.content: #filter out quote attributions 
+                        message_to_add = message.content.split(" - ")[0]
+                    if " ~ " in message.content:
+                        message_to_add = message.content.split(" ~ ")[0]
+                    if '357280188025012252' in message.content: #Check for AndyBot Quote
+                        andy_quotes.append(message_to_add)
+                    print(message_to_add)
+                    wsb_quotes.append(message_to_add)
+            except Exception as ex:
+                print(ex)
+        print("Got Quotes")
         write_wsb_quotes(wsb_quotes)
         write_andy_quotes(andy_quotes)
-        print("Got Quotes")
     except Exception as e:
         print(e)
 
