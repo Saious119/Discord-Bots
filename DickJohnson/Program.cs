@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using DickJohnson;
 
 class Program
 {
@@ -23,6 +24,8 @@ class Program
 
     private Time time = new Time();
 
+    private List<UserData> userDatas = new();
+
     public async Task MainAsync()
     {
         _client = new DiscordSocketClient();
@@ -34,10 +37,14 @@ class Program
         bigCock = "BigCock";
 
         _client.Log += Log;
+        _client.SlashCommandExecuted += SlashCommandHandler;
         _client.MessageReceived += ClientOnMessageReceived;
         _client.MessageReceived += CockRecieved;
 
         var token = File.ReadAllText("auth.txt");
+
+        var json = File.ReadAllText("UserData.json");
+        userDatas = JsonConvert.DeserializeObject<List<UserData>>(json);
 
         Thread timeThread = new Thread(new ThreadStart(time.ClearList));
         timeThread.IsBackground = true;
@@ -56,6 +63,29 @@ class Program
         Console.WriteLine(msg.ToString());
         return Task.CompletedTask;
     }
+    private async Task SlashCommandHandler(SocketSlashCommand command)
+    {
+        if (command.CommandName == "cockLeaderboard")
+        {
+            try
+            {
+                await command.DeferAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            var cmdData = command.Data.Options.ToArray();
+            var user = cmdData[0].Value;
+            string response = "";
+            userDatas.OrderBy(x => x.bigCockCount);
+            foreach (var knownUser in userDatas)
+            {
+                response += $"{knownUser.name} has posted {knownUser.bigCockCount} big cocks!";
+            }
+            await command.FollowupAsync(response);
+        }
+    }
 
     private static Task ClientOnMessageReceived(SocketMessage arg)
     {
@@ -68,6 +98,7 @@ class Program
     private Task CockRecieved(SocketMessage arg)
     {
         Emote.TryParse(cockEmote, out var cock);
+        CheckForUser(arg.Author.Username);
         //Emote.TryParse(tinyCock, out var tinycock);
         if(arg.Content == cock.ToString())
         {
@@ -94,6 +125,14 @@ class Program
                     //arg.Channel.SendMessageAsync($"Nice Cock!");
                     arg.Channel.SendFileAsync("nicecock.gif");
                     time.bigCockPoster = arg.Author.Username;
+                    foreach(var user in userDatas)
+                    {
+                        if(user.name == arg.Author.Username)
+                        {
+                            user.bigCockCount++;
+                            SaveUserData();
+                        }
+                    }
                 }
                 else
                 {
@@ -102,5 +141,27 @@ class Program
             }
         }
         return Task.CompletedTask;
+    }
+    private void CheckForUser(string user)
+    {
+        bool found = false;
+        foreach(var knownUser in userDatas)
+        {
+            if(knownUser.name == user)
+            {
+                found = true; 
+                return;
+            }
+        }
+        if(found == false)
+        {
+            userDatas.Add(new UserData { name = user, bigCockCount = 0 });
+            SaveUserData();
+        }
+    }
+    private void SaveUserData()
+    {
+        var json = JsonConvert.SerializeObject(userDatas, Formatting.Indented);
+        File.WriteAllText("UserData.json", json);
     }
 }
