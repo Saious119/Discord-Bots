@@ -38,6 +38,7 @@ class Program
 
         _client.Log += Log;
         _client.SlashCommandExecuted += SlashCommandHandler;
+        _client.Ready += Client_Ready;
         _client.MessageReceived += ClientOnMessageReceived;
         _client.MessageReceived += CockRecieved;
 
@@ -75,13 +76,11 @@ class Program
             {
                 Console.WriteLine(e);
             }
-            var cmdData = command.Data.Options.ToArray();
-            var user = cmdData[0].Value;
             string response = "";
             userDatas.OrderBy(x => x.bigCockCount);
             foreach (var knownUser in userDatas)
             {
-                response += $"{knownUser.name} has posted {knownUser.bigCockCount} big cocks!";
+                response += $"{knownUser.name} has posted {knownUser.bigCockCount} big cocks!\n";
             }
             await command.FollowupAsync(response);
         }
