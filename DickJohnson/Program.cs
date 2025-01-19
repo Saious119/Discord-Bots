@@ -77,7 +77,7 @@ class Program
                 Console.WriteLine(e);
             }
             string response = "";
-            userDatas.OrderBy(x => x.bigCockCount);
+            userDatas = userDatas.OrderByDescending(x => x.bigCockCount).ToList();
             foreach (var knownUser in userDatas)
             {
                 response += $"{knownUser.name} has posted {knownUser.bigCockCount} big cocks!\n";
