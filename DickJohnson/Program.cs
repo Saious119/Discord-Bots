@@ -65,7 +65,7 @@ class Program
     }
     private async Task SlashCommandHandler(SocketSlashCommand command)
     {
-        if (command.CommandName == "cockLeaderboard")
+        if (command.CommandName == "cock_leaderboard")
         {
             try
             {
@@ -94,6 +94,22 @@ class Program
             arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' successfully ran helloworld!");
         }
         return Task.CompletedTask;
+    }
+    public async Task Client_Ready()
+    {
+        ulong guildId = 792595734985048074;
+
+        var guildCommand = new SlashCommandBuilder()
+            .WithName("cock_leaderboard")
+            .WithDescription("Shows a leaderboard for Big Cock");
+        try
+        {
+            await _client.Rest.CreateGuildCommand(guildCommand.Build(), guildId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
     private Task CockRecieved(SocketMessage arg)
     {
