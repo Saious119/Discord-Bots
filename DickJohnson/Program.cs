@@ -159,14 +159,11 @@ class Program
     }
     private void CheckForUser(string user)
     {
-        Console.WriteLine("Checking for user: {0}", user);
         bool found = false;
         foreach(var knownUser in userDatas)
         {
-            Console.WriteLine("user {0}", knownUser.name);
             if(knownUser.name == user)
             {
-                Console.WriteLine("Found user {0}", knownUser.name);
                 found = true; 
                 return;
             }
@@ -180,9 +177,9 @@ class Program
     }
     private void SaveUserData()
     {
-        Console.WriteLine("writing to file");
+        Console.WriteLine("writing to file...");
         var json = JsonConvert.SerializeObject(userDatas, Formatting.Indented);
         File.WriteAllText("UserData.json", json);
-        Console.WriteLine("Saved to file");
+        Console.WriteLine("Saved to file!");
     }
 }
