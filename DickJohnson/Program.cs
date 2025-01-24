@@ -80,7 +80,10 @@ class Program
             userDatas = userDatas.OrderByDescending(x => x.bigCockCount).ToList();
             foreach (var knownUser in userDatas)
             {
-                response += $"{knownUser.name} has posted {knownUser.bigCockCount} big cocks!\n";
+                if (knownUser.bigCockCount > 0)
+                {
+                    response += $"{knownUser.name} has posted {knownUser.bigCockCount} big cocks!\n";
+                }
             }
             await command.FollowupAsync(response);
         }
