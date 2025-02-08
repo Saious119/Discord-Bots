@@ -115,24 +115,6 @@ class Program
     }
     private Task CockRecieved(SocketMessage arg)
     {
-        CheckForUser(arg.Author.Username);
-        Emote.TryParse(cockEmote, out var cock);
-        //Emote.TryParse(tinyCock, out var tinycock);
-        if(arg.Content == cock.ToString())
-        {
-            //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
-            bool foundUser = false;
-            foreach (var user in time.CockPosters)
-            {
-                if(arg.Author.Username == user){
-                    arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
-                    foundUser = true;
-                }
-            }
-            if(foundUser == false){
-                time.CockPosters.Add(arg.Author.Username);
-            }
-        }
         var stickers = arg.Stickers;
         foreach (var s in stickers)
         {
@@ -158,6 +140,25 @@ class Program
                 }
             }
         }
+        CheckForUser(arg.Author.Username);
+        Emote.TryParse(cockEmote, out var cock);
+        //Emote.TryParse(tinyCock, out var tinycock);
+        if(arg.Content == cock.ToString())
+        {
+            //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
+            bool foundUser = false;
+            foreach (var user in time.CockPosters)
+            {
+                if(arg.Author.Username == user){
+                    arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
+                    foundUser = true;
+                }
+            }
+            if(foundUser == false){
+                time.CockPosters.Add(arg.Author.Username);
+            }
+        }
+        
         return Task.CompletedTask;
     }
     private void CheckForUser(string user)

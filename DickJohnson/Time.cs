@@ -20,6 +20,7 @@ public class Time
                 Console.WriteLine("It's midnight, clearing list");
                 CockPosters = new List<string>();
                 bigCockPoster = null;
+                Thread.Sleep(10000);
             }
         }
     }
