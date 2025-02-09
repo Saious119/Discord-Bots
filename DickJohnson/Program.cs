@@ -136,6 +136,14 @@ class Program
                 }
                 else
                 {
+                    foreach (var user in userDatas)
+                    {
+                        if (user.name == arg.Author.Username)
+                        {
+                            user.bigCockCount--;
+                            SaveUserData();
+                        }
+                    }
                     arg.Channel.SendMessageAsync($"{arg.Author.Username} HAS A TINY COCK!");
                 }
             }
