@@ -125,6 +125,7 @@ class Program
                     //arg.Channel.SendMessageAsync($"Nice Cock!");
                     arg.Channel.SendFileAsync("nicecock.gif");
                     time.bigCockPoster = arg.Author.Username;
+                    Console.WriteLine("Big Cock poster at {0} is {1}", DateTime.Now, time.bigCockPoster);
                     foreach(var user in userDatas)
                     {
                         if(user.name == arg.Author.Username)
