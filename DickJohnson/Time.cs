@@ -17,7 +17,7 @@ public class Time
         {
             if ((DateTime.Now.Hour == 0) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second < 5))
             {
-                Console.WriteLine("It's midnight, clearing list");
+                Console.WriteLine("It's midnight ({0}), clearing list", DateTime.Now);
                 CockPosters = new List<string>();
                 bigCockPoster = null;
                 Thread.Sleep(10000);
