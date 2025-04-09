@@ -13,15 +13,17 @@ public class Time
     public void ClearList()
     {
         Console.WriteLine("Starting up clear list task");
+        DateTime today = DateTime.Now;
         while (true)
         {
-            if ((DateTime.Now.Hour == 0) && (DateTime.Now.Minute == 0) && (DateTime.Now.Second < 5))
+            if (today.Day != DateTime.Now.Day)
             {
-                Console.WriteLine("It's midnight, clearing list");
+                Console.WriteLine("It's a new day, clearing list at {0}", DateTime.Now);
                 CockPosters = new List<string>();
                 bigCockPoster = null;
-                Thread.Sleep(10000);
+                today = DateTime.Now;
             }
+            Thread.Sleep(1000);
         }
     }
 }
