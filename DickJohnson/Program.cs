@@ -31,7 +31,7 @@ class Program
         _client = new DiscordSocketClient();
 
         time.TimeInit();
-        
+
         cockEmote = "<:cock:899135029190475826>";
         tinyCock = ":tinycock:";
         bigCock = "BigCock";
@@ -120,7 +120,7 @@ class Program
         {
             if (s.Name == bigCock)
             {
-                if (time.bigCockPoster == null)
+                if (time.bigCockPoster == null && !DoubleCock(arg.Author.Username))
                 {
                     //arg.Channel.SendMessageAsync($"Nice Cock!");
                     arg.Channel.SendFileAsync("nicecock.gif");
@@ -154,22 +154,30 @@ class Program
         //Emote.TryParse(tinyCock, out var tinycock);
         if(arg.Content == cock.ToString())
         {
-            //arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' sent a cock");
-            bool foundUser = false;
-            foreach (var user in time.CockPosters)
+            if(DoubleCock(arg.Author.Username))
             {
-                if(arg.Author.Username == user){
-                    arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
-                    foundUser = true;
-                }
+                arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
             }
-            if(foundUser == false){
+            else
+            {
                 time.CockPosters.Add(arg.Author.Username);
             }
         }
-        
+
         return Task.CompletedTask;
     }
+    private bool DoubleCock(string user)
+    {
+        foreach(var username in time.CockPosters)
+        {
+            if(user == username)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void CheckForUser(string user)
     {
         bool found = false;
@@ -177,7 +185,7 @@ class Program
         {
             if(knownUser.name == user)
             {
-                found = true; 
+                found = true;
                 return;
             }
         }
