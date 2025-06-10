@@ -18,7 +18,7 @@ Markdown==3.3.3
 multidict==6.0.5
 numpy==1.19.4
 protobuf==3.13.0
-requests==2.31.0
+requests==2.32.4
 six==1.15.0
 tensorboard==1.8.0
 tensorflow @ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.8.0-py3-none-any.whl
