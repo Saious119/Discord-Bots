@@ -160,7 +160,7 @@ namespace HouseMog
         }
         private async Task WaitADay()
         {
-            nextPingTime.NextPingTime = nextPingTime.NextPingTime.AddDays(1);
+            nextPingTime.NextPingTime = DateTime.Now.AddDays(1);
             var json = JsonConvert.SerializeObject(nextPingTime);
             File.WriteAllText("time.txt", json);
         }
