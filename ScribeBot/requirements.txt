@@ -23,6 +23,6 @@ six==1.15.0
 tensorboard==1.8.0
 tensorflow @ https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.8.0-py3-none-any.whl
 termcolor==1.1.0
-urllib3==2.2.1
+urllib3==2.5.0
 Werkzeug==1.0.1
 yarl==1.9.4
