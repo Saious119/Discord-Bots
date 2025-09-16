@@ -75,3 +75,11 @@ A python bot inspired by the Purple Haro in Mobile Suit Gundam 00, this used the
 ## Scribe Bot
 ### Description
 A bot that scrapes a channel for quotes to update the sources for WSB and AndyBot
+
+## HouseMog
+### Description
+A bot that reminds you to visit your house in FF XIV so you don't loose it, Kupo!
+
+## Movie Night Bot
+### Description
+Keep track of what movies are coming up for your monthly movie night with the boys
