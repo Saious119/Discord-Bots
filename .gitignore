@@ -54,3 +54,6 @@ DickJohnson/obj/project.nuget.cache
 */.vs/
 */.idea/
 debug.log
+DickJohnson/dickjohnson.log
+HouseMog/housemog.log
+TarotBot/tarot.log
