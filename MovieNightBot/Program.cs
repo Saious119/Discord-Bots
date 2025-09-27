@@ -1,30 +1,65 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.Net;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MovieNightBot.Jobs;
 using MovieNightBot.Models;
 using MovieNightBot.Services;
+using Quartz;
 
 class Program
 {
-    public static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
-    private DiscordSocketClient _client;
+    public static async Task Main(string[] args)
+    {
+        var host = Host.CreateDefaultBuilder(args)
+            .ConfigureServices((context, services) =>
+            {
+                // Register your services
+                services.AddSingleton<MovieService>();
+                services.AddSingleton<DiscordSocketClient>();
+                services.AddSingleton<Program>();
+
+                // Register Quartz and your job
+                services.AddQuartz(q =>
+                {
+                    var jobKey = new JobKey("movieCleanerJob");
+                    q.AddJob<MovieCleanerJob>(opts => opts.WithIdentity(jobKey));
+                    q.AddTrigger(opts => opts
+                        .ForJob(jobKey)
+                        .WithIdentity("movieCleanerTrigger")
+                        .WithCronSchedule("0 0 0 * * ?")); // Every minute at 0 seconds
+                });
+                services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+            })
+            .Build();
+
+        // Start the Discord bot and host for job concurrently
+        var program = host.Services.GetRequiredService<Program>();
+        await Task.WhenAll(
+            program.MainAsync(),
+            host.RunAsync()
+        );
+    }
+
+    private readonly DiscordSocketClient _client;
+    private readonly MovieService _movieService;
+
+    public Program(DiscordSocketClient client, MovieService movieService)
+    {
+        _client = client;
+        _movieService = movieService;
+    }
+
     public async Task MainAsync()
     {
-        _client = new DiscordSocketClient(new DiscordSocketConfig
-        {
-            GatewayIntents = GatewayIntents.GuildMessages |
-                     GatewayIntents.Guilds
-        });
         _client.Log += Log;
         _client.SlashCommandExecuted += SlashCommandHandler;
         _client.Ready += Client_Ready;
 
         var token = await File.ReadAllTextAsync("auth.txt");
-
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
-        await Task.Delay(-1);
     }
     private static Task Log(LogMessage msg)
     {
