@@ -90,7 +90,7 @@ namespace HouseMog
                 {
                     await cmd.DeferAsync();
                     await ResetTimer();
-                    await cmd.ModifyOriginalResponseAsync(msg => msg.Content = "You visited the house Kupo!");
+                    await cmd.ModifyOriginalResponseAsync(msg => msg.Content = "You visited the house, Kupo!");
                 }
                 catch (Exception e)
                 {
@@ -102,7 +102,14 @@ namespace HouseMog
                 try
                 {
                     await cmd.DeferAsync();
-                    await cmd.ModifyOriginalResponseAsync(msg => msg.Content = $"Please go visit the house before {nextPingTime.NextPingTime.ToString()}, Kupo!");
+                    if (nextPingTime.NextPingTime > DateTime.Now)
+                    {
+                        await cmd.ModifyOriginalResponseAsync(msg => msg.Content = "Please go visit the house now, Kupo!");
+                    }
+                    else
+                    {
+                        await cmd.ModifyOriginalResponseAsync(msg => msg.Content = $"Please go visit the house before {nextPingTime.NextPingTime.ToString()}, Kupo!");
+                    }
                 }
                 catch (Exception e)
                 {
