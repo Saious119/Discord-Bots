@@ -130,7 +130,7 @@ namespace HouseMog
                 if (DateTime.Now >= nextPingTime.NextPingTime)
                 {
                     Console.WriteLine("Time to ping!");
-                    await SendMessageToChannel(792595734985048074, 1334015676855091251, $"Please go visit the house before {nextPingTime.NextPingTime.ToString()}, Kupo!");
+                    await SendMessageToChannel(792595734985048074, 1334015676855091251, $"Please go visit the house before {nextPingTime.ActualDeadline}, Kupo!");
                     await WaitADay();
                 }
                 Thread.Sleep(60000); // Sleep for 1 minute to avoid tight loop

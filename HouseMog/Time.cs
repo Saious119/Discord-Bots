@@ -9,5 +9,6 @@ namespace HouseMog
     public class Time
     {
         public DateTime NextPingTime { get; set; }
+        public DateTime ActualDeadline => NextPingTime.AddDays(10);
     }
 }
