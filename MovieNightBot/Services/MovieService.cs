@@ -30,23 +30,32 @@ namespace MovieNightBot.Services
                 ? movies.Max(m => m.DateToWatch)
                 : DateTime.Now;
 
-            // Get first day of next month
-            var firstDayOfNextMonth = new DateTime(
-                latestDate.Year,
-                latestDate.Month, 1)
-                .AddMonths(1);
+            List<DateTime> allFridays = new();
+            DateTime movieDate;
+            // Determine which Friday is the last movie (first or third)
+            if (latestDate.Day < 15) //then use the third friday of this month
+            {
+                allFridays = Enumerable.Range(0, 31)
+                    .Select(i => latestDate.AddDays(i))
+                    .Where(d => d.Month == latestDate.Month && d.DayOfWeek == DayOfWeek.Friday)
+                    .ToList();
+                movieDate = allFridays[2];
+            }
+            else //use the first friday of next month
+            {
+                // Get first day of next month
+                var firstDayOfNextMonth = new DateTime(
+                        latestDate.Year,
+                        latestDate.Month, 1)
+                    .AddMonths(1);
 
-            // Find first and third Fridays of that month
-            var allFridays = Enumerable.Range(0, 31)
-                .Select(i => firstDayOfNextMonth.AddDays(i))
-                .Where(d => d.Month == firstDayOfNextMonth.Month && d.DayOfWeek == DayOfWeek.Friday)
-                .ToList();
-
-            // Determine which Friday to use (first or third)
-            Console.WriteLine(allFridays[0]+ " "+ allFridays[2]);
-            var movieDate = movies.Any()
-                ? (movies.Last().DateToWatch.Day < 15 ? allFridays[0] : allFridays[2])
-                : allFridays[0];
+                // Find first and third Fridays of that month
+                allFridays = Enumerable.Range(0, 31)
+                    .Select(i => firstDayOfNextMonth.AddDays(i))
+                    .Where(d => d.Month == firstDayOfNextMonth.Month && d.DayOfWeek == DayOfWeek.Friday)
+                    .ToList();
+                movieDate = allFridays[0];
+            }
 
             var movie = new Movie
             {
