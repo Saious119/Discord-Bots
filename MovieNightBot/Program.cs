@@ -68,75 +68,88 @@ class Program
     }
     private async Task SlashCommandHandler(SocketSlashCommand command)
     {
-        if (command.CommandName == "movie_queue")
+        try
         {
-            try
+            // Defer response immediately at the start
+            await command.DeferAsync();
+
+            switch (command.CommandName)
             {
-                await command.DeferAsync();
+                case "movie_queue":
+                    await HandleMovieQueue(command);
+                    break;
+                case "add_movie":
+                    await HandleAddMovie(command);
+                    break;
+                case "remove_movie":
+                    await HandleRemoveMovie(command);
+                    break;
+                case "swap_movies":
+                    await HandleSwapMovies(command);
+                    break;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            MovieService MovieFetcher = new MovieService();
-            var movieList = await MovieFetcher.GetMoviesAsync();
-            string response = "";
-            foreach (var movie in movieList.OrderBy(m => m.DateToWatch))
-            {
-                response += $"{movie.Title} - {movie.DateToWatch:MMMM dd, yyyy}\n";
-            }
-            await command.FollowupAsync(response);
         }
-        if (command.CommandName == "add_movie")
+        catch (TimeoutException ex)
         {
-            var movieName = (string)command.Data.Options.First().Value;
+            // If we fail to defer, try to respond directly
             try
             {
-                await command.DeferAsync();
+                await command.RespondAsync("Command processing took too long. Please try again.");
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"Failed to handle command: {ex.Message}");
             }
-            MovieService MovieFetcher = new MovieService();
-            await MovieFetcher.AddMovieAsync(movieName);
-            Movie targetMovie = (await MovieFetcher.GetMoviesAsync()).First(m => m.Title == movieName);
-            //var guild = _client.GetGuild(792595734985048074);
-            //var guildEvent = await guild.CreateEventAsync(targetMovie.Title, targetMovie.DateToWatch, GuildScheduledEventType.Voice, endTime: targetMovie.DateToWatch.AddHours(2), location: "caac");
-            await command.FollowupAsync($"Added {movieName} to the movie queue for date {targetMovie.DateToWatch:MMMM dd, yyyy}");
         }
-        if (command.CommandName == "remove_movie")
+        catch (Exception ex)
         {
-            var movieName = (string)command.Data.Options.First().Value;
+            Console.WriteLine($"Unexpected error: {ex}");
             try
             {
-                await command.DeferAsync();
+                await command.RespondAsync("An unexpected error occurred. Please try again.");
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Failed to send error message to user");
             }
-            MovieService MovieFetcher = new MovieService();
-            await MovieFetcher.RemoveMovieAsync(movieName);
-            await command.FollowupAsync($"Removed {movieName} from the movie queue.");
-        }
-        if (command.CommandName == "swap_movies")
-        {
-            var movieName1 = (string)command.Data.Options.First().Value;
-            var movieName2 = (string)command.Data.Options.ElementAt(1).Value;
-            try
-            {
-                await command.DeferAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            MovieService MovieFetcher = new MovieService();
-            await MovieFetcher.SwapMovies(movieName1, movieName2);
-            await command.FollowupAsync($"Swapped {movieName1} and {movieName2} in the movie queue.");
         }
     }
+
+    private async Task HandleMovieQueue(SocketSlashCommand command)
+    {
+        var movieList = await _movieService.GetMoviesAsync();
+        var response = movieList.OrderBy(m => m.DateToWatch)
+            .Select(movie => $"{movie.Title} - {movie.DateToWatch:MMMM dd, yyyy}")
+            .DefaultIfEmpty("No movies in queue.")
+            .Aggregate((a, b) => $"{a}\n{b}");
+
+        await command.FollowupAsync(response);
+    }
+
+    private async Task HandleAddMovie(SocketSlashCommand command)
+    {
+        var movieName = (string)command.Data.Options.First().Value;
+        await _movieService.AddMovieAsync(movieName);
+        var movies = await _movieService.GetMoviesAsync();
+        var targetMovie = movies.First(m => m.Title == movieName);
+        await command.FollowupAsync($"Added {movieName} to the movie queue for date {targetMovie.DateToWatch:MMMM dd, yyyy}");
+    }
+
+    private async Task HandleRemoveMovie(SocketSlashCommand command)
+    {
+        var movieName = (string)command.Data.Options.First().Value;
+        await _movieService.RemoveMovieAsync(movieName);
+        await command.FollowupAsync($"Removed {movieName} from the movie queue.");
+    }
+
+    private async Task HandleSwapMovies(SocketSlashCommand command)
+    {
+        var movieName1 = (string)command.Data.Options.First().Value;
+        var movieName2 = (string)command.Data.Options.ElementAt(1).Value;
+        await _movieService.SwapMovies(movieName1, movieName2);
+        await command.FollowupAsync($"Swapped {movieName1} and {movieName2} in the movie queue.");
+    }
+
     public async Task Client_Ready()
     {
         ulong guildId = 792595734985048074;
@@ -166,10 +179,11 @@ class Program
 
             await _client.Rest.BulkOverwriteGuildCommands(new[]
             {
-            guildCommand.Build(),
-            addMovieCommand.Build(),
-            removeMovieCommand.Build()
-        }, guildId);
+                guildCommand.Build(),
+                addMovieCommand.Build(),
+                removeMovieCommand.Build(),
+                swapMoviesCommand.Build()  // Add this line
+            }, guildId);
 
             Console.WriteLine("Successfully registered slash commands!");
         }

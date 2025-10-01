@@ -43,8 +43,9 @@ namespace MovieNightBot.Services
                 .ToList();
 
             // Determine which Friday to use (first or third)
+            Console.WriteLine(allFridays[0]+ " "+ allFridays[2]);
             var movieDate = movies.Any()
-                ? (movies.Last().DateToWatch.Day < 15 ? allFridays[2] : allFridays[0])
+                ? (movies.Last().DateToWatch.Day < 15 ? allFridays[0] : allFridays[2])
                 : allFridays[0];
 
             var movie = new Movie
