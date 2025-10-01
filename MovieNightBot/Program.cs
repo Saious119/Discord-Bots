@@ -120,6 +120,22 @@ class Program
             await MovieFetcher.RemoveMovieAsync(movieName);
             await command.FollowupAsync($"Removed {movieName} from the movie queue.");
         }
+        if (command.CommandName == "swap_movies")
+        {
+            var movieName1 = (string)command.Data.Options.First().Value;
+            var movieName2 = (string)command.Data.Options.ElementAt(1).Value;
+            try
+            {
+                await command.DeferAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            MovieService MovieFetcher = new MovieService();
+            await MovieFetcher.SwapMovies(movieName1, movieName2);
+            await command.FollowupAsync($"Swapped {movieName1} and {movieName2} in the movie queue.");
+        }
     }
     public async Task Client_Ready()
     {
@@ -141,6 +157,12 @@ class Program
                 .WithName("remove_movie")
                 .WithDescription("Removes a movie from the queue")
                 .AddOption("name", ApplicationCommandOptionType.String, "The name of the movie", isRequired: true);
+
+            var swapMoviesCommand = new SlashCommandBuilder()
+                .WithName("swap_movies")
+                .WithDescription("Swaps the dates of two movies in the queue")
+                .AddOption("movie1", ApplicationCommandOptionType.String, "The name of the first movie", isRequired: true)
+                .AddOption("movie2", ApplicationCommandOptionType.String, "The name of the second movie", isRequired: true);
 
             await _client.Rest.BulkOverwriteGuildCommands(new[]
             {

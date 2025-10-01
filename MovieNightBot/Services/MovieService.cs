@@ -36,15 +36,21 @@ namespace MovieNightBot.Services
                 latestDate.Month, 1)
                 .AddMonths(1);
 
-            // Find first Friday of that month
-            var firstFriday = Enumerable.Range(0, 7)
+            // Find first and third Fridays of that month
+            var allFridays = Enumerable.Range(0, 31)
                 .Select(i => firstDayOfNextMonth.AddDays(i))
-                .First(d => d.DayOfWeek == DayOfWeek.Friday);
+                .Where(d => d.Month == firstDayOfNextMonth.Month && d.DayOfWeek == DayOfWeek.Friday)
+                .ToList();
+
+            // Determine which Friday to use (first or third)
+            var movieDate = movies.Any()
+                ? (movies.Last().DateToWatch.Day < 15 ? allFridays[2] : allFridays[0])
+                : allFridays[0];
 
             var movie = new Movie
             {
                 Title = movieName,
-                DateToWatch = firstFriday
+                DateToWatch = movieDate
             };
 
             movies.Add(movie);
@@ -66,19 +72,41 @@ namespace MovieNightBot.Services
                     .OrderBy(m => m.DateToWatch)
                     .ToList();
 
-                // Adjust each movie's date to the first Friday of the previous month
+                // Adjust each movie's date
                 foreach (var movie in moviesToAdjust)
                 {
                     var targetMonth = movie.DateToWatch.AddMonths(-1);
                     var firstDayOfMonth = new DateTime(targetMonth.Year, targetMonth.Month, 1);
 
-                    var firstFriday = Enumerable.Range(0, 7)
+                    var allFridays = Enumerable.Range(0, 31)
                         .Select(i => firstDayOfMonth.AddDays(i))
-                        .First(d => d.DayOfWeek == DayOfWeek.Friday);
+                        .Where(d => d.Month == firstDayOfMonth.Month && d.DayOfWeek == DayOfWeek.Friday)
+                        .ToList();
 
-                    movie.DateToWatch = firstFriday;
+                    // Determine if this should be first or third Friday based on previous movie
+                    var previousMovie = movies
+                        .Where(m => m.DateToWatch < movie.DateToWatch)
+                        .OrderByDescending(m => m.DateToWatch)
+                        .FirstOrDefault();
+
+                    movie.DateToWatch = previousMovie != null
+                        ? (previousMovie.DateToWatch.Day < 15 ? allFridays[2] : allFridays[0])
+                        : allFridays[0];
                 }
 
+                await SaveMoviesAsync(movies);
+            }
+        }
+        public async Task SwapMovies(string movieName1, string movieName2)
+        {
+            var movies = await GetMoviesAsync();
+            var movie1 = movies.FirstOrDefault(m => m.Title.Equals(movieName1, StringComparison.OrdinalIgnoreCase));
+            var movie2 = movies.FirstOrDefault(m => m.Title.Equals(movieName2, StringComparison.OrdinalIgnoreCase));
+            if (movie1 != null && movie2 != null)
+            {
+                var tempDate = movie1.DateToWatch;
+                movie1.DateToWatch = movie2.DateToWatch;
+                movie2.DateToWatch = tempDate;
                 await SaveMoviesAsync(movies);
             }
         }
