@@ -102,7 +102,7 @@ namespace HouseMog
                 try
                 {
                     await cmd.DeferAsync();
-                    if (nextPingTime.NextPingTime > DateTime.Now)
+                    if (nextPingTime.NextPingTime <= DateTime.Now)
                     {
                         await cmd.ModifyOriginalResponseAsync(msg => msg.Content = "Please go visit the house now, Kupo!");
                     }
