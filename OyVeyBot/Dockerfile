@@ -10,6 +10,9 @@ ARG NODE_VERSION=20.11.1
 
 FROM node:${NODE_VERSION}-alpine
 
+# Install build dependencies for native modules
+RUN apk add --no-cache python3 make g++
+
 # Use production node environment by default.
 ENV NODE_ENV production
 

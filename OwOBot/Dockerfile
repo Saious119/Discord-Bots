@@ -2,15 +2,14 @@
 
 FROM node:18-alpine
 
+# Install build dependencies for native modules
+RUN apk add --no-cache python3 make g++
+
 # Set working directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-
-FROM alpine:latest
-
-RUN apk add --no-cache python3 py3-pip
 
 # Install dependencies
 RUN npm ci --only=production
