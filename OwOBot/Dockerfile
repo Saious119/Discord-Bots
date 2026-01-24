@@ -8,7 +8,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-RUN apk add python
+FROM alpine:latest
+
+RUN apk add --no-cache python3 py3-pip
 
 # Install dependencies
 RUN npm ci --only=production

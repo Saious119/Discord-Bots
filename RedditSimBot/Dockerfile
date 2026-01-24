@@ -5,7 +5,9 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-RUN apk add python
+FROM alpine:latest
+
+RUN apk add --no-cache python3 py3-pip
 
 # Copy package files
 COPY package*.json ./
