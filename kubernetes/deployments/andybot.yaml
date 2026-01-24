@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: andybot
-          image: localhost:5000/andybot:latest
+          image: 192.168.1.245:5000/andybot:latest
           imagePullPolicy: Always
           resources:
             requests:
