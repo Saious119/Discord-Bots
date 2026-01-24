@@ -13,7 +13,10 @@ FROM node:${NODE_VERSION}-alpine3.18
 # Use production node environment by default.
 ENV NODE_ENV production
 
-RUN apk add python
+FROM alpine:latest
+
+RUN apk add --no-cache python3 py3-pip
+
 
 WORKDIR /usr/src/app
 
