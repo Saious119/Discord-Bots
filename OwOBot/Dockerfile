@@ -8,6 +8,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+RUN apk add python
+
 # Install dependencies
 RUN npm ci --only=production
 

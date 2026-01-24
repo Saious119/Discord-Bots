@@ -13,6 +13,7 @@ FROM node:${NODE_VERSION}-alpine3.18
 # Use production node environment by default.
 ENV NODE_ENV production
 
+RUN apk add python
 
 WORKDIR /usr/src/app
 

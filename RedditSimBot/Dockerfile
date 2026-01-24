@@ -5,6 +5,8 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
+RUN apk add python
+
 # Copy package files
 COPY package*.json ./
 
