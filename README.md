@@ -1,5 +1,65 @@
 # Discord-Bots
-A collection of all the discord bots I've made 
+A collection of all the discord bots I've made
+
+## 🚀 Kubernetes Deployment
+
+All bots are now containerized and ready to deploy to your k3s cluster!
+
+### Quick Start
+
+```bash
+# Build all Docker images
+./build-all.sh          # Linux/Mac
+# OR
+.\build-all.ps1         # Windows
+
+# Deploy to k3s
+cd kubernetes
+./deploy-all.sh
+```
+
+### Documentation
+
+- **[Quick Start Guide](DEPLOYMENT-QUICKSTART.md)** - Quick reference for deployment
+- **[Setup Complete Guide](KUBERNETES-SETUP-COMPLETE.md)** - Overview of what's been set up
+- **[Full Kubernetes Guide](kubernetes/README.md)** - Comprehensive deployment documentation
+- **[Secret Management](kubernetes/secrets/README.md)** - Managing bot tokens and credentials
+
+### Managing Bots
+
+```bash
+cd kubernetes
+
+# View all deployed bots
+./bot-manager.sh list
+
+# Check bot status
+./bot-manager.sh status andybot
+
+# View logs
+./bot-manager.sh logs andybot -f
+
+# Restart a bot
+./bot-manager.sh restart andybot
+
+# Rebuild and redeploy
+./bot-manager.sh rebuild andybot
+```
+
+### Bot Inventory
+
+**Total: 18 Discord Bots** organized by language:
+
+- **Go (3):** AndyBot, PirateBot, WSB
+- **C# (5):** BrainCellBot, DickJohnson, HouseMog, MangaNotifier, MovieNightBot
+- **Node.js (8):** OwOBot, OyVeyBot, RedditSimBot, TarotBot, UwUBot, JailBot, JonTronBot, TerryDavisBot
+- **Python (2):** ScribeBot, PurpleHaroBot
+
+All bots have Dockerfiles and are ready for Kubernetes deployment!
+
+---
+
+## 📖 Bot Descriptions
 
 ## UwUBot
 ### Description
