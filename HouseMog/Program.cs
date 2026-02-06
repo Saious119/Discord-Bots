@@ -133,7 +133,7 @@ namespace HouseMog
                     await SendMessageToChannel(792595734985048074, 1334015676855091251, $"Please go visit the house before {nextPingTime.ActualDeadline}, Kupo!");
                     await WaitADay();
                 }
-                else if ((DateTime.Now.Date - nextPingTime.ActualDeadline.Date).Days < 6)
+                else if (((DateTime.Now.Date - nextPingTime.ActualDeadline.Date).Days < 6) && (DateTime.Now >= nextPingTime.NextPingTime))
                 {
                     Console.WriteLine("Time to ping! AND WE'RE RUNNNING OUT OF TIME!");
                     await SendMessageToChannel(792595734985048074, 1334015676855091251, $"Please go visit the house before {nextPingTime.ActualDeadline}, Kupo! YOU ONLY HAVE {(nextPingTime.ActualDeadline.Date - DateTime.Now.Date).Days} DAYS LEFT, KUPO!");
