@@ -1,11 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using Discord;
-using Discord.Commands;
+﻿using Discord;
 using Discord.WebSocket;
 using Newtonsoft.Json;
 
@@ -36,8 +29,8 @@ namespace HouseMog
             }
             catch (Exception e)
             {
-                //Console.WriteLine(e);
-                nextPingTime = new Time { NextPingTime = DateTime.Now };
+                Console.WriteLine("No file named time.txt found, creating default Time object...");
+                nextPingTime = new Time();
             }
 
             Thread timeThread = new Thread(new ThreadStart(StartTimer));
@@ -102,7 +95,7 @@ namespace HouseMog
                 try
                 {
                     await cmd.DeferAsync();
-                    if (nextPingTime.NextPingTime <= DateTime.Now)
+                    if (nextPingTime.NextPingTime <= DateTime.Now) //if the next ping time is in the past
                     {
                         await cmd.ModifyOriginalResponseAsync(msg => msg.Content = "Please go visit the house now, Kupo!");
                     }
@@ -138,6 +131,12 @@ namespace HouseMog
                 {
                     Console.WriteLine("Time to ping!");
                     await SendMessageToChannel(792595734985048074, 1334015676855091251, $"Please go visit the house before {nextPingTime.ActualDeadline}, Kupo!");
+                    await WaitADay();
+                }
+                else if ((DateTime.Now.Date - nextPingTime.ActualDeadline.Date).Days < 6)
+                {
+                    Console.WriteLine("Time to ping! AND WE'RE RUNNNING OUT OF TIME!");
+                    await SendMessageToChannel(792595734985048074, 1334015676855091251, $"Please go visit the house before {nextPingTime.ActualDeadline}, Kupo! YOU ONLY HAVE {(nextPingTime.ActualDeadline.Date - DateTime.Now.Date).Days} DAYS LEFT, KUPO!");
                     await WaitADay();
                 }
                 Thread.Sleep(60000); // Sleep for 1 minute to avoid tight loop
