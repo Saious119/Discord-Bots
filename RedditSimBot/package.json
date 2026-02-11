@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "axios": "^0.30.0",
+    "axios": "^1.13.5",
     "discord.js": "^14.9.0",
     "mongodb": "^5.8.0"
   }
