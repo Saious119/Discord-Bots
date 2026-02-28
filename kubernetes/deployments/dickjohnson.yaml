@@ -40,7 +40,7 @@ spec:
             [
               "sh",
               "-c",
-              "if [ ! -f /data/UserData.json ]; then cp /app/UserData.json /data/UserData.json; fi && chown 1654:1654 /data/UserData.json",
+              "if [ ! -f /data/UserData.json ]; then cp /app/UserData.json /data/UserData.json 2>/dev/null || echo '[]' > /data/UserData.json; fi && chown 1654:1654 /data/UserData.json",
             ]
           volumeMounts:
             - name: userdata
