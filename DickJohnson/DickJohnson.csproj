@@ -9,7 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="3.18.0" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <None Update="UserData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
