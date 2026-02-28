@@ -16,11 +16,11 @@ class Program
 
     private DiscordSocketClient _client;
 
-    private string cockEmote {get; set;}
+    private string cockEmote { get; set; }
 
-    private string tinyCock {get; set;}
+    private string tinyCock { get; set; }
 
-    private string bigCock { get; set;}
+    private string bigCock { get; set; }
 
     private Time time = new Time();
 
@@ -89,13 +89,12 @@ class Program
         }
     }
 
-    private static Task ClientOnMessageReceived(SocketMessage arg)
+    private static async Task ClientOnMessageReceived(SocketMessage arg)
     {
         if (arg.Content.StartsWith("!helloworld"))
         {
-            arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' successfully ran helloworld!");
+            await arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' successfully ran helloworld!");
         }
-        return Task.CompletedTask;
     }
     public async Task Client_Ready()
     {
@@ -113,7 +112,7 @@ class Program
             Console.WriteLine(e);
         }
     }
-    private Task CockRecieved(SocketMessage arg)
+    private async Task CockRecieved(SocketMessage arg)
     {
         var stickers = arg.Stickers;
         foreach (var s in stickers)
@@ -123,12 +122,12 @@ class Program
                 if (time.bigCockPoster == null && !DoubleCock(arg.Author.Username))
                 {
                     //arg.Channel.SendMessageAsync($"Nice Cock!");
-                    arg.Channel.SendFileAsync("nicecock.gif");
+                    await arg.Channel.SendFileAsync("nicecock.gif");
                     time.bigCockPoster = arg.Author.Username;
                     Console.WriteLine("Big Cock poster at {0} is {1}", DateTime.Now, time.bigCockPoster);
-                    foreach(var user in userDatas)
+                    foreach (var user in userDatas)
                     {
-                        if(user.name == arg.Author.Username)
+                        if (user.name == arg.Author.Username)
                         {
                             user.bigCockCount++;
                             SaveUserData();
@@ -145,18 +144,18 @@ class Program
                             SaveUserData();
                         }
                     }
-                    arg.Channel.SendMessageAsync($"{arg.Author.Username} HAS A TINY COCK!");
+                    await arg.Channel.SendMessageAsync($"{arg.Author.Username} HAS A TINY COCK!");
                 }
             }
         }
         CheckForUser(arg.Author.Username);
         Emote.TryParse(cockEmote, out var cock);
         //Emote.TryParse(tinyCock, out var tinycock);
-        if(arg.Content == cock.ToString())
+        if (arg.Content == cock.ToString())
         {
-            if(DoubleCock(arg.Author.Username))
+            if (DoubleCock(arg.Author.Username))
             {
-                arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
+                await arg.Channel.SendMessageAsync($"{arg.Author.Username} has posted multiple cocks today!");
             }
             else
             {
@@ -164,13 +163,13 @@ class Program
             }
         }
 
-        return Task.CompletedTask;
+        return;
     }
     private bool DoubleCock(string user)
     {
-        foreach(var username in time.CockPosters)
+        foreach (var username in time.CockPosters)
         {
-            if(user == username)
+            if (user == username)
             {
                 return true;
             }
@@ -181,15 +180,15 @@ class Program
     private void CheckForUser(string user)
     {
         bool found = false;
-        foreach(var knownUser in userDatas)
+        foreach (var knownUser in userDatas)
         {
-            if(knownUser.name == user)
+            if (knownUser.name == user)
             {
                 found = true;
                 return;
             }
         }
-        if(found == false)
+        if (found == false)
         {
             Console.WriteLine("Adding new user: {0} to json file...", user);
             userDatas.Add(new UserData { name = user, bigCockCount = 0 });
