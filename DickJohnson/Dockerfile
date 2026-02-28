@@ -52,8 +52,9 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 # Copy everything needed to run the app from the "build" stage.
 COPY --from=build /app .
 
-# Explicitly copy UserData.json into the image (dotnet publish may not include it)
+# Explicitly copy data files into the image (dotnet publish may not include them)
 COPY --from=build /source/UserData.json .
+COPY --from=build /source/nicecock.gif .
 
 # Switch to a non-privileged user (defined in the base image) that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
