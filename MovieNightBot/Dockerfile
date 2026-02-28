@@ -25,6 +25,9 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 # Copy everything needed to run the app from the "build" stage.
 COPY --from=build /app .
 
+# Explicitly copy MovieData.json into the image (dotnet publish may not include it)
+COPY --from=build /source/MovieData.json .
+
 # Create a non-privileged user that the app will run under.
 ARG UID=10001
 RUN adduser \
