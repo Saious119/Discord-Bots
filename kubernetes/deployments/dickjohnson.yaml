@@ -1,3 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dickjohnson-userdata-pvc
+  namespace: discord-bots
+  labels:
+    app: dickjohnson
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 64Mi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,26 +31,46 @@ spec:
         app: dickjohnson
         language: csharp
     spec:
+      securityContext:
+        fsGroup: 1654
+      initContainers:
+        - name: copy-userdata
+          image: localhost:5000/dickjohnson:latest
+          command:
+            [
+              "sh",
+              "-c",
+              "if [ ! -f /data/UserData.json ]; then cp /app/UserData.json /data/UserData.json; fi && chown 1654:1654 /data/UserData.json",
+            ]
+          volumeMounts:
+            - name: userdata
+              mountPath: /data
       containers:
-      - name: dickjohnson
-        image: localhost:5000/dickjohnson:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        volumeMounts:
-        - name: auth
-          mountPath: /app/auth.txt
-          subPath: auth.txt
-          readOnly: true
+        - name: dickjohnson
+          image: localhost:5000/dickjohnson:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: auth
+              mountPath: /app/auth.txt
+              subPath: auth.txt
+              readOnly: true
+            - name: userdata
+              mountPath: /app/UserData.json
+              subPath: UserData.json
       volumes:
-      - name: auth
-        secret:
-          secretName: dickjohnson-secret
+        - name: auth
+          secret:
+            secretName: dickjohnson-secret
+        - name: userdata
+          persistentVolumeClaim:
+            claimName: dickjohnson-userdata-pvc
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -48,6 +82,6 @@ spec:
   selector:
     app: dickjohnson
   ports:
-  - port: 8080
-    targetPort: 8080
+    - port: 8080
+      targetPort: 8080
   type: ClusterIP
