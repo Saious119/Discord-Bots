@@ -15,14 +15,14 @@ namespace BrainCellBot
 
         private string BrainCellOwner = "BrainCellBot"; //start with a default holder
 
-        private string lastOwnerPath = "/home/pi/Discord-Bots/BrainCellBot/lastOwner.txt";
+        private string lastOwnerPath = "NoBody";
 
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
 
             _client.Log += Log;
-           // _client.MessageReceived += ClientOnMessageReceived;
+            // _client.MessageReceived += ClientOnMessageReceived;
             _client.SlashCommandExecuted += SlashCommandHandler;
             _client.Ready += Client_Ready;
 
@@ -87,7 +87,7 @@ namespace BrainCellBot
                 BrainCellOwner = user.ToString();
                 setLastBrainCellOwner(user.ToString());
                 await command.ModifyOriginalResponseAsync(msg => msg.Content = $"You gave the brain cell to {BrainCellOwner}");
-            }   
+            }
             if (command.CommandName == "whohasbraincell")
             {
                 try
@@ -101,30 +101,32 @@ namespace BrainCellBot
                 var msgToSend = BrainCellOwner;
                 await command.ModifyOriginalResponseAsync(msg => msg.Content = msgToSend);
             }
-            
+
         }
 
-        private string getLastBrainCellOwner(){
+        private string getLastBrainCellOwner()
+        {
             try
             {
                 var user = File.ReadAllText(lastOwnerPath);
                 return user;
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
             return this.BrainCellOwner;
         }
 
-        private void setLastBrainCellOwner(string user){
+        private void setLastBrainCellOwner(string user)
+        {
             try
             {
                 File.WriteAllText(lastOwnerPath, user);
             }
-            catch (Exception e) 
-            { 
-                Console.WriteLine(e.ToString()); 
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
         }
     }
