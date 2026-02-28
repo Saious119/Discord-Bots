@@ -20,7 +20,7 @@ WORKDIR /app
 
 # Copy everything needed to run the app from the "build" stage.
 COPY --from=build /app .
-
+COPY --from=build /source/time.txt .
 # Create a non-privileged user that the app will run under.
 ARG UID=10001
 RUN adduser \

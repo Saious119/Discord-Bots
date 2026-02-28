@@ -53,7 +53,6 @@ WORKDIR /app
 
 # Copy the executable from the "build" stage.
 COPY --from=build /bin/andybot /app/andybot
-
 # Copy necessary data files
 COPY --chown=appuser:appuser AndyQuotes.txt /app/AndyQuotes.txt
 
