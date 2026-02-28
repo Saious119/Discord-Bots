@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: andybot
+  name: manganotifier
   namespace: discord-bots
   labels:
-    app: andybot
-    language: go
+    app: manganotifier
+    language: csharp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: andybot
+      app: manganotifier
   template:
     metadata:
       labels:
-        app: andybot
-        language: go
+        app: manganotifier
+        language: csharp
     spec:
       containers:
-      - name: andybot
-        image: localhost:5000/andybot:latest
+      - name: manganotifier
+        image: localhost:5000/manganotifier:latest
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
             memory: "128Mi"
-            cpu: "200m"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         volumeMounts:
         - name: auth
           mountPath: /app/auth.txt
@@ -36,17 +36,17 @@ spec:
       volumes:
       - name: auth
         secret:
-          secretName: andybot-secret
+          secretName: manganotifier-secret
       restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: andybot
+  name: manganotifier
   namespace: discord-bots
 spec:
   selector:
-    app: andybot
+    app: manganotifier
   ports:
   - port: 8080
     targetPort: 8080

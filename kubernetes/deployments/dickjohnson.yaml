@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: andybot
+  name: dickjohnson
   namespace: discord-bots
   labels:
-    app: andybot
-    language: go
+    app: dickjohnson
+    language: csharp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: andybot
+      app: dickjohnson
   template:
     metadata:
       labels:
-        app: andybot
-        language: go
+        app: dickjohnson
+        language: csharp
     spec:
       containers:
-      - name: andybot
-        image: localhost:5000/andybot:latest
+      - name: dickjohnson
+        image: localhost:5000/dickjohnson:latest
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
             memory: "128Mi"
-            cpu: "200m"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         volumeMounts:
         - name: auth
           mountPath: /app/auth.txt
@@ -36,17 +36,17 @@ spec:
       volumes:
       - name: auth
         secret:
-          secretName: andybot-secret
+          secretName: dickjohnson-secret
       restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: andybot
+  name: dickjohnson
   namespace: discord-bots
 spec:
   selector:
-    app: andybot
+    app: dickjohnson
   ports:
   - port: 8080
     targetPort: 8080

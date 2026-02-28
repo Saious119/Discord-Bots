@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: andybot
+  name: piratebot
   namespace: discord-bots
   labels:
-    app: andybot
+    app: piratebot
     language: go
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: andybot
+      app: piratebot
   template:
     metadata:
       labels:
-        app: andybot
+        app: piratebot
         language: go
     spec:
       containers:
-      - name: andybot
-        image: localhost:5000/andybot:latest
+      - name: piratebot
+        image: localhost:5000/piratebot:latest
         imagePullPolicy: Always
         resources:
           requests:
@@ -36,17 +36,17 @@ spec:
       volumes:
       - name: auth
         secret:
-          secretName: andybot-secret
+          secretName: piratebot-secret
       restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: andybot
+  name: piratebot
   namespace: discord-bots
 spec:
   selector:
-    app: andybot
+    app: piratebot
   ports:
   - port: 8080
     targetPort: 8080

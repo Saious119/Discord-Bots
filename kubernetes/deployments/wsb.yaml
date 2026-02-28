@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: andybot
+  name: wsb
   namespace: discord-bots
   labels:
-    app: andybot
+    app: wsb
     language: go
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: andybot
+      app: wsb
   template:
     metadata:
       labels:
-        app: andybot
+        app: wsb
         language: go
     spec:
       containers:
-      - name: andybot
-        image: localhost:5000/andybot:latest
+      - name: wsb
+        image: localhost:5000/wsb:latest
         imagePullPolicy: Always
         resources:
           requests:
@@ -36,17 +36,17 @@ spec:
       volumes:
       - name: auth
         secret:
-          secretName: andybot-secret
+          secretName: wsb-secret
       restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: andybot
+  name: wsb
   namespace: discord-bots
 spec:
   selector:
-    app: andybot
+    app: wsb
   ports:
   - port: 8080
     targetPort: 8080
