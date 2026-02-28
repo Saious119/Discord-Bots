@@ -55,7 +55,7 @@ func main() {
 		panic(err)
 	}
 
-	file, err := os.Open("../ScribeBot/GamerQuotes.txt")
+	file, err := os.Open("GamerQuotes.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -72,7 +72,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/refreshQuotes", func(c *gin.Context) {
 		chain = nil
-		file, err := os.Open("../ScribeBot/GamerQuotes.txt")
+		file, err := os.Open("GamerQuotes.txt")
 		if err != nil {
 			panic(err)
 		}
