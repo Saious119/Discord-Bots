@@ -18,25 +18,25 @@ spec:
         language: go
     spec:
       containers:
-      - name: wsb
-        image: localhost:5000/wsb:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "128Mi"
-            cpu: "200m"
-        volumeMounts:
-        - name: auth
-          mountPath: /app/auth.txt
-          subPath: auth.txt
-          readOnly: true
+        - name: wsb
+          image: localhost:5000/wsb:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "200m"
+          volumeMounts:
+            - name: auth
+              mountPath: /app/auth.txt
+              subPath: auth.txt
+              readOnly: true
       volumes:
-      - name: auth
-        secret:
-          secretName: wsb-secret
+        - name: auth
+          secret:
+            secretName: wsb-secret
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -48,6 +48,6 @@ spec:
   selector:
     app: wsb
   ports:
-  - port: 8080
-    targetPort: 8080
+    - port: 8080
+      targetPort: 8080
   type: ClusterIP

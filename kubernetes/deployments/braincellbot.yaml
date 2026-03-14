@@ -18,25 +18,25 @@ spec:
         language: csharp
     spec:
       containers:
-      - name: braincellbot
-        image: localhost:5000/braincellbot:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        volumeMounts:
-        - name: auth
-          mountPath: /app/auth.txt
-          subPath: auth.txt
-          readOnly: true
+        - name: braincellbot
+          image: localhost:5000/braincellbot:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: auth
+              mountPath: /app/auth.txt
+              subPath: auth.txt
+              readOnly: true
       volumes:
-      - name: auth
-        secret:
-          secretName: braincellbot-secret
+        - name: auth
+          secret:
+            secretName: braincellbot-secret
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -48,6 +48,6 @@ spec:
   selector:
     app: braincellbot
   ports:
-  - port: 8080
-    targetPort: 8080
+    - port: 8080
+      targetPort: 8080
   type: ClusterIP

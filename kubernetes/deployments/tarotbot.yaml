@@ -18,25 +18,25 @@ spec:
         language: nodejs
     spec:
       containers:
-      - name: tarotbot
-        image: localhost:5000/tarotbot:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "50m"
-          limits:
-            memory: "256Mi"
-            cpu: "300m"
-        volumeMounts:
-        - name: auth
-          mountPath: /app/auth.json
-          subPath: auth.json
-          readOnly: true
+        - name: tarotbot
+          image: localhost:5000/tarotbot:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "300m"
+          volumeMounts:
+            - name: auth
+              mountPath: /app/auth.json
+              subPath: auth.json
+              readOnly: true
       volumes:
-      - name: auth
-        secret:
-          secretName: tarotbot-secret
+        - name: auth
+          secret:
+            secretName: tarotbot-secret
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -48,6 +48,6 @@ spec:
   selector:
     app: tarotbot
   ports:
-  - port: 8080
-    targetPort: 8080
+    - port: 8080
+      targetPort: 8080
   type: ClusterIP

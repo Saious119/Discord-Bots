@@ -40,10 +40,10 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "64Mi"
+            memory: "32Mi"
             cpu: "50m"
           limits:
-            memory: "128Mi"
+            memory: "64Mi"
             cpu: "200m"
         volumeMounts:
         - name: auth
@@ -103,10 +103,10 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "128Mi"
+            memory: "64Mi"
             cpu: "100m"
           limits:
-            memory: "256Mi"
+            memory: "128Mi"
             cpu: "500m"
         volumeMounts:
         - name: auth
@@ -166,10 +166,10 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "128Mi"
+            memory: "64Mi"
             cpu: "50m"
           limits:
-            memory: "256Mi"
+            memory: "128Mi"
             cpu: "300m"
         volumeMounts:
         - name: auth
@@ -230,10 +230,10 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "128Mi"
+            memory: "64Mi"
             cpu: "50m"
           limits:
-            memory: "256Mi"
+            memory: "128Mi"
             cpu: "300m"
         volumeMounts:
         - name: auth
