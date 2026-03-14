@@ -161,6 +161,7 @@ namespace HouseMog
         private async Task ResetTimer()
         {
             nextPingTime.NextPingTime = DateTime.Now.AddDays(20);
+            nextPingTime.ActualDeadline = nextPingTime.NextPingTime.AddDays(10);
             var json = JsonConvert.SerializeObject(nextPingTime);
             File.WriteAllText("time.txt", json);
         }
