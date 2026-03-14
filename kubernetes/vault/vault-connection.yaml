@@ -1,0 +1,40 @@
+# VaultConnection - Points VSO to the local HashiCorp Vault instance
+# Adjust the address to match your Vault service location in the cluster
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+  namespace: discord-bots
+spec:
+  # If Vault is running in-cluster, use the internal service DNS name
+  # Format: http://<service-name>.<namespace>.svc.cluster.local:<port>
+  # If Vault is running outside the cluster, use the external address
+  address: http://vault.vault.svc.cluster.local:8200
+  skipTLSVerify: false
+---
+# VaultAuth - Configures how VSO authenticates to Vault
+# Uses the Kubernetes auth method so pods can authenticate via their ServiceAccount
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+  namespace: discord-bots
+spec:
+  vaultConnectionRef: vault-connection
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: discord-bots
+    serviceAccount: discord-bots-vault
+    audiences:
+      - vault
+---
+# ServiceAccount used by VSO to authenticate to Vault
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: discord-bots-vault
+  namespace: discord-bots
+  labels:
+    app.kubernetes.io/part-of: discord-bots
+    app.kubernetes.io/managed-by: vault-secrets-operator
