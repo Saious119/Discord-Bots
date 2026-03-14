@@ -21,6 +21,17 @@ spec:
         - name: scribebot
           image: localhost:5000/scribebot:latest
           imagePullPolicy: Always
+          env:
+            - name: COCKROACH_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: scribebot-secret
+                  key: cockroach_db_url
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: scribebot-secret
+                  key: token
           resources:
             requests:
               memory: "64Mi"
@@ -28,15 +39,6 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "300m"
-          volumeMounts:
-            - name: auth
-              mountPath: /app/auth.txt
-              subPath: auth.txt
-              readOnly: true
-      volumes:
-        - name: auth
-          secret:
-            secretName: scribebot-secret
       restartPolicy: Always
 ---
 apiVersion: v1

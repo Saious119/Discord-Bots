@@ -1,48 +1,73 @@
 # This bot requires the 'message_content' intent.
 
-import json
 import os
+import re
 
 import discord
+import psycopg2
 import requests
 from discord import app_commands
 from discord.ext import commands
+from dotenv import load_dotenv
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 # client = discord.Client(intents=intents)
 client = commands.Bot(command_prefix="$", intents=discord.Intents.all())
-token_file = open("auth.txt", "r", encoding="utf-8")
-token = token_file.read()
 
-LAST_MESSAGE_FILE = "last_message_ids.json"
+load_dotenv()
 
-
-def load_last_message_ids():
-    """Load the last processed message IDs from file"""
-    if os.path.exists(LAST_MESSAGE_FILE):
-        try:
-            with open(LAST_MESSAGE_FILE, "r") as f:
-                return json.load(f)
-        except:
-            return {}
-    return {}
+TOKEN = os.environ["TOKEN"]
+DB_CONN_STRING = os.environ["COCKROACH_DB_URL"]
 
 
-def save_last_message_ids(message_ids):
-    """Save the last processed message IDs to file"""
-    with open(LAST_MESSAGE_FILE, "w") as f:
-        json.dump(message_ids, f)
-
-
-def append_wsb_quotes(quotes):
+def insert_quotes_to_db(quotes):
+    """Insert quotes into the CockroachDB quotes table.
+    quotes is a list of ((quote_text, attribute), discord_message_id) tuples.
+    """
     try:
-        file = open("GamerQuotes.txt", "a", encoding="utf-8")
-        for quote in quotes:
-            file.write(quote + "\n")
-        file.close()
-        print(f"Appended {len(quotes)} WSB Quote(s) to File!")
+        conn = psycopg2.connect(DB_CONN_STRING)
+        conn.set_session(autocommit=True)
+        cur = conn.cursor()
+        for (quote_text, attribute), discord_message_id in quotes:
+            try:
+                cur.execute(
+                    "INSERT INTO quotes (quote, attribute, discord_message_id) VALUES (%s, %s, %s)",
+                    (quote_text, attribute, discord_message_id),
+                )
+            except Exception as ex:
+                print(
+                    f"Error inserting quote {quote_text} - {attribute} ({discord_message_id}) into database with error: {ex}"
+                )
+        cur.close()
+        conn.close()
+        print(f"Inserted {len(quotes)} quote(s) into DB!")
+    except Exception as e:
+        print(f"DB insert error: {e}")
+
+
+def get_last_message_id():
+    """Get the discord_message_id of the newest entry in the quotes table"""
+    try:
+        conn = psycopg2.connect(DB_CONN_STRING)
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT discord_message_id FROM quotes ORDER BY created_at DESC LIMIT 1"
+        )
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        if row and row[0]:
+            return row[0]
+    except Exception as e:
+        print(f"DB query error: {e}")
+    return None
+
+
+def update_quotes(quotes):
+    try:
+        insert_quotes_to_db(quotes)
         response = requests.get(
             "http://localhost:8081/refreshQuotes"
         )  # Call WSB's API to reload the quotes file
@@ -51,34 +76,17 @@ def append_wsb_quotes(quotes):
         print(e)
 
 
-def append_andy_quotes(quotes):
-    try:
-        file = open("AndyQuotes.txt", "a", encoding="utf-8")
-        for quote in quotes:
-            file.write(quote + "\n")
-        file.close()
-        print(f"Appended {len(quotes)} Andy Quote(s) to File!")
-        response = requests.get(
-            "http://localhost:8080/refreshQuotes"
-        )  # Call AndyBot's API to reload the quotes file
-        print("Called AndyBot's API")
-    except Exception as e:
-        print(e)
-
-
-async def get_history_of_quotes_channel(channel):
+async def get_new_quotes(channel):
     print("Getting New Quotes")
     try:
-        # Load the last processed message ID for this channel
-        last_message_ids = load_last_message_ids()
-        last_message_id = last_message_ids.get(str(channel.id), None)
+        last_message_id = get_last_message_id()
 
         # Get messages after the last processed one
         if last_message_id:
             messages = [
                 message
                 async for message in channel.history(
-                    limit=None, after=discord.Object(id=last_message_id)
+                    limit=None, after=discord.Object(id=int(last_message_id))
                 )
             ]
         else:
@@ -87,47 +95,30 @@ async def get_history_of_quotes_channel(channel):
 
         if not messages:
             print("No new quotes to process")
-            return
+            return 0
 
         # Sort messages by timestamp (oldest first) so they append in chronological order
         messages.sort(key=lambda m: m.created_at)
 
-        wsb_quotes = []
-        andy_quotes = []
+        quotes = []
         for message in messages:
             try:
-                # please stop deadnaming my friend :(
-                message.content = message.content.replace("ben", "mel")
-                message.content = message.content.replace("Ben", "Mel")
-                message.content = message.content.replace("BEN", "MEL")
-                # do stuff
-                if "/" and ":" not in message.content:  # filter out time stamps
-                    message_to_add = message.content
-                    if " - " in message.content:  # filter out quote attributions
-                        message_to_add = message.content.split(" - ")[0]
-                    if "~" in message.content:
-                        message_to_add = message.content.split("~")[0]
-                    if (
-                        "357280188025012252" in message.content
-                    ):  # Check for AndyBot Quote
-                        andy_quotes.append(message_to_add)
-                    wsb_quotes.append(message_to_add)
+                # if "/" and ":" not in message.content:  # filter out time stamps
+                quote_text = message.content
+                attribute = ""
+                parts = re.split(r'["""][\s\-~]{0,4}<', message.content)
+                if len(parts) > 1:
+                    quote_text = parts[0].strip() + '"'
+                    attribute = parts[1].strip()
+                quotes.append(((quote_text, attribute), str(message.id)))
             except Exception as ex:
                 print(ex)
 
         print(f"Got {len(messages)} New Quote(s)")
 
-        # Append new quotes
-        if wsb_quotes:
-            append_wsb_quotes(wsb_quotes)
-        if andy_quotes:
-            append_andy_quotes(andy_quotes)
-
-        # Save the latest message ID
-        if messages:
-            last_message_ids[str(channel.id)] = messages[-1].id
-            save_last_message_ids(last_message_ids)
-
+        # Update DB and tell Bots to refresh
+        update_quotes(quotes)
+        return len(messages)
     except Exception as e:
         print(e)
 
@@ -150,10 +141,12 @@ async def refreshQuotes(interaction: discord.Interaction):
         await interaction.response.send_message(
             "Refreshing Quotes, may take a few minutes...", ephemeral=True
         )
-        await get_history_of_quotes_channel(client.get_channel(908550006678626334))
-        await interaction.followup.send("Refreshed Quotes!", ephemeral=True)
+        numNewQuotes = await get_new_quotes(client.get_channel(908550006678626334))
+        await interaction.followup.send(
+            f"Refreshed with {numNewQuotes} new Quote(s)!", ephemeral=True
+        )
     except Exception as e:
         print(e)
 
 
-client.run(token)
+client.run(TOKEN)
