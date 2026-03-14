@@ -46,7 +46,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS final
 WORKDIR /app
 
 # Install ICU libraries for full globalization support (required by Discord.Net)
-RUN apk add --no-cache icu-libs
+# Also install tzdata for timezone support (e.g. America/New_York)
+RUN apk add --no-cache icu-libs tzdata
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 # Copy everything needed to run the app from the "build" stage.
