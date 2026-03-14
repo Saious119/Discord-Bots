@@ -124,7 +124,9 @@ class Program
                     //arg.Channel.SendMessageAsync($"Nice Cock!");
                     await arg.Channel.SendFileAsync("nicecock.gif");
                     time.bigCockPoster = arg.Author.Username;
-                    Console.WriteLine("Big Cock poster at {0} is {1}", DateTime.Now, time.bigCockPoster);
+                    TimeZoneInfo eastern = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+                    DateTime easternTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, eastern);
+                    Console.WriteLine("Big Cock poster at {0} is {1}", easternTime, time.bigCockPoster);
                     foreach (var user in userDatas)
                     {
                         if (user.name == arg.Author.Username)
