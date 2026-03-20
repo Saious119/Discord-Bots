@@ -198,6 +198,7 @@ class Program
             {
                 guildCommand.Build(),
                 addMovieCommand.Build(),
+                addMovieToTopCommand.Build(),
                 removeMovieCommand.Build(),
                 swapMoviesCommand.Build()  // Add this line
             }, guildId);
