@@ -1,4 +1,4 @@
-﻿using MovieNightBot.Models;
+using MovieNightBot.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,46 +21,40 @@ namespace MovieNightBot.Services
             var json = System.Text.Json.JsonSerializer.Serialize(movies);
             await File.WriteAllTextAsync("MovieData.json", json);
         }
-        public async Task AddMovieAsync(string movieName)
+        private DateTime GetNextMovieDate(DateTime fromDate)
         {
-            var movies = await GetMoviesAsync();
+            List<DateTime> allFridays;
 
-            // Find the latest movie date or use current date if no movies exist
-            var latestDate = movies.Any()
-                ? movies.Max(m => m.DateToWatch)
-                : DateTime.Now;
-
-            List<DateTime> allFridays = new();
-            DateTime movieDate;
-            // Determine which Friday is the last movie (first or third)
-            if (latestDate.Day < 15) //then use the third friday of this month
+            if (fromDate.Day < 15) // use the third friday of this month
             {
                 allFridays = Enumerable.Range(0, 31)
-                    .Select(i => latestDate.AddDays(i))
-                    .Where(d => d.Month == latestDate.Month && d.DayOfWeek == DayOfWeek.Friday)
+                    .Select(i => fromDate.AddDays(i))
+                    .Where(d => d.Month == fromDate.Month && d.DayOfWeek == DayOfWeek.Friday)
                     .ToList();
-                movieDate = allFridays[2];
+                return allFridays[2];
             }
-            else //use the first friday of next month
+            else // use the first friday of next month
             {
-                // Get first day of next month
-                var firstDayOfNextMonth = new DateTime(
-                        latestDate.Year,
-                        latestDate.Month, 1)
-                    .AddMonths(1);
-
-                // Find first and third Fridays of that month
+                var firstDayOfNextMonth = new DateTime(fromDate.Year, fromDate.Month, 1).AddMonths(1);
                 allFridays = Enumerable.Range(0, 31)
                     .Select(i => firstDayOfNextMonth.AddDays(i))
                     .Where(d => d.Month == firstDayOfNextMonth.Month && d.DayOfWeek == DayOfWeek.Friday)
                     .ToList();
-                movieDate = allFridays[0];
+                return allFridays[0];
             }
+        }
+        public async Task AddMovieAsync(string movieName)
+        {
+            var movies = await GetMoviesAsync();
+
+            var latestDate = movies.Any()
+                ? movies.Max(m => m.DateToWatch)
+                : DateTime.Now;
 
             var movie = new Movie
             {
                 Title = movieName,
-                DateToWatch = movieDate
+                DateToWatch = GetNextMovieDate(latestDate)
             };
 
             movies.Add(movie);
@@ -85,27 +79,42 @@ namespace MovieNightBot.Services
                 // Adjust each movie's date
                 foreach (var movie in moviesToAdjust)
                 {
-                    var targetMonth = movie.DateToWatch.AddMonths(-1);
-                    var firstDayOfMonth = new DateTime(targetMonth.Year, targetMonth.Month, 1);
-
-                    var allFridays = Enumerable.Range(0, 31)
-                        .Select(i => firstDayOfMonth.AddDays(i))
-                        .Where(d => d.Month == firstDayOfMonth.Month && d.DayOfWeek == DayOfWeek.Friday)
-                        .ToList();
-
-                    // Determine if this should be first or third Friday based on previous movie
                     var previousMovie = movies
                         .Where(m => m.DateToWatch < movie.DateToWatch)
                         .OrderByDescending(m => m.DateToWatch)
                         .FirstOrDefault();
 
                     movie.DateToWatch = previousMovie != null
-                        ? (previousMovie.DateToWatch.Day < 15 ? allFridays[2] : allFridays[0])
-                        : allFridays[0];
+                        ? GetNextMovieDate(previousMovie.DateToWatch)
+                        : GetNextMovieDate(new DateTime(movie.DateToWatch.Year, movie.DateToWatch.Month, 1).AddMonths(-1));
                 }
 
                 await SaveMoviesAsync(movies);
             }
+        }
+        public async Task AddToTopOfQueueAsync(string movieName)
+        {
+            var movies = await GetMoviesAsync();
+            movies = movies.OrderBy(m => m.DateToWatch).ToList();
+
+            DateTime newMovieDate;
+            if (movies.Any())
+            {
+                newMovieDate = movies.First().DateToWatch;
+
+                // Shift each existing movie forward by one Friday slot
+                for (int i = 0; i < movies.Count; i++)
+                {
+                    movies[i].DateToWatch = GetNextMovieDate(movies[i].DateToWatch);
+                }
+            }
+            else
+            {
+                newMovieDate = GetNextMovieDate(DateTime.Now);
+            }
+
+            movies.Insert(0, new Movie { Title = movieName, DateToWatch = newMovieDate });
+            await SaveMoviesAsync(movies);
         }
         public async Task SwapMovies(string movieName1, string movieName2)
         {
