@@ -81,6 +81,9 @@ class Program
                 case "add_movie":
                     await HandleAddMovie(command);
                     break;
+                case "add_movie_to_top":
+                    await HandleAddMovieToTop(command);
+                    break;
                 case "remove_movie":
                     await HandleRemoveMovie(command);
                     break;
@@ -135,6 +138,15 @@ class Program
         await command.FollowupAsync($"Added {movieName} to the movie queue for date {targetMovie.DateToWatch:MMMM dd, yyyy}");
     }
 
+    private async Task HandleAddMovieToTop(SocketSlashCommand command)
+    {
+        var movieName = (string)command.Data.Options.First().Value;
+        await _movieService.AddToTopOfQueueAsync(movieName);
+        var movies = await  _movieService.GetMoviesAsync();
+        var targetMovie = movies.First(m => m.Title == movieName);
+        await command.FollowupAsync($"Added {movieName} to the movie queue for date {targetMovie.DateToWatch:MMMM dd, yyyy}");
+    }
+
     private async Task HandleRemoveMovie(SocketSlashCommand command)
     {
         var movieName = (string)command.Data.Options.First().Value;
@@ -164,6 +176,11 @@ class Program
             var addMovieCommand = new SlashCommandBuilder()
                 .WithName("add_movie")
                 .WithDescription("Adds a movie to the queue")
+                .AddOption("name", ApplicationCommandOptionType.String, "The name of the movie", isRequired: true);
+
+            var addMovieToTopCommand = new SlashCommandBuilder()
+                .WithName("add_movie_to_top")
+                .WithDescription("Adds a movie to the top of the queue")
                 .AddOption("name", ApplicationCommandOptionType.String, "The name of the movie", isRequired: true);
 
             var removeMovieCommand = new SlashCommandBuilder()
