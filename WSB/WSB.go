@@ -94,6 +94,7 @@ func main() {
 			c.Status(500)
 			return
 		}
+		log.Print("Successfully reloaded Markov Chain with new quotes!")
 		c.Status(200)
 	})
 	r.Run(":8080")

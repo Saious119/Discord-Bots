@@ -39,15 +39,6 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "200m"
-          volumeMounts:
-            - name: auth
-              mountPath: /app/auth.txt
-              subPath: auth.txt
-              readOnly: true
-      volumes:
-        - name: auth
-          secret:
-            secretName: wsb-secret
       restartPolicy: Always
 ---
 apiVersion: v1

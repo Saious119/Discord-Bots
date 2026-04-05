@@ -21,6 +21,17 @@ spec:
         - name: andybot
           image: localhost:5000/andybot:latest
           imagePullPolicy: Always
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cockroach-db-secret
+                  key: connect-string
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: andybot-secret
+                  key: token
           resources:
             requests:
               memory: "32Mi"
@@ -28,15 +39,6 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "200m"
-          volumeMounts:
-            - name: auth
-              mountPath: /app/auth.txt
-              subPath: auth.txt
-              readOnly: true
-      volumes:
-        - name: auth
-          secret:
-            secretName: andybot-secret
       restartPolicy: Always
 ---
 apiVersion: v1

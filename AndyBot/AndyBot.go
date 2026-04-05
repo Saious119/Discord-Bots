@@ -3,17 +3,17 @@ package main
 //This code is from bashawhm's github page for his AutoDolly Bot, all credit goes to him
 
 import (
-	"bufio"
-	"io/ioutil"
+	"context"
+	"log"
 	"math/rand"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
-	"time"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5"
 )
 
 const LEN int = 100
@@ -21,6 +21,27 @@ const MAX_CHAIN int = 8192
 
 var corpus []string
 var chain []MarkovNode
+
+func loadQuotesFromDB(conn *pgx.Conn) error {
+	rows, err := conn.Query(context.Background(), "SELECT quote FROM quotes WHERE attribute='@357280188025012252>'")
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	corpus = nil
+	for rows.Next() {
+		var quote string
+		if err := rows.Scan(&quote); err != nil {
+			return err
+		}
+		words := strings.Fields(quote)
+		corpus = append(corpus, words...)
+	}
+	chain = createChain(corpus)
+	log.Printf("Loaded %d words from quotes table", len(corpus))
+	return rows.Err()
+}
 
 func onMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
@@ -35,14 +56,25 @@ func onMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func main() {
-	rand.Seed(int64(time.Now().Nanosecond()))
-
-	authBuff, err := ioutil.ReadFile("auth.txt")
-	if err != nil {
-		panic(err)
+	TOKEN := os.Getenv("TOKEN")
+	if TOKEN == "" {
+		log.Fatal("TOKEN environment variable is not set")
 	}
 
-	TOKEN := strings.TrimSuffix(string(authBuff), "\n")
+	dbURL := os.Getenv("DATABASE_URL")
+	if dbURL == "" {
+		log.Fatal("DATABASE_URL environment variable is not set")
+	}
+
+	conn, err := pgx.Connect(context.Background(), dbURL)
+	if err != nil {
+		log.Fatalf("Unable to connect to database: %v", err)
+	}
+	defer conn.Close(context.Background())
+
+	if err := loadQuotesFromDB(conn); err != nil {
+		log.Fatalf("Failed to load quotes: %v", err)
+	}
 
 	ds, err := discordgo.New("Bot " + TOKEN)
 	if err != nil {
@@ -55,36 +87,15 @@ func main() {
 		panic(err)
 	}
 
-	file, err := os.Open("AndyQuotes.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-
-	in := bufio.NewScanner(bufio.NewReader(file))
-	in.Split(bufio.ScanWords)
-
-	for in.Scan() {
-		corpus = append(corpus, in.Text())
-	}
-	chain = createChain(corpus)
-
 	r := gin.Default()
 	r.GET("/refreshQuotes", func(c *gin.Context) {
-		chain = nil
-		file, err := os.Open("AndyQuotes.txt")
-		if err != nil {
-			panic(err)
+		if err := loadQuotesFromDB(conn); err != nil {
+			log.Printf("Failed to refresh quotes: %v", err)
+			c.Status(500)
+			return
 		}
-		defer file.Close()
-
-		in := bufio.NewScanner(bufio.NewReader(file))
-		in.Split(bufio.ScanWords)
-
-		for in.Scan() {
-			corpus = append(corpus, in.Text())
-		}
-		chain = createChain(corpus)
+		log.Print("Successfully reloaded Markov Chain with new quotes!")
+		c.Status(200)
 	})
 	r.Run(":8080") // listen and serve on 0.0.0.0:8080
 

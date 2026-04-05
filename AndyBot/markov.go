@@ -29,7 +29,7 @@ func isIn(chain []MarkovNode, node MarkovNode) (bool, int) {
 
 func createChain(input []string) []MarkovNode {
 	var chain []MarkovNode
-	for i := 0; i < len(input); i++ {
+	for i := range input {
 		node := getNode(chain, input[i])
 		if i+1 < len(input) {
 			node.next = append(node.next, input[i+1])
@@ -47,7 +47,7 @@ func createChain(input []string) []MarkovNode {
 func markov(chain []MarkovNode, length int) string {
 	var output string = chain[rand.Int()%len(chain)].value
 	next := output
-	for i := 0; i < length; i++ {
+	for range length {
 		node := getNode(chain, next)
 		var nextToken string
 		if len(node.next) != 0 {
