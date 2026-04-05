@@ -86,7 +86,7 @@ func main() {
 		}
 		chain = createChain(corpus)
 	})
-	r.Run("localhost:8080") // listen and serve on 0.0.0.0:8080
+	r.Run(":8080") // listen and serve on 0.0.0.0:8080
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
