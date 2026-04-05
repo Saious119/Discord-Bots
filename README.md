@@ -10,8 +10,6 @@ All bots are now containerized and ready to deploy to your k3s cluster!
 ```bash
 # Build all Docker images
 ./build-all.sh          # Linux/Mac
-# OR
-.\build-all.ps1         # Windows
 
 # Deploy to k3s
 cd kubernetes
@@ -20,8 +18,6 @@ cd kubernetes
 
 ### Documentation
 
-- **[Quick Start Guide](DEPLOYMENT-QUICKSTART.md)** - Quick reference for deployment
-- **[Setup Complete Guide](KUBERNETES-SETUP-COMPLETE.md)** - Overview of what's been set up
 - **[Full Kubernetes Guide](kubernetes/README.md)** - Comprehensive deployment documentation
 - **[Secret Management](kubernetes/secrets/README.md)** - Managing bot tokens and credentials
 

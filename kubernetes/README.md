@@ -77,7 +77,7 @@ chmod +x build-all.sh
 ```
 
 This will:
-- Build Docker images for all 20 bots
+- Build Docker images for all bots
 - Tag them with `localhost:5000/botname:latest`
 - Push them to your local registry
 
