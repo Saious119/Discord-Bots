@@ -22,4 +22,4 @@ spec:
       excludeRaw: true
       templates:
         connect-string:
-          text: "{{ .Secrets.connect-string }}"
+          text: '{{ index .Secrets "connect-string" }}'
