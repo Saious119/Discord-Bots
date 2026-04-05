@@ -68,10 +68,13 @@ def get_last_message_id():
 def update_quotes(quotes):
     try:
         insert_quotes_to_db(quotes)
-        response = requests.get(
-            "http://localhost:8081/refreshQuotes"
-        )  # Call WSB's API to reload the quotes file
+        _ = requests.get(
+            "http://wsb:8080/refreshQuotes"
+        )  # Call WSB's API to reload quotes
         print("Called WSB's API")
+        _ = requests.get(
+            "http://andybot:8080/refreshQuotes"
+        )  # Call AndyBot's API to reload quotes
     except Exception as e:
         print(e)
 

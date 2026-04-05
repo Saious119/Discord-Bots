@@ -96,7 +96,7 @@ func main() {
 		}
 		c.Status(200)
 	})
-	r.Run("localhost:8081")
+	r.Run("localhost:8080")
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
