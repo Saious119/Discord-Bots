@@ -75,6 +75,7 @@ def update_quotes(quotes):
         _ = requests.get(
             "http://andybot:8080/refreshQuotes"
         )  # Call AndyBot's API to reload quotes
+        print("Called AndyBot's API")
     except Exception as e:
         print(e)
 
