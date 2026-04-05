@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Create a stage for building the application.
-ARG GO_VERSION=1.24
+ARG GO_VERSION=1.25
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
 WORKDIR /src
 
@@ -53,9 +53,6 @@ WORKDIR /app
 
 # Copy the executable from the "build" stage.
 COPY --from=build /bin/wsb /app/wsb
-
-# Copy necessary data files
-COPY --chown=appuser:appuser GamerQuotes.txt /app/GamerQuotes.txt
 
 USER appuser
 
