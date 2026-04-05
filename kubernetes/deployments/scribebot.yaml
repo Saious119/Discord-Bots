@@ -25,8 +25,8 @@ spec:
             - name: COCKROACH_DB_URL
               valueFrom:
                 secretKeyRef:
-                  name: scribebot-secret
-                  key: cockroach_db_url
+                  name: cockroach-db-secret
+                  key: connect-string
             - name: TOKEN
               valueFrom:
                 secretKeyRef:

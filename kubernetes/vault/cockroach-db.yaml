@@ -1,0 +1,25 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: cockroach-db-vault-secret
+  namespace: discord-bots
+  labels:
+    app: cockroach-db
+    app.kubernetes.io/managed-by: vault-secrets-operator
+spec:
+  vaultAuthRef: vault-auth
+  mount: secret
+  type: kv-v2
+  path: discord-bots/cockroach-db
+  refreshAfter: 60s
+  destination:
+    name: cockroach-db-secret
+    create: true
+    labels:
+      app: cockroach-db
+    overwrite: true
+    transformation:
+      excludeRaw: true
+      templates:
+        connect-string:
+          text: "{{ .Secrets.connect-string }}"
