@@ -4,13 +4,10 @@ package main
 
 import (
 	"bufio"
-	"io/ioutil"
-	"math/rand"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
-	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -41,7 +38,8 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 				continue
 			}
 			if strings.Contains(m.Author.String(), "PingBot") {
-				var responce string = "BC:"
+				var responce strings.Builder
+				responce.WriteString("BC:")
 				if m.Content[:3] == "BR:" {
 					sin := bufio.NewScanner(strings.NewReader(m.Content))
 					sin.Split(bufio.ScanRunes)
@@ -57,12 +55,12 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 							if sin.Text() == ":" {
 								break
 							}
-							responce += sin.Text()
+							responce.WriteString(sin.Text())
 						}
 					}
-					responce += ":PONG 0000000000"
+					responce.WriteString(":PONG 0000000000")
 				}
-				s.ChannelMessageSend(m.ChannelID, responce)
+				s.ChannelMessageSend(m.ChannelID, responce.String())
 				return
 			}
 			if m.ChannelID != "486580637139075082" { // SPAM Channel
@@ -84,9 +82,7 @@ func PirateBrain(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func main() {
-	rand.Seed(int64(time.Now().Nanosecond()))
-
-	authBuff, err := ioutil.ReadFile("auth.txt")
+	authBuff, err := os.ReadFile("auth.txt")
 	if err != nil {
 		panic(err)
 	}
