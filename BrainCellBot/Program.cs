@@ -26,7 +26,9 @@ namespace BrainCellBot
             _client.SlashCommandExecuted += SlashCommandHandler;
             _client.Ready += Client_Ready;
 
-            var token = File.ReadAllText("auth.txt");
+            var token = Environment.GetEnvironmentVariable("DISCORD_TOKEN")
+                ?? throw new InvalidOperationException("DISCORD_TOKEN environment variable is not set");
+
             await _client.LoginAsync(TokenType.Bot, token);
 
             await _client.StartAsync();
