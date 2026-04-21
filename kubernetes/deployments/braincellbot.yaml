@@ -21,6 +21,12 @@ spec:
         - name: braincellbot
           image: localhost:5000/braincellbot:latest
           imagePullPolicy: Always
+          env:
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: braincellbot-secret
+                  key: token
           resources:
             requests:
               memory: "64Mi"
@@ -28,16 +34,6 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
-          volumeMounts:
-            - name: auth
-              mountPath: /app/auth.txt
-              subPath: auth.txt
-              readOnly: true
-      volumes:
-        - name: auth
-          secret:
-            secretName: braincellbot-secret
-      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
