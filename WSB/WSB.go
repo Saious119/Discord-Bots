@@ -99,11 +99,10 @@ func onInteraction(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			quote := q[rand.Intn(len(q))]
 			content = quote
 			attribution, err := getAttributionFromDB(db, quote)
-			attribution = "<" + attribution //scribe bot strips the oppening < so we add it back in
 			if err != nil {
 				log.Printf("Failed to get attribution for quote: %v", err)
 			} else if attribution != "" {
-				content = quote + " - " + attribution
+				content = quote + " - <" + attribution
 			}
 		}
 		err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
