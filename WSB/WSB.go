@@ -4,6 +4,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"math/rand"
 	"os"
@@ -14,6 +15,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 const LEN int = 100
@@ -22,8 +24,9 @@ const MAX_CHAIN int = 8192
 var corpus []string
 var chain []MarkovNode
 var quotes []string
+var db *pgxpool.Pool
 
-func loadQuotesFromDB(conn *pgx.Conn) error {
+func loadQuotesFromDB(conn *pgxpool.Pool) error {
 	rows, err := conn.Query(context.Background(), "SELECT quote FROM quotes")
 	if err != nil {
 		return err
@@ -45,6 +48,24 @@ func loadQuotesFromDB(conn *pgx.Conn) error {
 	chain = createChain(corpus)
 	log.Printf("Loaded %d words from quotes table", len(corpus))
 	return rows.Err()
+}
+
+// getAttributionFromDB returns the attribute for the given quote.
+// Returns "" (and no error) if the quote isn't found or has no attribute.
+func getAttributionFromDB(conn *pgxpool.Pool, quote string) (string, error) {
+	var attribute *string
+	err := conn.QueryRow(context.Background(),
+		"SELECT attribute FROM quotes WHERE quote = $1 LIMIT 1", quote).Scan(&attribute)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return "", nil
+	}
+	if err != nil {
+		return "", err
+	}
+	if attribute == nil {
+		return "", nil
+	}
+	return *attribute, nil
 }
 
 func onMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -75,7 +96,14 @@ func onInteraction(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	case "quote":
 		content := "No quotes loaded :("
 		if q := quotes; len(q) > 0 {
-			content = q[rand.Intn(len(q))]
+			quote := q[rand.Intn(len(q))]
+			content = quote
+			attribution, err := getAttributionFromDB(db, quote)
+			if err != nil {
+				log.Printf("Failed to get attribution for quote: %v", err)
+			} else if attribution != "" {
+				content = quote + "\n- " + attribution
+			}
 		}
 		err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -100,11 +128,12 @@ func main() {
 		log.Fatal("DATABASE_URL environment variable is not set")
 	}
 
-	conn, err := pgx.Connect(context.Background(), dbURL)
+	conn, err := pgxpool.New(context.Background(), dbURL)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v", err)
 	}
-	defer conn.Close(context.Background())
+	defer conn.Close()
+	db = conn
 
 	if err := loadQuotesFromDB(conn); err != nil {
 		log.Fatalf("Failed to load quotes: %v", err)
