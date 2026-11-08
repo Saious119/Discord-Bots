@@ -61,7 +61,7 @@ func onMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 var commands = []*discordgo.ApplicationCommand{
 	{
-		Name:        "quote",
+		Name:        "andyquote",
 		Description: "Send a random quote",
 	},
 }
@@ -72,7 +72,7 @@ func onInteraction(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	switch i.ApplicationCommandData().Name {
-	case "quote":
+	case "andyquote":
 		content := "No quotes loaded :("
 		if q := quotes; len(q) > 0 {
 			content = q[rand.Intn(len(q))]
