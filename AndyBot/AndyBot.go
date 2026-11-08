@@ -21,6 +21,7 @@ const MAX_CHAIN int = 8192
 
 var corpus []string
 var chain []MarkovNode
+var quotes []string
 
 func loadQuotesFromDB(conn *pgx.Conn) error {
 	rows, err := conn.Query(context.Background(), "SELECT quote FROM quotes WHERE attribute='@357280188025012252>'")
@@ -30,14 +31,17 @@ func loadQuotesFromDB(conn *pgx.Conn) error {
 	defer rows.Close()
 
 	corpus = nil
+	var loaded []string
 	for rows.Next() {
 		var quote string
 		if err := rows.Scan(&quote); err != nil {
 			return err
 		}
+		loaded = append(loaded, quote)
 		words := strings.Fields(quote)
 		corpus = append(corpus, words...)
 	}
+	quotes = loaded
 	chain = createChain(corpus)
 	log.Printf("Loaded %d words from quotes table", len(corpus))
 	return rows.Err()
@@ -52,6 +56,36 @@ func onMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 		markov := markov(chain, rand.Intn(LEN))
 
 		s.ChannelMessageSend(m.ChannelID, markov)
+	}
+}
+
+var commands = []*discordgo.ApplicationCommand{
+	{
+		Name:        "quote",
+		Description: "Send a random quote",
+	},
+}
+
+func onInteraction(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	if i.Type != discordgo.InteractionApplicationCommand {
+		return
+	}
+
+	switch i.ApplicationCommandData().Name {
+	case "quote":
+		content := "No quotes loaded :("
+		if q := quotes; len(q) > 0 {
+			content = q[rand.Intn(len(q))]
+		}
+		err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				Content: content,
+			},
+		})
+		if err != nil {
+			log.Printf("Failed to respond to /quote: %v", err)
+		}
 	}
 }
 
@@ -82,9 +116,18 @@ func main() {
 	}
 
 	ds.AddHandler(onMessage)
+	ds.AddHandler(onInteraction)
 	err = ds.Open()
 	if err != nil {
 		panic(err)
+	}
+
+	// GUID_ID is optional, fill in to limit command to one guild, leave blank for global registration
+	guildID := os.Getenv("GUILD_ID")
+	for _, cmd := range commands {
+		if _, err := ds.ApplicationCommandCreate(ds.State.User.ID, guildID, cmd); err != nil {
+			log.Printf("Cannot create '%s' command: %v", cmd.Name, err)
+		}
 	}
 
 	r := gin.Default()
