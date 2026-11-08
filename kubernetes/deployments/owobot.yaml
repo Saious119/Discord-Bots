@@ -17,6 +17,8 @@ spec:
         app: owobot
         language: nodejs
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: sixtrash
       containers:
         - name: owobot
           image: localhost:5000/owobot:latest
